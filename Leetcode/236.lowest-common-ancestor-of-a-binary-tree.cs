@@ -16,65 +16,17 @@
  */
 public class Solution {
     public TreeNode LowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        if (root == null) return root;
+        if (root == null) return null;
+        if (root == p || root == q)
+            return root;
+        var left = LowestCommonAncestor(root.left, p, q);
+        var right = LowestCommonAncestor(root.right, p, q);
         
-        var pList = new List<TreeNode>();
-        var qList = new List<TreeNode>();
-        bool pIsFind = false, qIsFind = false;
-        var node = root;
-        while (node != null)
-        {
-            if (pIsFind && qIsFind) break;
-            
-            if (node.left == null)
-            {
-                if (pIsFind == false) pList.Add(node);
-                if (qIsFind == false) qList.Add(node);
-                if (p.val == node.val) pIsFind = true;
-                if (q.val == node.val) qIsFind = true;
-                node = node.right;
-            }
-            else
-            {
-                var prev = node.left;
-                while (prev.right != null && prev.right != node)
-                {
-                    prev = prev.right;
-                }
-                if (prev.right == null)
-                {
-                    prev.right = node;
-                    if (pIsFind == false) pList.Add(node);
-                    if (qIsFind == false) qList.Add(node);
-                    if (p.val == node.val) pIsFind = true;
-                    if (q.val == node.val) qIsFind = true;
-                    node = node.left;
-                }
-                else
-                {
-                    prev.right = null;
-                    if (pIsFind == false) 
-                    {
-                        var pIndex = pList.IndexOf(node);
-                        pList.RemoveRange(pIndex + 1, pList.Count - pIndex - 1);
-                    };
-                    if (qIsFind == false) qList.Add(node);
-                    {
-                        var qIndex = qList.IndexOf(node);
-                        qList.RemoveRange(qIndex + 1, qList.Count - qIndex - 1);
-                    };
-                   node = node.right;
-                }
-            }
-        }
-
-        var i = 0;
-        for (; i < pList.Count; i++)
-        {
-            if (pList[i].val != qList[i].val)
-                break;
-        }
-        return pList[i - 1];
+        if (left != null && right != null) return root;
+        if (left != null) return left;
+        if (right != null) return right;
+        
+        return null;
     }
 }
 // @lc code=end
