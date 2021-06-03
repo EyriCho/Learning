@@ -7,20 +7,18 @@
 // @lc code=start
 public class Solution {
     public int MaxProfit(int[] prices) {
-        if (prices.Length == 0) return 0;
-        int buy = int.MinValue, sell = 0, preBuy = 0, preSell = 0;
-        for (int i = 0; i < prices.Length; i++)
+        int preSell = 0, sell = 0,
+            preBuy = 0, buy = int.MinValue;
+        
+        foreach (var price in prices)
         {
             preBuy = buy;
-            if (preSell - prices[i] > preBuy)
-                buy = preSell - prices[i];
-            
+            buy = Math.Max(buy, preSell - price);
             preSell = sell;
-            if (preBuy + prices[i] > preSell)
-                sell = preBuy + prices[i];
+            sell = Math.Max(sell, preBuy + price);
         }
         
-        return sell;        
+        return sell;
     }
 }
 // @lc code=end

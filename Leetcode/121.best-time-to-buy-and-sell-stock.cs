@@ -7,14 +7,11 @@
 // @lc code=start
 public class Solution {
     public int MaxProfit(int[] prices) {
-        if (prices.Length < 2) return 0;
-        int min = prices[0], result = int.MinValue;
-        for (int i = 1; i < prices.Length; i++)
+        int min = int.MaxValue, result = 0;
+        foreach (var price in prices)
         {
-            if (prices[i] < min)
-                min = prices[i];
-            if (prices[i] - min > result)
-                result = prices[i] - min;
+            min = Math.Min(min, price);
+            result = Math.Max(result, price - min);
         }
         
         return result;
