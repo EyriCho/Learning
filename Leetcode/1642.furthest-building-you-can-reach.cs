@@ -16,17 +16,17 @@ public class Solution {
         
         void Add(int value)
         {
+            var i = length;
             array[length++] = value;
-            var i = length - 1;
             while (i > 0)
             {
                 int parent = (i - 1) / 2;
                 if (array[i] >= array[parent])
                     return;
                 
-                int temp = array[parent];
-                array[parent] = array[i];
-                array[i] = temp;
+                array[i] ^= array[parent];
+                array[parent] ^= array[i];
+                array[i] ^= array[parent];
                 i = parent;
             }
         }
@@ -50,16 +50,16 @@ public class Solution {
                 {
                     if (r >= length || array[l] <= array[r])
                     {
-                        int temp = array[i];
-                        array[i] = array[l];
-                        array[l] = temp;
+                        array[i] ^= array[l];
+                        array[l] ^= array[i];
+                        array[i] ^= array[l];
                         i = l;
                     }
                     else
                     {
-                        int temp = array[i];
-                        array[i] = array[r];
-                        array[r] = temp;
+                        array[i] ^= array[r];
+                        array[r] ^= array[i];
+                        array[i] ^= array[r];
                         i = r;                    
                     }
                 }
@@ -85,8 +85,8 @@ public class Solution {
             }
         }
         
-        return heights.Length - 1;
-    }
+        return heights.Length - 1;        
+   }
 }
 // @lc code=end
 
