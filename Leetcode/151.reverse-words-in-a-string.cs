@@ -7,33 +7,26 @@
 // @lc code=start
 public class Solution {
     public string ReverseWords(string s) {
-        var charArray = s.ToCharArray();
-        var result = new char[s.Length];
-        var index = 0;
-        var wordEnd = s.Length - 1;
-        for (int i = s.Length - 1; i >= 0; i--)
+        var array = new char[s.Length];
+        
+        int i = s.Length - 1, j = 0;
+        while (i > -1)
         {
-            if (charArray[i] == ' ')
+            int last = i + 1;
+            while (i > -1 && s[i] != ' ')
+                i--;
+            
+            int k = 1 + i--;
+            if (k < last)
             {
-                if (wordEnd != i)
-                {
-                    if (index > 0)
-                        result[index++] = '\u0020';
-                    Array.Copy(charArray, i + 1, result, index, wordEnd - i);
-                    index += wordEnd - i;
-                }
-                
-                wordEnd = i - 1;
-            }
-            else if (i == 0)
-            {
-                if (index > 0)
-                    result[index++] = '\u0020';
-                Array.Copy(charArray, 0, result, index, wordEnd + 1);
-                index += wordEnd + 1;
+                if (j > 0)
+                    array[j++] = ' ';
+                while (k < last)
+                    array[j++] = s[k++];
             }
         }
-        return new string(result, 0, index);
+        
+        return new string(array, 0, j);
     }
 }
 // @lc code=end

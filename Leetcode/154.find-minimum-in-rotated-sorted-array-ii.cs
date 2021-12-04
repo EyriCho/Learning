@@ -7,15 +7,22 @@
 // @lc code=start
 public class Solution {
     public int FindMin(int[] nums) {
-        if (nums == null || nums.Length == 0) return 0;
+        int l = 0,
+            r = nums.Length - 1;
         
-        var result = nums[0];
-        for (int i = 1; i < nums.Length; i++)
+        while (l < r)
         {
-            if (nums[i - 1] > nums[i])
-                return nums[i];
+            var m = (l + r) >> 1;
+            
+            if (nums[m] == nums[r])
+                r--;
+            else if (nums[m] > nums[r])
+                l = m + 1;
+            else
+                r = m;
         }
-        return result;        
+        
+        return nums[r];
     }
 }
 // @lc code=end
