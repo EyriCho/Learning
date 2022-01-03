@@ -7,61 +7,30 @@
 // @lc code=start
 public class Solution {
     public int AtMostNGivenDigitSet(string[] digits, int n) {
-        int num = n,
-            position = 1;
-        while (num / 10 > 0)
+        var str = n.ToString();
+        int result = 0, pow = 1;
+        for (int i = 1; i < str.Length; i++)
         {
-            num /= 10;
-            position *= 10;
+            pow *= digits.Length;
+            result += pow;
         }
         
-        bool[] found = new bool[10];
-        int[] array = new int[10];
-        foreach (var digit in digits)
+        for (int i = 0; i < str.Length; i++)
         {
-            int d = (int)(digit[0] - '0');
-            int c = 0;
-            for (int i = 1; i < 10; i++)
+            bool same = false;
+            foreach (var digit in digits)
             {
-                if (i < d && found[i])
-                    c = array[i];
-                else if (i > d)
-                    array[i]++;
-                else if (i == d)
-                {
-                    found[i] = true;
-                    array[i] = ++c;
-                }
-            }
-        }
-        
-        num = n;
-        int last = num / position;
-        bool isFind = found[last];
-        int count = array[last];
-        num -= position * last;
-        position /= 10;
-        
-        while (position > 0)
-        {
-            last = num / position;
-            if (!isFind)
-                count = (count + 1) * digits.Length;
-            else
-            {
-                var prev = count * digits.Length;
-                if (last == 0)
-                    count = prev;
-                else
-                    count = prev + array[last];
-                isFind = found[last];
+                if (digit[0] < str[i])
+                    result += (int)Math.Pow(digits.Length, str.Length - 1 - i);
+                else if (digit[0] == str[i])
+                    same = true;
             }
             
-            num -= position * last;
-            position /= 10;
+            if (!same)
+                return result;
         }
         
-        return count; 
+        return result + 1;
     }
 }
 // @lc code=end
