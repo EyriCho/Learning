@@ -30,24 +30,27 @@ public class Node {
 
 public class Solution {
     public Node CloneGraph(Node node) {
-        var dict = new Dictionary<int, Node>();
-        return Clone(node, dict);
-    }
-    
-    private Node Clone(Node node, Dictionary<int, Node> dict)
-    {
-        if (node == null)
-            return null;
+        var dict = new Dictionary<Node, Node>();
         
-        if (dict.ContainsKey(node.val))
-            return dict[node.val];
-        var newNode = new Node(node.val);
-        dict[node.val] = newNode;
-        foreach (var neighbor in node.neighbors)
+        Node Dfs(Node n)
         {
-            newNode.neighbors.Add(Clone(neighbor, dict));
+            if (n == null)
+                return null;
+            if (dict.ContainsKey(n))
+                return dict[n];
+            
+            var clone = new Node(n.val);
+            dict[n] = clone;
+            foreach (var nei in n.neighbors)
+            {
+                clone.neighbors.Add(Dfs(nei));
+            }
+            
+            return clone;
         }
-        return newNode;
-    }}
+        
+        return Dfs(node);
+    }
+}
 // @lc code=end
 

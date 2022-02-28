@@ -28,7 +28,7 @@ public class Solution {
         while (queue.Count > 0)
         {
             var (node, sum) = queue.Dequeue();
-            sum = sum * 10 + node.val;
+            sum = sum * 2 + node.val;
             
             if (node.left == null && node.right == null)
                 result += sum;

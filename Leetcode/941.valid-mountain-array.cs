@@ -7,27 +7,30 @@
 // @lc code=start
 public class Solution {
     public bool ValidMountainArray(int[] A) {
-        if (A == null || A.Length < 3) return false;
+        if (arr.Length < 3)
+            return false;
+        if (arr[0] > arr[1])
+            return false;
         
-        if (A[1] <= A[0]) return false;
-        bool isIncrease = true;
-        for (int i = 1; i < A.Length; i++)
+        bool isDown = false;
+        
+        for (int i = 1; i < arr.Length; i++)
         {
-            if (isIncrease)
+            if (arr[i] > arr[i - 1])
             {
-                if (A[i] == A[i - 1])
+                if (isDown)
                     return false;
-                else if (A[i] < A[i - 1])
-                    isIncrease = false;
+            }
+            else if (arr[i] < arr[i - 1])
+            {
+                if (!isDown)
+                    isDown = true;
             }
             else
-            {
-                if (A[i] >= A[i - 1]) return false;
-            }
+                return false;
         }
-        if (isIncrease) return false;
         
-        return true;
+        return isDown;
     }
 }
 // @lc code=end
