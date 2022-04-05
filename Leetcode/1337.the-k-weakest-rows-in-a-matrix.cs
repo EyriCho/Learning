@@ -7,44 +7,47 @@
 // @lc code=start
 public class Solution {
     public int[] KWeakestRows(int[][] mat, int k) {
-        int[] result = new int[k];
-        int[][] temp = new int[mat.Length][];
+        var barrels = new List<int>[101];
         
         for (int i = 0; i < mat.Length; i++)
         {
-            temp[i] = new int[2];
-            int j = 0;
+            int j = 0, count = 0;
             while (j < mat[i].Length && mat[i][j] > 0)
-                j++;
-                
-            temp[i][0] = j;
-            temp[i][1] = i;
-        }
-        
-        Sort(temp, k);
-        
-        for (int i = 0; i < k; i++)
-        {
-            result[i] = temp[i][1];
-        }
-        
-        return result;
-    }
-    
-    private void Sort(int[][] a, int k)
-    {
-        for (int i = 0; i < k; i++)
-        {
-            for (int j = a.Length - 1; j > i; j--)
             {
-                if (a[j][0] < a[j - 1][0])
+                count++;
+                j++;
+            }
+            
+            if (barrels[count] == null)
+            {
+                barrels[count] = new List<int>();
+            }
+            
+            barrels[count].Add(i);
+        }
+        
+        var result = new int[k];
+        int idx = 0;
+        for (int i = 0; i < 101; i++)
+        {
+            if (barrels[i] != null)
+            {
+                var num = Math.Min(k, barrels[i].Count);
+                
+                for (int j = 0; j < num; j++)
                 {
-                    int[] swap = a[j];
-                    a[j] = a[j - 1];
-                    a[j - 1] = swap;
+                    result[idx++] = barrels[i][j];
+                }
+                
+                k -= num;
+                if (k == 0)
+                {
+                    break;
                 }
             }
         }
+        
+        return result;
     }
 }
 // @lc code=end
