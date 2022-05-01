@@ -1,7 +1,7 @@
 /*
- * @lc app=leetcode id=669 lang=csharp
+ * @lc app=leetcode id=700 lang=csharp
  *
- * [669] Trim a Binary Search Tree
+ * [700] Search in a Binary Search Tree
  */
 
 // @lc code=start
@@ -19,25 +19,23 @@
  * }
  */
 public class Solution {
-    public TreeNode TrimBST(TreeNode root, int low, int high) {
+    public TreeNode SearchBST(TreeNode root, int val) {
         if (root == null)
+        {
+            return null;
+        }
+        
+        if (root.val == val)
         {
             return root;
         }
-        
-        if (root.val < low)
+        else if (root.val > val)
         {
-            return TrimBST(root.right, low, high);
-        }
-        else if (root.val > high)
-        {
-            return TrimBST(root.left, low, high);
+            return SearchBST(root.left, val);
         }
         else
         {
-            root.left = TrimBST(root.left, low, high);
-            root.right = TrimBST(root.right, low, high);
-            return root;
+            return SearchBST(root.right, val);
         }
     }
 }

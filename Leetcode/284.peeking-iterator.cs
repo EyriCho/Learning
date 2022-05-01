@@ -28,9 +28,13 @@ class PeekingIterator {
     public int Next() {
         var result = next.Value;
         if (iterator.MoveNext())
+        {
             next = iterator.Current;
+        }
         else
+        {
             next = null;
+        }
         return result;
     }
     

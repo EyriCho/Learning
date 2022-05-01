@@ -7,50 +7,62 @@
 // @lc code=start
 public class Solution {
     public int MinimumEffortPath(int[][] heights) {
+        var directions = new int[,] {
+            { 0, -1 },
+            { -1, 0 },
+            { 0, 1 },
+            { 1, 0 }
+        };
+        
+        bool[,] visited;
+        
+        bool CanFind(int x, int y, int maxEffort)
+        {
+            if (x == 0 && y == 0)
+            {
+                return true;
+            }
+            
+            visited[x, y] = true;
+            for (int i = 0; i < 4; i++)
+            {
+                int r = x + directions[i, 0],
+                    c = y + directions[i, 1];
+                
+                if (r >= 0 && r < heights.Length &&
+                    c >= 0 && c < heights[0].Length &&
+                    !visited[r, c])
+                {
+                    if (Math.Abs(heights[x][y] - heights[r][c]) <= maxEffort &&
+                        CanFind(r, c, maxEffort))
+                    {
+                        return true;
+                    }
+                }
+            }
+            
+            return false;
+        }
+        
         int l = 0, r = 1_000_000;
         int result = 1_000_000;
+        
         while (l <= r)
         {
-            int m = (l + r) / 2;
-            var visited = new bool[heights.Length, heights[0].Length];
-            if (CanFindPath(heights, visited, m, 0, 0))
+            int m = (l + r) >> 1;
+            visited = new bool[heights.Length, heights[0].Length];
+            if (CanFind(heights.Length - 1, heights[0].Length - 1, m))
             {
                 result = Math.Min(m, result);
                 r = m - 1;
             }
             else
-                l = m + 1;
-        }
-        
-        return result;
-    }
-    
-    int[] dx = {-1, 0, 1, 0};
-    int[] dy = {0, 1, 0, -1};
-    
-    private bool CanFindPath(int[][] heights, bool[,] visited, int threshold,
-        int x, int y)
-    {
-        if (x == heights.Length - 1 && y == heights[0].Length - 1)
-            return true;
-        
-        visited[x, y] = true;
-        for (int i = 0; i < 4; i++)
-        {
-            int nx = x + dx[i],
-                ny = y + dy[i];
-            
-            if (nx >= 0 && nx < heights.Length &&
-               ny >= 0 && ny < heights[0].Length &&
-               !visited[nx, ny])
             {
-                if (Math.Abs(heights[x][y] - heights[nx][ny]) <= threshold &&
-                   CanFindPath(heights, visited, threshold, nx, ny))
-                    return true;
+                l = m + 1;
             }
         }
         
-        return false;
+        return result;
     }
 }
 // @lc code=end
