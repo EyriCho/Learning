@@ -7,41 +7,50 @@
 // @lc code=start
 public class Solution {
     public IList<IList<int>> CriticalConnections(int n, IList<IList<int>> connections) {
-        var map = new IList<int>[n];
-        var entry = new int[n];
-        var low = new int[n];
+        var map = new List<int>[n];
+        int[] low = new int[n],
+            entry = new int[n];
+        
         for (int i = 0; i < n; i++)
         {
-            entry[i] = -1;
-            low[i] = -1;
+            low[i] = entry[i] = -1;
             map[i] = new List<int>();
         }
-        for (int i = 0; i < connections.Count; i++)
+        
+        foreach (var connection in connections)
         {
-            map[connections[i][0]].Add(connections[i][1]);
-            map[connections[i][1]].Add(connections[i][0]);
+            map[connection[0]].Add(connection[1]);
+            map[connection[1]].Add(connection[0]);
         }
         
-        int time = 0;
+        var order = 0;
         var result = new List<IList<int>>();
         
-        void dfs(int node, int parent)
+        void dfs(int curr, int prev)
         {
-            entry[node] = low[node] = time++;
+            entry[curr] = low[curr] = order++;
             
-            foreach (var next in map[node])
+            foreach (var next in map[curr])
             {
-                if (next == parent)
+                if (next == prev)
+                {
                     continue;
+                }
+                
                 if (entry[next] == -1)
                 {
-                    dfs(next, node);
-                    low[node] = Math.Min(low[node], low[next]);
-                    if (low[next] > entry[node])
-                        result.Add(new int[] { node, next });
+                    dfs(next, curr);
+                    low[curr] = Math.Min(low[curr], low[next]);
+                    
+                    if (low[next] > entry[curr])
+                    {
+                        result.Add(new List<int> { curr, next });
+                    }
                 }
                 else
-                    low[node] = Math.Min(low[node], entry[next]);
+                {
+                    low[curr] = Math.Min(low[curr], entry[next]);
+                }
             }
         }
         

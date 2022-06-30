@@ -18,15 +18,16 @@
 public class Solution {
     public TreeNode GetTargetCopy(TreeNode original, TreeNode cloned, TreeNode target) {
         if (original == null)
+        {
             return null;
+        }
         if (original == target)
+        {
             return cloned;
+        }
         
-        var left = GetTargetCopy(original.left, cloned.left, target);
-        if (left != null)
-            return left;
-        else
-            return GetTargetCopy(original.right, cloned.right, target);
+        return GetTargetCopy(original.left, cloned.left, target) ??
+            GetTargetCopy(original.right, cloned.right, target);
     }
 }
 // @lc code=end

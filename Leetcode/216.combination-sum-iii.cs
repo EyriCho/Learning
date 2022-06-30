@@ -7,39 +7,38 @@
 // @lc code=start
 public class Solution {
     public IList<IList<int>> CombinationSum3(int k, int n) {
-        result = new List<IList<int>>();
-        
-        Help(new List<int>(), 1, k, n);
-        
-        return result;
-    }
-
-    List<IList<int>> result;
-    public void Help(IList<int> list, int start, int k, int n)
-    {
-        if (k == 1)
+        var result = new List<IList<int>>();
+        if (n > 45)
         {
-            if (n < 10)
+            return result;
+        }
+        
+        var temp = new List<int>();
+        
+        void Sum (int left, int num, int digit)
+        {
+            if (num == 0 && left == 0)
             {
-                list.Add(n);
-                result.Add(new List<int>(list));
-                list.RemoveAt(list.Count - 1);                
+                result.Add(new List<int>(temp));
+                return;
             }
             
-            return;
+            for (int j = digit; j < 10; j++)
+            {
+                if (j > left)
+                {
+                    break;
+                }
+                
+                temp.Add(j);
+                Sum(left - j, num - 1, j + 1);
+                temp.Remove(j);
+            }
         }
         
-        int last = 11 - k;
-        for (int i = start; i < last; i++)
-        {
-            var left = n - i;
-            if (left <= i)
-                break;
-            
-            list.Add(i);
-            Help(list, i + 1, k - 1, n - i);
-            list.RemoveAt(list.Count - 1);
-        }
+        Sum(n, k, 1);
+        
+        return result;
     }
 }
 // @lc code=end

@@ -28,7 +28,9 @@ public class NestedIterator {
         stack = new Stack<NestedInteger>();
         
         for (int i = nestedList.Count - 1; i > -1; i--)
+        {
             stack.Push(nestedList[i]);
+        }
     }
     
     Stack<NestedInteger> stack;
@@ -38,11 +40,18 @@ public class NestedIterator {
         {
             var integer = stack.Peek();
             if (integer.IsInteger())
+            {
                 return true;
-            stack.Pop();
-            var list = integer.GetList();
-            for (int i = list.Count - 1; i > -1; i--)
-                stack.Push(list[i]);
+            }
+            else
+            {
+                stack.Pop();
+                var list = integer.GetList();
+                for (int i = list.Count - 1; i > -1; i--)
+                {
+                    stack.Push(list[i]);
+                }
+            }
         }
         
         return false;

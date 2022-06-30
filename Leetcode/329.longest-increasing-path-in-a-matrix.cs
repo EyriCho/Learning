@@ -7,38 +7,50 @@
 // @lc code=start
 public class Solution {
     public int LongestIncreasingPath(int[][] matrix) {
-        int[,] steps = new int[matrix.Length, matrix[0].Length];
+        var steps = new int[matrix.Length, matrix[0].Length];
         
-        int[][] directions = new int[][] {
-            new int[] { 1, 0 },
-            new int[] { 0, -1 },
-            new int[] { -1, 0 },
-            new int[] { 0, 1 },
+        var directions = new int[,] {
+            { -1, 0 },
+            { 0, 1 },
+            { 1, 0 },
+            { 0, -1 }
         };
-        int result = 0;
         
-        void dfs(int x, int y, int step)
+        var result = 0;
+        
+        void dfs(int i, int j, int step)
         {
-            steps[x, y] = Math.Max(steps[x, y], step);
-            result = Math.Max(steps[x, y], result);
-            
-            int s = step + 1;
-            foreach (var d in directions)
+            if (steps[i, j] > step)
             {
-                int i = x + d[0],
-                    j = y + d[1];
+                return;
+            }
+            
+            steps[i, j] = Math.Max(steps[i, j], step);
+            result = Math.Max(result, steps[i, j]);
+            
+            var next = step + 1;
+            for (int k = 0; k < 4; k++)
+            {
+                int x = i + directions[k, 0],
+                    y = j + directions[k, 1];
                 
-                if (i > -1 && i < matrix.Length &&
-                   j > -1 && j < matrix[0].Length &&
-                   matrix[i][j] > matrix[x][y] &&
-                   steps[i, j] < s)
-                    dfs(i, j, s);
+                if (x >= 0 && x < matrix.Length &&
+                    y >= 0 && y < matrix[0].Length &&
+                    matrix[i][j] < matrix[x][y] &&
+                    steps[x, y] < next)
+                {
+                    dfs(x, y, next);
+                }
             }
         }
         
         for (int i = 0; i < matrix.Length; i++)
+        {
             for (int j = 0; j < matrix[0].Length; j++)
+            {
                 dfs(i, j, 1);
+            }
+        }
         
         return result;
     }

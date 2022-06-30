@@ -15,42 +15,40 @@
  */
 public class Solution {
     public ListNode GetIntersectionNode(ListNode headA, ListNode headB) {
-        ListNode nodeA = headA, nodeB = headB;
-        int countA = 0, countB = 0;
-        while (nodeA != null)
+        var n = headA;
+        while (n.next != null)
         {
-            nodeA = nodeA.next;
-            countA++;
+            n = n.next;
         }
-        while (nodeB != null)
+        n.next = headB;
+        
+        ListNode GetLoopNode(ListNode node)
         {
-            nodeB = nodeB.next;
-            countB++;
-        }
-        nodeA = headA;
-        nodeB = headB;
-        var node = countA > countB ? headA : headB;
-        var diff = Math.Abs(countA - countB);
-        if (countA > countB)
-        {
-            while (diff-- > 0)
-                nodeA = nodeA.next;
-        }
-        else
-        {
-            while (diff-- > 0)
-                nodeB = nodeB.next;
+            ListNode slow = node,
+                fast = node.next;
+            
+            while (slow != fast)
+            {
+                if (fast.next == null || fast.next.next == null)
+                {
+                    return null;
+                }
+                slow = slow.next;
+                fast = fast.next.next;
+            }
+            
+            while (node != slow.next)
+            {
+                node = node.next;
+                slow = slow.next;
+            }
+            
+            return node;
         }
         
-        while (nodeA != null)
-        {
-            if (nodeA == nodeB)
-                return nodeA;
-            
-            nodeA = nodeA.next;
-            nodeB = nodeB.next;
-        }
-        return null;
+        var result = GetLoopNode(headA);
+        n.next = null;
+        return result;
     }
 }
 // @lc code=end

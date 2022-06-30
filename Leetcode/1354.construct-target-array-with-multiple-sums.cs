@@ -7,83 +7,100 @@
 // @lc code=start
 public class Solution {
     public bool IsPossible(int[] target) {
-        long total = 0;
-        
         var array = new int[target.Length + 1];
         var length = 0;
         void Add(int num)
         {
+            var i = length;
             array[length++] = num;
-            int i = length - 1;
             while (i > 0)
             {
-                var parent = (i - 1) / 2;
-                if (array[i] <= array[parent])
-                    return;
+                int p = (i - 1) >> 1;
                 
-                int temp = array[i];
-                array[i] = array[parent];
-                array[parent] = temp;
-                i = parent;
+                if (array[p] >= array[i])
+                {
+                    return;
+                }
+                
+                array[i] ^= array[p];
+                array[p] ^= array[i];
+                array[i] ^= array[p];
+                i = p;
             }
         }
         
         int Pop()
         {
-            int result = array[0];
+            var rst = array[0];
             array[0] = array[--length];
-            int i = 0;
+            
+            var i = 0;
             while (true)
             {
                 int l = i * 2 + 1,
                     r = i * 2 + 2;
                 
                 if (l >= length)
+                {
                     break;
+                }
                 
                 if (array[l] > array[i] ||
                     (r < length && array[r] > array[i]))
                 {
                     if (r >= length || array[l] >= array[r])
                     {
-                        int temp = array[i];
-                        array[i] = array[l];
-                        array[l] = temp;
+                        array[i] ^= array[l];
+                        array[l] ^= array[i];
+                        array[i] ^= array[l];
                         i = l;
                     }
                     else
                     {
-                        int temp = array[i];
-                        array[i] = array[r];
-                        array[r] = temp;
+                        array[i] ^= array[r];
+                        array[r] ^= array[i];
+                        array[i] ^= array[r];
                         i = r;
                     }
                 }
                 else
+                {
                     break;
+                }
             }
             
-            return result;
+            return rst;
         }
         
+        long sum = 0L;
         foreach (var t in target)
-        {    
-            total += t;
+        {
+            sum += t;
             if (t > 1)
-            Add(t);
+            {
+                Add(t);
+            }
         }
         
         while (length > 0)
         {
             long max = Pop();
-            total -= max;
-            if (total >= max || total == 0)
+            sum -= max;
+            if (sum >= max || sum == 0)
+            {
                 return false;
+            }
             
-            max %= total;
-            total += max;
+            max %= sum;
+            if (sum != 1 && max == 0)
+            {
+                return false;
+            }
+            sum += max;
             if (max > 1)
+            {
                 Add((int)max);
+            }
         }
         
         return true;

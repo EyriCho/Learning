@@ -9,11 +9,17 @@ public class Solution {
     public int LongestStrChain(string[] words) {
         var wordDict = new Dictionary<string, int>[17];
         for (int i = 1; i < 17; i++)
+        {
             wordDict[i] = new Dictionary<string, int>();
+        }
         
         foreach (var word in words)
+        {
             if (!wordDict[word.Length].ContainsKey(word))
+            {
                 wordDict[word.Length].Add(word, 1);
+            }
+        }
         
         var result = 1;
         for (int i = 16; i > 1; i--)

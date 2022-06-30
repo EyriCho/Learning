@@ -32,34 +32,32 @@ public class Solution {
         var node = root;
         while (node != null)
         {
-            Node nextStart = null;
-            Node nextCur = null;
+            Node nextRow = new Node();
+            Node curr = nextRow;
             while (node != null)
             {
-                if (node.left != null || node.right != null)
+                if (node.left == null && node.right == null)
                 {
-                    if (nextStart == null)
-                    {
-                        nextStart = nextCur = node.left ?? node.right;
-                    }
-                    if (node.left != null && nextCur != node.left)
-                    {
-                        nextCur.next = node.left;
-                        nextCur = node.left;
-                    }
-                    if (node.right != null && nextCur != node.right)
-                    {
-                        nextCur.next = node.right;
-                        nextCur = node.right;
-                    }
+                    node = node.next;
+                    continue;
                 }
-
+                
+                if (node.left != null)
+                {
+                    curr = curr.next = node.left;
+                }
+                
+                if (node.right != null)
+                {
+                    curr = curr.next = node.right;
+                }
+                
                 node = node.next;
             }
             
-            node = nextStart;
+            node = nextRow.next;
         }
-
+        
         return root;
     }
 }

@@ -13,7 +13,9 @@ public class Solution {
             sum += cardPoints[i];
         }
         if (k == cardPoints.Length)
+        {
             return sum;
+        }
         
         var result = sum;
         for (int i = k - 1; i > -1; i--)

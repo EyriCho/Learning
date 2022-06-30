@@ -25,7 +25,7 @@ public class WordFilter {
                 if (suffNode.Next[suff] == null)
                     suffNode.Next[suff] = new CharNode();
                 suffNode = suffNode.Next[suff];
-                suffNode.Indexes.Add(i);
+                suffNode.Set.Add(i);
             }
         }
     }
@@ -39,10 +39,12 @@ public class WordFilter {
         {
             Next = new CharNode[26];
             Indexes = new List<int>();
+            Set = new HashSet<int>();
         }
         
         internal CharNode[] Next { get; set; }
-        internal IList<int> Indexes { get; set; }
+        internal HashSet<int> Set { get; set; }
+        internal List<int> Indexes { get; set; }
     }
     
     public int F(string prefix, string suffix) {
@@ -60,16 +62,13 @@ public class WordFilter {
             suffNode = suffNode.Next[suffix[i] - 'a'];
         }
                 
-        int p = prefNode.Indexes.Count - 1,
-            s = suffNode.Indexes.Count - 1;
-        while (p >= 0 && s >= 0)
+        for (int i = prefNode.Indexes.Count - 1; i >= 0; i--)
         {
-            if (prefNode.Indexes[p] > suffNode.Indexes[s])
-                p--;
-            else if (prefNode.Indexes[p] < suffNode.Indexes[s])
-                s--;
-            else
-                return prefNode.Indexes[p];
+            var index = prefNode.Indexes[i];
+            if (suffNode.Set.Contains(index))
+            {
+                return index;
+            }
         }
         return -1;
     }

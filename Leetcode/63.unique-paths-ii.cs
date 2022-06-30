@@ -7,30 +7,39 @@
 // @lc code=start
 public class Solution {
     public int UniquePathsWithObstacles(int[][] obstacleGrid) {
-        int lstX = obstacleGrid.Length - 1,
-            lstY = obstacleGrid[0].Length - 1;
+        var result = 0;
+        int lastX = obstacleGrid.Length - 1,
+            lastY = obstacleGrid[0].Length - 1;
         
-        if (obstacleGrid[lstX][lstY] > 0 || obstacleGrid[0][0] > 0)
-            return 0;
+        if (obstacleGrid[lastX][lastY] > 0 ||
+            obstacleGrid[0][0] > 0)
+        {
+            return result;
+        }
         
-        obstacleGrid[lstX][lstY] = -1;
         var queue = new Queue<(int, int)>();
-        queue.Enqueue((lstX, lstY));
+        queue.Enqueue((lastX, lastY));
+        obstacleGrid[lastX][lastY] = -1;
+        
         while (queue.Count > 0)
         {
-            var (x, y) = queue.Dequeue();
+            var (i, j) = queue.Dequeue();
             
-            if (x > 0 && obstacleGrid[x - 1][y] < 1)
+            if (i > 0 && obstacleGrid[i - 1][j] < 1)
             {
-                if (obstacleGrid[x - 1][y] == 0)
-                    queue.Enqueue((x - 1, y));
-                obstacleGrid[x - 1][y] += obstacleGrid[x][y];
+                if (obstacleGrid[i - 1][j] == 0)
+                {
+                    queue.Enqueue((i - 1, j));
+                }
+                obstacleGrid[i - 1][j] += obstacleGrid[i][j];
             }
-            if (y > 0 && obstacleGrid[x][y - 1] < 1)
+            if (j > 0 && obstacleGrid[i][j - 1] < 1)
             {
-                if (obstacleGrid[x][y - 1] == 0)
-                    queue.Enqueue((x, y - 1));
-                obstacleGrid[x][y - 1] += obstacleGrid[x][y];
+                if (obstacleGrid[i][j - 1] == 0)
+                {
+                    queue.Enqueue((i, j - 1));
+                }
+                obstacleGrid[i][j - 1] += obstacleGrid[i][j];
             }
         }
         

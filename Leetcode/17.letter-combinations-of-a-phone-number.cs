@@ -11,34 +11,48 @@ public class Solution {
         if (digits.Length == 0)
             return result;
         
-        var temp = new char[digits.Length];
-        var dict = new Dictionary<char, char[]> {
-            {'2', new char[] { 'a', 'b', 'c' } },
-            {'3', new char[] { 'd', 'e', 'f' } },
-            {'4', new char[] { 'g', 'h', 'i' } },
-            {'5', new char[] { 'j', 'k', 'l' } },
-            {'6', new char[] { 'm', 'n', 'o' } },
-            {'7', new char[] { 'p', 'q', 'r', 's' } },
-            {'8', new char[] { 't', 'u', 'v' } },
-            {'9', new char[] { 'w', 'x', 'y', 'z' } },
+        var map = new char[][] {
+            new char[] {},
+            new char[] {},
+            new char[] { 'a', 'b', 'c' },
+            new char[] { 'd', 'e', 'f' },
+            new char[] { 'g', 'h', 'i' },
+            new char[] { 'j', 'k', 'l' },
+            new char[] { 'm', 'n', 'o' },
+            new char[] { 'p', 'q', 'r', 's'},
+            new char[] { 't', 'u', 'v'},
+            new char[] { 'w', 'x', 'y', 'z'}
         };
         
-        void Combine(int i)
+        var queue = new Queue<char[]>();
+        queue.Enqueue(new char[digits.Length]);
+        
+        int i = 0;
+        while (i < digits.Length)
         {
-            if (i == digits.Length)
+            var letters = map[digits[i] - '0'];
+            
+            var count = queue.Count;
+            while (count-- > 0)
             {
-                result.Add(new string(temp));
-                return;
+                var array = queue.Dequeue();
+                
+                foreach (var l in letters)
+                {
+                    var n = new char[digits.Length];
+                    Array.Copy(array, n, i);
+                    n[i] = l;
+                    queue.Enqueue(n);
+                }
             }
             
-            foreach (var c in dict[digits[i]])
-            {
-                temp[i] = c;
-                Combine(i + 1);
-            }
+            i++;
         }
         
-        Combine(0);
+        while (queue.Count > 0)
+        {
+            result.Add(new string(queue.Dequeue()));
+        }
         
         return result;
     }

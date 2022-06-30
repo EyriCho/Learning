@@ -8,14 +8,11 @@
 public class Solution {
     public int NumberOfSteps (int num) {
         int result = 0;
+
         while (num > 0)
-        {
-            if ((num & 1) > 0)
-                num--;
-            else
-                num >>= 1;
-            
+        {            
             result++;
+            num = num % 2 == 0 ? num >> 1 : num - 1;
         }
         
         return result;

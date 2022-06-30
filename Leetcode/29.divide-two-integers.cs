@@ -10,16 +10,17 @@ public class Solution {
         long divide(long d, long s)
         {
             if (d < s)
+            {
                 return 0;
+            }
 
-            long c = 1, sum = s, r = 0;
+            long c = 1, sum = s;
             while (d > (sum << 1))
             {
                 sum <<= 1;
                 c <<= 1;
             }
-            r += c + divide(d - sum, s);
-            return r;
+            return c + divide(d - sum, s);
         }
         
         long dend = Math.Abs((long)dividend),
@@ -28,7 +29,9 @@ public class Solution {
         long result = divide(dend, sor);
 
         if ((dividend < 0) ^ (divisor < 0))
+        {
             result = -result;
+        }
         return result > int.MaxValue ? int.MaxValue : (int)result;
     }
 }

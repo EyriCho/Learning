@@ -15,9 +15,13 @@ public class Solution
         while (index1 >= 0 && index2 >= 0)
         {
             if (nums1[index1] > nums2[index2])
+            {
                 nums1[index--] = nums1[index1--];
+            }
             else
+            {
                 nums1[index--] = nums2[index2--];
+            }
         }
 
         while (index2 >= 0)

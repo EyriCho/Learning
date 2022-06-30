@@ -13,11 +13,17 @@ public class Solution {
         {
             int z = 0, o = 0;
             foreach (var c in str)
+            {
                 _ = c == '0' ? z++ : o++;
+            }
             
             for (int i = m; i >= z; i--)
+            {
                 for (int j = n; j >= o; j--)
+                {
                     dp[i, j] = Math.Max(dp[i, j], dp[i - z, j - o] + 1);
+                }
+            }
         }
         
         return dp[m, n];

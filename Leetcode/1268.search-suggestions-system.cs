@@ -10,14 +10,21 @@ public class Solution {
         Array.Sort(products);
         var result = new List<IList<string>>();
         
-        int i = 0, l = 0, r = products.Length - 1;
+        int i = 0,
+            l = 0,
+            r = products.Length - 1;
+            
         while (i < searchWord.Length)
         {
             while (l <= r && (i >= products[l].Length || products[l][i] != searchWord[i]))
+            {
                 l++;
+            }
             
             while (l <= r && (i >= products[r].Length || products[r][i] != searchWord[i]))
+            {
                 r--;
+            }
             
             var list = new List<string>();
             if (l <= r)

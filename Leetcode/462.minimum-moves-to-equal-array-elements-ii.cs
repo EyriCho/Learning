@@ -12,7 +12,9 @@ public class Solution {
         
         int result = 0;
         foreach (var num in nums)
+        {
             result += Math.Abs(num - nums[mid]);
+        }
         
         return result;
     }

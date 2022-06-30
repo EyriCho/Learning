@@ -33,9 +33,13 @@ public class Solution {
                 var node = queue.Dequeue();
                 result += node.val;
                 if (node.left != null)
+                {
                     queue.Enqueue(node.left);
+                }
                 if (node.right != null)
+                {
                     queue.Enqueue(node.right);
+                }
             }
         }
         

@@ -43,7 +43,9 @@ public class Solution {
                     r = i * 2 + 2;
                 
                 if (l >= length)
+                {
                     break;
+                }
                 
                 if (array[i] > array[l] ||
                     (r < length && array[i] > array[r]))
@@ -80,7 +82,9 @@ public class Solution {
                 {
                     bricks -= Pop();
                     if (bricks < 0)
+                    {
                         return i;
+                    }
                 }
             }
         }

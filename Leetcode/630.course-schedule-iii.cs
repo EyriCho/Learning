@@ -40,7 +40,9 @@ public class Solution {
                     r = i * 2 + 2;
                 
                 if (l >= length)
+                {
                     break;
+                }
                 
                 if (array[l] > array[i] ||
                    (r < length && array[r] > array[i]))
@@ -61,7 +63,9 @@ public class Solution {
                     }
                 }
                 else
+                {
                     break;
+                }
             }
             return result;
         }
@@ -72,7 +76,9 @@ public class Solution {
             total += course[0];
             Add(course[0]);
             if (total > course[1])
+            {
                 total -= Pop();
+            }
         }
         return length;
     }
