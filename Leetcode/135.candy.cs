@@ -22,7 +22,9 @@ public class Solution {
                 up = 0;
                 result += ++down;
                 if (down > peak)
+                {
                     result += 1;
+                }
             }
             else
             {

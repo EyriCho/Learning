@@ -16,15 +16,33 @@
  */
 public class Solution {
     public TreeNode LowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        if (root == null) return null;
-        if (root == p || root == q)
-            return root;
-        var left = LowestCommonAncestor(root.left, p, q);
-        var right = LowestCommonAncestor(root.right, p, q);
+        if (root == null)
+        {
+            return null;
+        }
         
-        if (left != null && right != null) return root;
-        if (left != null) return left;
-        if (right != null) return right;
+        if (root == p || root == q)
+        {
+            return root;
+        }
+        
+        TreeNode left = LowestCommonAncestor(root.left, p, q),
+            right = LowestCommonAncestor(root.right, p, q);
+        
+        if (left != null && right != null)
+        {
+            return root;
+        }
+        
+        if (left != null)
+        {
+            return left;
+        }
+        
+        if (right != null)
+        {
+            return right;
+        }
         
         return null;
     }

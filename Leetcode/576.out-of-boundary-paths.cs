@@ -8,7 +8,9 @@
 public class Solution {
     public int FindPaths(int m, int n, int maxMove, int startRow, int startColumn) {
         if (maxMove == 0)
+        {
             return 0;
+        }
         
         var directions = new int[,] {
             { -1, 0 },
@@ -49,8 +51,10 @@ public class Solution {
                             y = j + directions[k, 1];
                         
                         if (x >= 0 && x < m &&
-                           y >= 0 && y < n)
+                            y >= 0 && y < n)
+                        {
                             current[i, j] = (current[i, j] + prev[x, y]) % 1_000_000_007;
+                        }
                     }
                 }
         }

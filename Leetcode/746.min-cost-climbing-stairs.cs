@@ -7,12 +7,17 @@
 // @lc code=start
 public class Solution {
     public int MinCostClimbingStairs(int[] cost) {
-        var greedy = new int[cost.Length + 1];
+        int prev = cost[0],
+            last = cost[1];
         
-        for (int i = 2; i <= cost.Length; i++)
-            greedy[i] = Math.Min(greedy[i - 2] + cost[i - 2], greedy[i - 1] + cost[i - 1]);
+        for (int i = 2; i < cost.Length; i++)
+        {
+            var newLast = Math.Min(prev, last) + cost[i];
+            prev = last;
+            last = newLast;
+        }
         
-        return greedy[cost.Length];
+        return Math.Min(prev, last);
     }
 }
 // @lc code=end

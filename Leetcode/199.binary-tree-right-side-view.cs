@@ -22,7 +22,9 @@ public class Solution {
     public IList<int> RightSideView(TreeNode root) {
         var result = new List<int>();
         if (root == null)
+        {
             return result;
+        }
         
         var queue = new Queue<TreeNode>();
         queue.Enqueue(root);
@@ -32,14 +34,17 @@ public class Solution {
             var c = queue.Count;
             
             TreeNode node = null;
-            while (c > 0)
+            while (c-- > 0)
             {
                 node = queue.Dequeue();
                 if (node.left != null)
+                {
                     queue.Enqueue(node.left);
+                }
                 if (node.right != null)
+                {
                     queue.Enqueue(node.right);
-                c--;
+                }
             }
             
             result.Add(node.val);

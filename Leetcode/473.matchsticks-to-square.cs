@@ -7,28 +7,43 @@
 // @lc code=start
 public class Solution {
     public bool Makesquare(int[] matchsticks) {
-        long total = 0L;
-        foreach (var stick in matchsticks)
-            total += stick;
+        var total = 0L;
+        foreach (var match in matchsticks)
+        {
+            total += match;
+        }
+        
         if (total % 4 != 0)
+        {
             return false;
-        int sideLen = (int)(total / 4);
-        int[] sides = new int[] {
-            sideLen, sideLen, sideLen, sideLen
+        }
+        
+        Array.Sort(matchsticks, (a, b) => b - a);
+        
+        var length = (int)(total / 4);
+        var sides = new int[] {
+            length, length,
+            length, length
         };
         
-        bool Make(int i)
+        bool Check(int i)
         {
             if (i == matchsticks.Length)
+            {
                 return true;
+            }
             
             for (int j = 0; j < 4; j++)
             {
-                if (matchsticks[i] <= sides[j])
+                if (sides[j] >= matchsticks[i])
                 {
                     sides[j] -= matchsticks[i];
-                    if (Make(i + 1))
+                    
+                    if (Check(i + 1))
+                    {
                         return true;
+                    }
+                    
                     sides[j] += matchsticks[i];
                 }
             }
@@ -36,7 +51,7 @@ public class Solution {
             return false;
         }
         
-        return Make(0);
+        return Check(0);
     }
 }
 // @lc code=end

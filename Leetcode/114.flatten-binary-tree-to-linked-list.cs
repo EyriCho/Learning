@@ -21,7 +21,9 @@
 public class Solution {
     public void Flatten(TreeNode root) {
         if (root == null)
+        {
             return;
+        }
         
         var node = root;
         while (node != null)
@@ -30,7 +32,9 @@ public class Solution {
             {
                 var l = node.left;
                 while (l.right != null)
+                {
                     l = l.right;
+                }
                 l.right = node.right;
                 node.right = node.left;
                 node.left = null;

@@ -11,25 +11,26 @@ public class Solution {
         var dict = new Dictionary<string, bool>();
         foreach (var word in words)
         {
+            int i = 0, j = 0;
             if (dict.ContainsKey(word))
             {
-                if (dict[word])
-                    result++;
-                continue;
+                j = dict[word] ? word.Length : 0;
             }
-            
-            
-            int i = 0, w = 0;
-            while (i < s.Length && w < word.Length)
+            else
             {
-                if (s[i] == word[w])
-                    w++;
-                i++;
+                while (i < s.Length && j < word.Length)
+                {
+                    if (s[i] == word[j])
+                    {
+                        j++;
+                    }
+                    i++;
+                }
+                dict[word] = j == word.Length;
             }
-            if (w == word.Length)
-                result++;
-            dict[word] = w == word.Length;
+            result += (dict[word] ? 1 : 0);
         }
+        
         return result;
     }
 }

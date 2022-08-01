@@ -19,14 +19,16 @@ public class Solution {
                 if (grid[i][j] > 0)
                 {
                     queue.Enqueue((i, j));
-                    int c = 0;
+                    int island = 0;
                     while (queue.Count > 0)
                     {
                         var (x, y) = queue.Dequeue();
                         if (grid[x][y] <= 0)
+                        {
                             continue;
+                        }
                         
-                        c++;
+                        island++;
                         grid[x][y] = -1;
                         for (int k = 0; k < 4; k++)
                         {
@@ -35,10 +37,12 @@ public class Solution {
                             if (nx > -1 && nx < grid.Length &&
                                ny > -1 && ny < grid[0].Length &&
                                grid[nx][ny] > 0)
+                            {
                                 queue.Enqueue((nx, ny));
+                            }
                         }
                     }
-                    result = Math.Max(c, result);
+                    result = Math.Max(island, result);
                 }
             }
         

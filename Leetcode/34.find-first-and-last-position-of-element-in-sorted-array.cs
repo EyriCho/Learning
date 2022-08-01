@@ -8,7 +8,9 @@
 public class Solution {
     public int[] SearchRange(int[] nums, int target) {
         if (nums.Length == 0)
+        {
             return new int[] { -1, -1 };
+        }
             
         var result = new int[] {
             nums.Length, 0
@@ -17,7 +19,9 @@ public class Solution {
         void BinarySearch(int l, int r)
         {
             if (l > r)
+            {
                 return;
+            }
             
             var m = (l + r) / 2;
             if (nums[m] == target)
@@ -28,14 +32,20 @@ public class Solution {
                 BinarySearch(m + 1, r);
             }
             else if (nums[m] > target)
+            {
                 BinarySearch(l, m - 1);
+            }
             else
+            {
                 BinarySearch(m + 1, r);
+            }
         }
         
         BinarySearch(0, nums.Length - 1);
         if (result[0] > result[1])
+        {
             result[0] = result[1] = -1;
+        }
         
         return result;
     }
