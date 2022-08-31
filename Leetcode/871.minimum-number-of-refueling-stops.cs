@@ -17,7 +17,9 @@ public class Solution {
             for (int i = 0; i < stations.Length; i++)
             {
                 if (stations[i][0] > fuel)
+                {
                     break;
+                }
                 
                 if (stations[i][1] > maxFuel)
                 {
@@ -26,7 +28,9 @@ public class Solution {
                 }
             }
             if (bestStop < 0)
+            {
                 return -1;
+            }
             
             fuel += stations[bestStop][1];
             stations[bestStop][1] = 0;

@@ -20,19 +20,22 @@
  */
 public class Solution {
     public bool IsValidBST(TreeNode root) {
-        return IsValidBST(root, null, null);
-    }
-    
-    private bool IsValidBST(TreeNode root, int? lower, int? upper)
-    {
-        if (root == null)
-            return true;
-        
-        if (root.val <= lower || root.val >= upper)
-            return false;
-        
-        return IsValidBST(root.left, lower, root.val) &&
-            IsValidBST(root.right, root.val, upper);
+        bool IsValid(TreeNode root, int? lower, int? upper)
+        {
+            if (root == null)
+            {
+                return true;
+            }
+            
+            if (root.val <= lower || root.val >= upper)
+            {
+                return false;
+            }
+            
+            return IsValid(root.left, lower, root.val) &&
+                IsValid(root.right, root.val, upper);
+        }
+        return IsValid(root, null, null);
     }
 }
 // @lc code=end

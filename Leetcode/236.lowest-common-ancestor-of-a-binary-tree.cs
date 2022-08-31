@@ -34,17 +34,7 @@ public class Solution {
             return root;
         }
         
-        if (left != null)
-        {
-            return left;
-        }
-        
-        if (right != null)
-        {
-            return right;
-        }
-        
-        return null;
+        return left ?? right;
     }
 }
 // @lc code=end

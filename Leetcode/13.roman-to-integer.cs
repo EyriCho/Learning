@@ -7,61 +7,41 @@
 // @lc code=start
 public class Solution {
     public int RomanToInt(string s) {
-        int result = 0;
-        char index = 'I';
+        var dict = new Dictionary<char, int> {
+            { 'I', 1 },
+            { 'V', 5 },
+            { 'X', 10 },
+            { 'L', 50 },
+            { 'C', 100 },
+            { 'D', 500 },
+            { 'M', 1000 },
+        };
         
-        for (int i = s.Length - 1; i >= 0; i--)
+        var result = 0;
+        var subTotal = dict[s[0]];
+        for (int i = 1; i < s.Length; i++)
         {
-            if (s[i] == 'I')
+            var prev = dict[s[i - 1]];
+            var curr = dict[s[i]];
+            
+            if (curr > prev)
             {
-                if (index == 'V' || index == 'X')
-                    result--;
-                else
-                    result++;
+                result -= subTotal;
+                subTotal = curr;
             }
-            else if (s[i] == 'V')
+            else if (curr < prev)
             {
-                result += 5;
-                index = 'V';
+                result += subTotal;
+                subTotal = curr;
             }
-            else if (s[i] == 'X')
+            else
             {
-                if (index == 'L' || index == 'C')
-                    result -= 10;
-                else
-                {
-                    result += 10;
-                    index = 'X';
-                }
+                subTotal += curr;
             }
-            else if (s[i] == 'L')
-            {
-                result += 50;
-                index = 'L';
-            }
-            else if (s[i] == 'C')
-            {
-                if (index == 'D' || index == 'M')
-                {
-                    result -= 100;
-                }
-                else
-                {
-                    result += 100;
-                    index = 'C';
-                }
-            }
-            else if (s[i] == 'D')
-            {
-                result += 500;
-                index = 'D';
-            }
-            else if (s[i] == 'M')
-            {
-                result += 1000;
-                index = 'M';
-            }
+            
         }
+        
+        result += subTotal;
         
         return result;
     }

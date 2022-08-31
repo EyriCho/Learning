@@ -41,7 +41,9 @@ public class Solution {
         while (r != null)
         {
             if (l.val != r.val)
+            {
                 return false;
+            }
             
             l = l.next;
             r = r.next;

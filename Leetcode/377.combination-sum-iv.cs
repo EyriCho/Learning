@@ -10,10 +10,17 @@ public class Solution {
         var counts = new int[target + 1];
         counts[0] = 1;
         
-        for (int i = 1; i <= target; i++)
+        for (int i = 0; i < target; i++)
+        {
             foreach (var num in nums)
-                if (i >= num)
-                    counts[i] += counts[i - num];
+            {
+                var next = i + num;
+                if (next <= target)
+                {
+                    counts[next] += counts[i];
+                }
+            }
+        }
         
         return counts[target];
     }

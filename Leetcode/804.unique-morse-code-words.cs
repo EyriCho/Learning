@@ -23,13 +23,17 @@ public class Solution {
                     if (c == '.')
                     {
                         if (node.left == null)
+                        {
                             node.left = new MorseTree();
+                        }
                         node = node.left;
                     }
                     else
                     {
                         if (node.right == null)
+                        {
                             node.right = new MorseTree();
+                        }
                         node = node.right;                        
                     }
                 }

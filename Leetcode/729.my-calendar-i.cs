@@ -19,17 +19,27 @@ public class MyCalendar {
         {
             m = (l + r) / 2;
             if (list[m].Item1 == start)
+            {
                 break;
+            }
             else if (list[m].Item1 > start)
+            {
                 r = m;
+            }
             else
+            {
                 l = ++m;
+            }
         }
         
         if (m > 0 && list[m - 1].Item2 > start)
+        {
             return false;
+        }
         if (m < list.Count && end > list[m].Item1)
+        {
             return false;
+        }
         
         list.Insert(m, (start, end));
         return true;

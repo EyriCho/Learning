@@ -20,7 +20,9 @@ public class Solution {
                 {
                     var mul = arr[i] / arr[j];
                     if (dict.ContainsKey(mul))
+                    {
                         dict[arr[i]] = (int)((dict[arr[i]] + (long)dict[arr[j]] * dict[mul]) % 1_000_000_007);
+                    }
                 }    
             }
             

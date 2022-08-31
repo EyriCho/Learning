@@ -8,28 +8,35 @@
 public class Solution {
     public int MaxSumSubmatrix(int[][] matrix, int k) {
         var sums = new int[matrix.Length + 1, matrix[0].Length + 1];
-        int result = int.MinValue;
+        var result = int.MinValue;
         
         for (int i = 1; i <= matrix.Length; i++)
+        {
             for (int j = 1; j <= matrix[0].Length; j++)
             {
-                sums[i, j] = matrix[i - 1][j - 1] + sums[i - 1, j] + sums[i, j - 1] - sums[i - 1, j - 1];
+                sums[i, j] = sums[i, j - 1] + sums[i - 1, j] - sums[i - 1, j - 1] + matrix[i - 1][j - 1];
                 
-                for (int t = 0; t < i; t++)
-                    for (int l = 0; l < j; l++)
-                    {                        
-                        var sum = sums[i, j] - sums[i, l] - sums[t, j] + sums[t, l];
-
-                        if (sum == k)
-                            return k;
-                        else if (sum < k)
-                            result = Math.Max(result, sum);
-                    }
-            }
+                for (int r = 0; r < i; r++)
+                {
+                    for (int c = 0; c < j; c++)
+                    {
+                        var t = sums[i, j] - sums[r, j] - sums[i, c] + sums[r, c];
                         
+                        if (t == k)
+                        {
+                            return k;
+                        }
+                        else if (t < k)
+                        {
+                            result = Math.Max(result, t);
+                        }
+                    }
+                }
+            }
+        }
         
         return result;
-    }
+     }
 }
 // @lc code=end
 
