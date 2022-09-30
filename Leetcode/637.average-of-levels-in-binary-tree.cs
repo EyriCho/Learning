@@ -27,15 +27,19 @@ public class Solution {
         while (queue.Count > 0)
         {
             int count = queue.Count, i = queue.Count;
-            var sum = 0.0d;
+            var sum = 0.0D;
             while (i-- > 0)
             {
                 var node = queue.Dequeue();
                 sum += node.val;
                 if (node.left != null)
+                {
                     queue.Enqueue(node.left);
+                }
                 if (node.right != null)
+                {
                     queue.Enqueue(node.right);
+                }
             }
             result.Add(sum / count);
         }

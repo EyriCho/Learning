@@ -25,49 +25,55 @@ public class Solution {
         var dict = new Dictionary<int, List<int>>();
         
         int i = 0;
-        var queue = new Queue<(TreeNode, int)?>();
+        
+        var queue = new Queue<(TreeNode, int)>();
         queue.Enqueue((root, 0));
-        queue.Enqueue(null);
+        
         while (queue.Count > 0)
         {
-            var next = queue.Dequeue();
-            while (next != null)
+            for (int j = queue.Count; j > 0; j--)
             {
-                (TreeNode node, int margin) = next.Value;
+                var (node, index) = queue.Dequeue();
                 if (node.left != null)
-                    queue.Enqueue((node.left, margin - 1));
+                {
+                    queue.Enqueue((node.left, index - 1));
+                }
+                
                 if (node.right != null)
-                    queue.Enqueue((node.right, margin + 1));
+                {
+                    queue.Enqueue((node.right, index + 1));
+                }
                 
-                if (!dict.ContainsKey(margin))
-                    dict[margin] = new List<int>();
-                dict[margin].Add(node.val);
-                
-                next = queue.Dequeue();
+                if (!dict.TryGetValue(index, out List<int> list))
+                {
+                    dict[index] = list = new List<int>();
+                }
+                list.Add(node.val);
             }
-            if (queue.Count > 0)
-                queue.Enqueue(null);
             
-            foreach (var entry in dict)
+            foreach (var kv in dict)
             {
-                var ni = i + entry.Key;
+                var ni = i + kv.Key;
                 if (ni < 0)
                 {
                     result.Insert(0, new List<int>());
                     ni = 0;
                     i++;
                 }
-                else if (ni >= result.Count)
+                else if(ni >= result.Count)
+                {
                     result.Add(new List<int>());
+                }
                 
-                entry.Value.Sort();
-                for (int j = 0; j < entry.Value.Count; j++)
-                    result[ni].Add(entry.Value[j]);
+                kv.Value.Sort();
+                foreach (var num in kv.Value)
+                {
+                    result[ni].Add(num);
+                }
             }
             
             dict.Clear();
         }
-        
         return result;
     }
 }

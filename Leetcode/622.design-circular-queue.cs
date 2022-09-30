@@ -22,10 +22,14 @@ public class MyCircularQueue {
     public bool EnQueue(int value) {
         var i = end + 1;
         if (i == array.Length)
+        {
             i = 0;
+        }
         
         if (!isEmpty && front == i)
+        {
             return false;
+        }
         
         end = i;
         array[end] = value;
@@ -35,14 +39,20 @@ public class MyCircularQueue {
     
     public bool DeQueue() {
         if (isEmpty)
+        {
             return false;
+        }
 
         if (front == end)
+        {
             isEmpty = true;
+        }
         
         front++;
         if (front == array.Length)
+        {
             front = 0;
+        }
         
         
         return true;
@@ -50,14 +60,18 @@ public class MyCircularQueue {
     
     public int Front() {
         if (isEmpty)
+        {
             return -1;
+        }
         
         return array[front];
     }
     
     public int Rear() {
         if (isEmpty)
+        {
             return -1;
+        }
         
         return array[end];
     }
@@ -68,14 +82,20 @@ public class MyCircularQueue {
     
     public bool IsFull() {
         if (isEmpty)
+        {
             return false;
+        }
 
         var i = end + 1;
         if (i == array.Length)
+        {
             i = 0;
+        }
         
         if (front == i)
+        {
             return true;
+        }
         return false;
     }
 }

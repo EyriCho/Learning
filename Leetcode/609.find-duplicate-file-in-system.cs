@@ -13,35 +13,42 @@ public class Solution {
         {
             int i = 0;
             while (i < path.Length && path[i] != ' ')
+            {
                 i++;
-            var p = path[0..i];
+            }
+            var d = path[0..i];
             
             while (i < path.Length)
             {
                 i++;
                 int s = i;
                 while (i < path.Length && path[i] != '(')
+                {
                     i++;
-                var fileName = path[s..i];
+                }
+                
+                var filename = path[s..i];
+                
                 s = ++i;
                 while (i < path.Length && path[i] != ')')
+                {
                     i++;
+                }
                 var content = path[s..i];
                 i++;
                 
-                if (!dict.ContainsKey(content))
-                    dict.Add(content, new List<string>());
-                dict[content].Add($"{p}/{fileName}");
+                if (!dict.TryGetValue(content, out IList<string> p))
+                {
+                    dict[content] = p = new List<string>();
+                }
+                p.Add($"{d}/{filename}");
             }
         }
         
-        var result = new List<IList<string>>();
-        foreach (var set in dict)
-        {
-            if (set.Value.Count > 1)
-                result.Add(set.Value);
-        }
-        return result;
+        return dict
+            .Where(kv => kv.Value.Count > 1)
+            .Select(kv => kv.Value)
+            .ToList();
     }
 }
 // @lc code=end

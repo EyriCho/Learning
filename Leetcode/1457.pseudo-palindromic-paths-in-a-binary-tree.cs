@@ -1,4 +1,4 @@
-/*
+    /*
  * @lc app=leetcode id=1457 lang=csharp
  *
  * [1457] Pseudo-Palindromic Paths in a Binary Tree
@@ -20,27 +20,35 @@
  */
 public class Solution {
     public int PseudoPalindromicPaths (TreeNode root) {
-        return PseudoPalindromicPaths(root, 0);
-    }
-    
-    private int PseudoPalindromicPaths(TreeNode root, int path)
-    {
-        path ^= 1 << root.val;
-        int result = 0;
-        if (root.left == root.right)
+        int DFS(TreeNode node, int path)
         {
-            if ((path & path - 1) == 0)
-                return 1;
-        }
-        else
-        {
-            if (root.left != null)
-                result += PseudoPalindromicPaths(root.left, path);
-            if (root.right != null)
-                result += PseudoPalindromicPaths(root.right, path);
+            path ^= 1 << node.val;
+            
+            int result = 0;
+            if (node.left == null && node.right == null)
+            {
+                if ((path & path -1) == 0)
+                {
+                    return 1;
+                }
+            }
+            else
+            {
+                if (node.left != null)
+                {
+                    result += DFS(node.left, path);
+                }
+                
+                if (node.right != null)
+                {
+                    result += DFS(node.right, path);
+                }
+            }
+            
+            return result;
         }
         
-        return result;
+        return DFS(root, 0);
     }
 }
 // @lc code=end

@@ -17,8 +17,7 @@ public class Solution {
             {
                 P -= tokens[l++];
                 score++;
-                if (score > result)
-                    result = score;
+                result = Math.Max(result, score);
             }
             else if (score > 0)
             {
@@ -26,7 +25,9 @@ public class Solution {
                 score--;
             }
             else
+            {
                 break;
+            }
         }
         
         return result;

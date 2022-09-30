@@ -1,7 +1,7 @@
 /*
- * @lc app=leetcode id=814 lang=csharp
+ * @lc app=leetcode id=606 lang=csharp
  *
- * [814] Binary Tree Pruning
+ * [606] Construct String from Binary Tree
  */
 
 // @lc code=start
@@ -19,20 +19,24 @@
  * }
  */
 public class Solution {
-    public TreeNode PruneTree(TreeNode root) {
+    public string Tree2str(TreeNode root) {
         if (root == null)
         {
-            return null;
+            return string.Empty;
         }
         
-        root.left = PruneTree(root.left);
-        root.right = PruneTree(root.right);
-        if (root.val == 0 && root.left == null && root.right == null)
+        if (root.left == null && root.right == null)
         {
-            return null;
+            return root.val.ToString();
         }
-        
-        return root;
+        else if (root.right == null)
+        {
+            return $"{root.val}({Tree2str(root.left)})";
+        }
+        else
+        {
+            return $"{root.val}({Tree2str(root.left)})({Tree2str(root.right)})";
+        }
     }
 }
 // @lc code=end

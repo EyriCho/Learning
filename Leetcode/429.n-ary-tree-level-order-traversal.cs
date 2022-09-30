@@ -28,7 +28,9 @@ public class Solution {
     public IList<IList<int>> LevelOrder(Node root) {
         var result = new List<IList<int>>();
         if (root == null)
+        {
             return result;
+        }
         
         var queue = new Queue<Node>();
         queue.Enqueue(root);
@@ -41,7 +43,9 @@ public class Solution {
                 var node = queue.Dequeue();
                 list.Add(node.val);
                 foreach (var child in node.children)
+                {
                     queue.Enqueue(child);
+                }
             }
             result.Add(list);
         }

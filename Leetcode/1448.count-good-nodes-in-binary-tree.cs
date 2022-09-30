@@ -20,22 +20,24 @@
  */
 public class Solution {
     public int GoodNodes(TreeNode root) {
-        int result = 0;
-        
-        void Dfs(TreeNode node, int max)
+        int Count(TreeNode node, int max)
         {
             if (node == null)
-                return;
-            if (node.val >= max)
-                result++;
+            {
+                return 0;
+            }
             
-            max = Math.Max(max, node.val);
-            Dfs(node.left, max);
-            Dfs(node.right, max);
+            if (node.val >= max)
+            {
+                return 1 + Count(node.left, node.val) + Count(node.right, node.val);
+            }
+            else
+            {
+                return Count(node.left, max) + Count(node.right, max);
+            }
         }
         
-        Dfs(root, int.MinValue);
-        return result;
+        return Count(root, -10_000);
     }
 }
 // @lc code=end
