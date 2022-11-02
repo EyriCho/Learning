@@ -1,4 +1,4 @@
-/*
+    /*
  * @lc app=leetcode id=653 lang=csharp
  *
  * [653] Two Sum IV - Input is a BST
@@ -25,12 +25,15 @@ public class Solution {
         bool Travel(TreeNode node)
         {
             if (node == null)
+            {
                 return false;
+            }
             
             if (set.Contains(k - node.val))
+            {
                 return true;
-            if (!set.Contains(node.val))
-                set.Add(node.val);
+            }
+            set.Add(node.val);
             
             return Travel(node.left) || Travel(node.right);
         }

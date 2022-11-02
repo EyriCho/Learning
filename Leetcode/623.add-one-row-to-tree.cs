@@ -19,35 +19,41 @@
  * }
  */
 public class Solution {
-    public TreeNode AddOneRow(TreeNode root, int v, int d) {
-        if (d == 1)
-            return new TreeNode(v, root);
+    public TreeNode AddOneRow(TreeNode root, int val, int depth) {
+        int row = 1;
         
+        var fake = new TreeNode(0, root);
         var queue = new Queue<TreeNode>();
-        queue.Enqueue(root);
-        int l = 2;
-        while (l < d)
+        queue.Enqueue(fake);
+        
+        while (row < depth)
         {
-            var c = queue.Count();
-            while (c-- > 0)
+            var count = queue.Count;
+            while (count-- > 0)
             {
                 var node = queue.Dequeue();
+                
                 if (node.left != null)
+                {
                     queue.Enqueue(node.left);
+                }
+                
                 if (node.right != null)
+                {
                     queue.Enqueue(node.right);
+                }
             }
-            l++;
+            row++;
         }
         
         while (queue.Count > 0)
         {
             var node = queue.Dequeue();
-            node.left = new TreeNode(v, node.left);
-            node.right = new TreeNode(v, null, node.right);
+            node.left = new TreeNode(val, node.left);        
+            node.right = new TreeNode(val, null, node.right);
         }
         
-        return root;
+        return fake.left;
     }
 }
 // @lc code=end

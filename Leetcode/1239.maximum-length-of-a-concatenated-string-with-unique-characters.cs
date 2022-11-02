@@ -14,9 +14,13 @@ public class Solution {
             {
                 var bit = 1 << (c - 'a');
                 if ((r & bit) > 0)
+                {
                     return 0;
+                }
                 else
+                {
                     r |= bit;
+                }
             }
             return r;
         }
@@ -53,7 +57,9 @@ public class Solution {
                 }
                 
                 foreach (var add in toAdd)
+                {
                     set.Add(add);
+                }
             }
         }
         

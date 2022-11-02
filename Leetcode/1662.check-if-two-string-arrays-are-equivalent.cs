@@ -7,30 +7,32 @@
 // @lc code=start
 public class Solution {
     public bool ArrayStringsAreEqual(string[] word1, string[] word2) {
-        List<char> str1 = new List<char>(),
-            str2 = new List<char>();
+        int w1 = 0, w2 = 0,
+            i1 = 0, i2 = 0;
         
-        foreach (var word in word1)
-            foreach (var c in word)
-                str1.Add(c);
-        
-        foreach (var word in word2)
-            foreach (var c in word)
-                str2.Add(c);
-        
-        if (str1.Count != str2.Count)
-            return false;
-        
-        int i = 0;
-        while (i < str1.Count)
+        while (w1 < word1.Length && w2 < word2.Length)
         {
-            if (str1[i] != str2[i])
+            if (word1[w1][i1] != word2[w2][i2])
+            {
                 return false;
+            }
             
-            i++;
+            i1++;
+            if (i1 == word1[w1].Length)
+            {
+                w1++;
+                i1 = 0;
+            }
+            
+            i2++;
+            if (i2 == word2[w2].Length)
+            {
+                w2++;
+                i2 = 0;
+            }
         }
         
-        return true;
+        return w1 == word1.Length && w2 == word2.Length;
     }
 }
 // @lc code=end

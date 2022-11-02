@@ -7,8 +7,7 @@
 // @lc code=start
 public class Solution {
     public int[] FindErrorNums(int[] nums) {
-        int temp = 0,
-            diff = 0;
+        int temp = 0;
         
         for (int i = 0; i < nums.Length; i++)
         {
@@ -16,7 +15,9 @@ public class Solution {
             while (nums[j] != j + 1)
             {
                 if (nums[nums[j] - 1] == nums[j])
+                {
                     break;
+                }
                 temp = nums[nums[j] - 1];
                 nums[nums[j] - 1] = nums[j];
                 nums[j] = temp;
@@ -26,7 +27,9 @@ public class Solution {
         for (int i = 0; i < nums.Length; i++)
         {
             if (nums[i] != i + 1)
+            {
                 return new int[] { nums[i], i + 1 };
+            }
         }
         
         return new int[] {};

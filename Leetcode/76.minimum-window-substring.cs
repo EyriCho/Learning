@@ -10,9 +10,12 @@ public class Solution {
         var counts = new int[128];
         var current = new int[128];
         foreach (var c in t)
+        {
             counts[c - 'A']++;
+        }
         
-        int l = 0, minL = 0, length = int.MaxValue,
+        int l = 0, minL = 0,
+            length = int.MaxValue,
             tCount = t.Length;
         
         for (int r = 0; r < s.Length; r++)
@@ -22,7 +25,9 @@ public class Solution {
             {
                 current[c]++;
                 if (current[c] <= counts[c])
+                {
                     tCount--;
+                }
             }
             
             if (tCount == 0)
@@ -33,9 +38,13 @@ public class Solution {
                     if (counts[c] > 0)
                     {
                         if (current[c] > counts[c])
+                        {
                             current[c]--;
+                        }
                         else
+                        {
                             break;
+                        }
                     }
                     l++;
                 }
@@ -49,7 +58,9 @@ public class Solution {
         }
         
         if (length > s.Length)
+        {
             return string.Empty;
+        }
         
         return s[minL..(minL + length)];
     }

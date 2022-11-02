@@ -16,11 +16,16 @@
  */
 public class Solution {
     public bool HasPathSum(TreeNode root, int sum) {
-        if (root == null) return false;
+        if (root == null)
+        {
+            return false;
+        }
 
         var downSum = sum - root.val;
         if (root.left == null && root.right == null)
+        {
             return downSum == 0;
+        }
 
         return HasPathSum(root.left, downSum) || 
             HasPathSum(root.right, downSum);
