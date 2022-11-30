@@ -15,10 +15,14 @@ public class Solution {
         {
             var square = s * s;
             if (square > n)
+            {
                 break;
+            }
 
             for (int i = square; i <= n; i++)
+            {
                 dp[i] = Math.Min(dp[i - square] + 1, dp[i]);
+            }
         }
         
         return dp[n];

@@ -18,19 +18,27 @@ public class Solution {
         bool Find(int x, int y, int index)
         {
             if (index == word.Length)
+            {
                 return true;
+            }
             
             if (x < 0 || x == board.Length ||
                 y < 0 || y == board[0].Length ||
                 visited[x, y] ||
                 board[x][y] != word[index])
+            {
                 return false;
+            }
             
             visited[x, y] = true;
             
             for (int i = 0; i < 4; i++)
+            {
                 if (Find(x + directions[i, 0], y + directions[i, 1], index + 1))
+                {
                     return true;
+                }
+            }
             
             visited[x, y] = false;
             
@@ -38,9 +46,15 @@ public class Solution {
         }
         
         for (int i = 0; i < board.Length; i++)
+        {
             for (int j = 0; j < board[0].Length; j++)
+            {
                 if (board[i][j] == word[0] && Find(i, j, 0))
+                {
                     return true;
+                }
+            }
+        }
         
         return false;
     }

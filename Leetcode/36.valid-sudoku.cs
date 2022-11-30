@@ -9,48 +9,59 @@ public class Solution {
     public bool IsValidSudoku(char[][] board) {
         for (int i = 0; i < 9; i++)
         {
-            var flag = new bool[9];
+            var valid = new bool[9];
             for (int j = 0; j < 9; j++)
+            {
                 if (board[i][j] != '.')
                 {
-                    var index = board[i][j] - '1';
-                    if (flag[index])
+                    var num = board[i][j] - '1';
+                    if (valid[num])
+                    {
                         return false;
-                    flag[index] = true;
+                    }
+                    valid[num] = true;
                 }
+            }
         }
         
         for (int j = 0; j < 9; j++)
         {
-            var flag = new bool[9];
+            var valid = new bool[9];
             for (int i = 0; i < 9; i++)
+            {
                 if (board[i][j] != '.')
                 {
-                    var index = board[i][j] - '1';
-                    if (flag[index])
+                    var num = board[i][j] - '1';
+                    if (valid[num])
+                    {
                         return false;
-                    flag[index] = true;
+                    }
+                    valid[num] = true;
                 }
+            }
         }
         
-        for (int i = 0; i < 9; i+= 3)
+        for (int i = 0; i < 9; i += 3)
+        {
             for (int j = 0; j < 9; j += 3)
             {
-                var flag = new bool[9];
-                for (int z = 0; z < 9; z++)
+                var valid = new bool[9];
+                for (int k = 0; k < 9; k++)
                 {
-                    int x = i + z / 3,
-                        y = j + z % 3;
-                    
+                    int x = i + k / 3,
+                        y = j + k % 3;
                     if (board[x][y] != '.')
                     {
-                        var index = board[x][y] - '1';
-                        if (flag[index])
+                        var num = board[x][y] - '1';
+                        if (valid[num])
+                        {
                             return false;
-                        flag[index] = true;
+                        }
+                        valid[num] = true;
                     }
-                }    
+                }
             }
+        }
         
         return true;
     }

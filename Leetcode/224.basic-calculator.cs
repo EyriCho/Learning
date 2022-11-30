@@ -14,7 +14,9 @@ public class Solution {
         for (int i = 0; i < s.Length; i++)
         {
             if (s[i] == ' ')
+            {
                 continue;
+            }
             
             if (s[i] == '(')
             {

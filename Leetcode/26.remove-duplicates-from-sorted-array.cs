@@ -7,18 +7,18 @@
 // @lc code=start
 public class Solution {
     public int RemoveDuplicates(int[] nums) {
-        if (nums?.Any() != true) return 0;
-        int index = 0;
-        for (int i = 1; i < nums.Length; i++)
+        int j = 0;
+        for (int i = 0; i < nums.Length;)
         {
-            if (nums[index] != nums[i])
+            nums[j] = nums[i++];
+            while (i < nums.Length && nums[i] == nums[j])
             {
-                index++;
-                if (index < i)
-                    nums[index] = nums[i];
+                i++;
             }
+            j++;
         }
-        return index + 1;
+        
+        return j;
     }
 }
 // @lc code=end
