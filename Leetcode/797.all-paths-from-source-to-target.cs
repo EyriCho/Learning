@@ -8,35 +8,28 @@
 public class Solution {
     public IList<IList<int>> AllPathsSourceTarget(int[][] graph) {
         var result = new List<IList<int>>();
-        var target = graph.Length - 1;
-        var visited = new bool[graph.Length];
-        var path = new List<int>(graph.Length);
-        
-        void find(int i)
+        var path = new List<int>();
+
+        void Dfs(int i)
         {
-            if (visited[i])
+            if (i == graph.Length - 1)
+            {
+                var list = new List<int>(path);
+                list.Add(i);
+                result.Add(list);
                 return;
-            
+            }
+
             path.Add(i);
-            if (i == target)
+            foreach (var n in graph[i])
             {
-                result.Add(new List<int>(path));
-                path.RemoveAt(path.Count - 1);
-                return;
+                Dfs(n);
             }
-            
-            visited[i] = true;
-            for (int j = 0; j < graph[i].Length; j++)
-            {
-                find (graph[i][j]);
-            }
-            visited[i] = false;
-            
             path.RemoveAt(path.Count - 1);
         }
-        
-        find(0);
-        
+
+        Dfs(0);
+
         return result;
     }
 }

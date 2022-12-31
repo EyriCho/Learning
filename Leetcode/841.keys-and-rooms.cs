@@ -21,7 +21,9 @@ public class Solution {
                 foreach (var key in rooms[room])
                 {
                     if (!visit[key])
+                    {
                         queue.Enqueue(key);
+                    }
                 }
             }
         }

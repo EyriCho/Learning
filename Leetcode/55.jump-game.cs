@@ -11,7 +11,9 @@ public class Solution {
             reach = 0;
         
         for (; i <= reach && i < nums.Length; i++)
+        {
             reach = Math.Max(reach, i + nums[i]);
+        }
         
         return i == nums.Length;
     }

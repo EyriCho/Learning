@@ -7,15 +7,12 @@
 // @lc code=start
 public class Solution {
     public int Rob(int[] nums) {
-        if (nums.Length == 0)
-            return 0;
-        
         int yesterday = 0, today = nums[0];
+        
         for (int i = 1; i < nums.Length; i++)
         {
             var temp = today;
-            if (yesterday + nums[i] > today)
-                today = yesterday + nums[i];
+            today = Math.Max(today, yesterday + nums[i]);
             yesterday = temp;
         }
         

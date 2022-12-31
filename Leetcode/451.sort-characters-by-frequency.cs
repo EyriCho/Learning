@@ -10,8 +10,8 @@ public class Solution {
         var array = new (char, int)[128];
         foreach (var c in s)
         {
-            array[c - '1'].Item1 = c;
-            array[c - '1'].Item2++;
+            array[c - '0'].Item1 = c;
+            array[c - '0'].Item2++;
         }
         
         Array.Sort(array, (a, b) => b.Item2 - a.Item2);
@@ -26,7 +26,9 @@ public class Solution {
                 j += array[i].Item2;
             }
             else
+            {
                 break;
+            }
         }
         
         return new string(chars);

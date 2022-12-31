@@ -22,10 +22,14 @@ public class Solution {
         for (int i = 0; i < 26; i++)
         {
             if (char1[i] > 0 && char2[i] == 0)
+            {
                 return false;
+            }
             
             if (char1[i] == 0 && char2[i] > 0)
+            {
                 return false;
+            }
         }
 
         Array.Sort(char1);
@@ -34,7 +38,9 @@ public class Solution {
         for (int i = 0; i < 26; i++)
         {
             if (char1[i] != char2[i])
+            {
                 return false;
+            }
         }
         return true;
     }

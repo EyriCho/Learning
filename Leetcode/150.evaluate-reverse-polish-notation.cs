@@ -8,6 +8,7 @@
 public class Solution {
     public int EvalRPN(string[] tokens) {
         var stack = new Stack<int>();
+        
         foreach (var token in tokens)
         {
             if (token.Length == 1 && token[0] < '0')
@@ -15,18 +16,28 @@ public class Solution {
                 int oper2 = stack.Pop(),
                     oper1 = stack.Pop();
                 if (token == "+")
+                {
                     stack.Push(oper1 + oper2);
+                }
                 else if (token == "-")
+                {
                     stack.Push(oper1 - oper2);
+                }
                 else if (token == "*")
+                {
                     stack.Push(oper1 * oper2);
+                }
                 else if (token == "/")
+                {
                     stack.Push(oper1 / oper2);
+                }
             }
             else
+            {
                 stack.Push(int.Parse(token));
+            }
         }
-        
+
         return stack.Pop();
     }
 }

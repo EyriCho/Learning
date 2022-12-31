@@ -27,17 +27,23 @@ public class Solution {
         {
             if (node.left == null)
             {
-                if (node.val >= low && node.val <= high)
-                    result += node.val;
-                else if (node.val > high)
+                if (node.val > high)
+                {
                     break;
+                }
+                else if (node.val >= low)
+                {
+                    result += node.val;
+                }
                 node = node.right;
             }
             else
             {
                 var prev = node.left;
                 while (prev.right != null && prev.right != node)
+                {
                     prev = prev.right;
+                }
                 if (prev.right == null)
                 {
                     prev.right = node;
@@ -46,10 +52,14 @@ public class Solution {
                 else
                 {
                     prev.right = null;
-                    if (node.val >= low && node.val <= high)
-                        result += node.val;
-                    else if (node.val > high)
+                    if (node.val > high)
+                    {
                         break;
+                    }
+                    else if (node.val >= low)
+                    {
+                        result += node.val;
+                    }
                     node = node.right;
                 }
             }

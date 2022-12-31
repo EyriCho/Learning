@@ -11,7 +11,9 @@ public class Solution {
             count = new int[n];
         var map = new List<int>[n];
         for (int i = 0; i < n; i++)
+        {
             map[i] = new List<int>();
+        }
         foreach (var edge in edges)
         {
             map[edge[0]].Add(edge[1]);
@@ -23,7 +25,9 @@ public class Solution {
             foreach (var next in map[cur])
             {
                 if (next == prev)
+                {
                     continue;
+                }
                 Total(next, cur);
                 count[cur] += count[next];
                 result[cur] += result[next] + count[next];
@@ -37,7 +41,9 @@ public class Solution {
             foreach (var next in map[cur])
             {
                 if (next == prev)
+                {
                     continue;
+                }
                 result[next] = result[cur] - count[next] + n - count[next];
                 Sum(next, cur);
             }

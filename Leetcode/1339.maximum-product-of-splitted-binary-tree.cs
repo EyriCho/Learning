@@ -20,25 +20,21 @@
  */
 public class Solution {
     public int MaxProduct(TreeNode root) {
-        long result = 0L,
-            total = 0L;
-        
-        void Travel(TreeNode node)
+        int Travel(TreeNode node)
         {
-            total += node.val;
-            if (node.left != null)
+            if (node == null)
             {
-                Travel(node.left);
-                node.val += node.left.val;
+                return 0;
             }
-            
-            if (node.right != null)
-            {
-                Travel(node.right);
-                node.val += node.right.val;
-            }
+
+            node.val += Travel(node.left);
+            node.val += Travel(node.right);
+
+            return node.val;
         }
-        Travel(root);
+
+        long result = 0L,
+            total = Travel(root);
                 
         void Max(TreeNode node)
         {

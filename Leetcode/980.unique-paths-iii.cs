@@ -19,9 +19,13 @@ public class Solution {
                     startY = j;
                 }
                 else if (grid[i][j] == 0)
+                {
                     count++;
+                }
                 else if (grid[i][j] == 2)
+                {
                     count++;
+                }
             }
         
         var directions = new int[,] {
@@ -37,7 +41,9 @@ public class Solution {
             if (x < 0 || x >= grid.Length ||
                 y < 0 || y >= grid[0].Length ||
                 visited[x, y] || grid[x][y] < 0)
+            {
                 return;
+            }
             
             if (grid[x][y] == 2)
             {
@@ -49,7 +55,9 @@ public class Solution {
             count--;
             
             for (int i = 0; i < 4; i++)
+            {
                 FindPath(x + directions[i, 0], y + directions[i, 1]);
+            }
             
             visited[x, y] = false;
             count++;

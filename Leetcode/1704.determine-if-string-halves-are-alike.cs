@@ -15,9 +15,13 @@ public class Solution {
         for (int l = 0, r = s.Length - 1; l < r; l++, r--)
         {
             if (vowels.Contains(s[l]))
+            {
                 lCount++;
+            }
             if (vowels.Contains(s[r]))
+            {
                 rCount++;
+            }
         }
         
         return lCount == rCount;    
