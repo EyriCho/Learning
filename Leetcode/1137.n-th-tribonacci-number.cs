@@ -8,21 +8,28 @@
 public class Solution {
     public int Tribonacci(int n) {
         if (n < 2)
-            return n;
-        if (n == 2)
-            return 1;
-        
-        int prev1 = 0, prev2 = 1, prev3 = 1;
-        int i = 2, result = 1;
-        while (i < n)
         {
-            result = prev1 + prev2 + prev3;
-            prev1 = prev2;
-            prev2 = prev3;
-            prev3 = result;
-            i++;
+            return n;
         }
-        return result;
+        else if (n == 2)
+        {
+            return 1;
+        }
+        else
+        {
+            int a = 0,
+                b = 1,
+                c = 1;
+
+            while (n-- > 2)
+            {
+                var num = a + b + c;
+                a = b;
+                b = c;
+                c = num;
+            }
+            return c;
+        }
     }
 }
 // @lc code=end

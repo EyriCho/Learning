@@ -7,23 +7,36 @@
 // @lc code=start
 public class Solution {
     public bool WordPattern(string pattern, string str) {
-        Dictionary<object, int> dic = new Dictionary<object, int>();
-        var charaters = pattern.ToCharArray();
-        var words = str.Split(" ");
+        var wordDic = new Dictionary<string, int>();
+        var charDic = new Dictionary<char, int>();
 
-        if (charaters.Length != words.Length) return false;
-        
-        for (int i = 0; i < charaters.Length; i++)
+        var words = s.Split(' ');
+        if (words.Length != pattern.Length)
         {
-            char c = charaters[i];
-            string w = words[i];
-
-            if (!dic.ContainsKey(c)) dic[c] = i;
-            if (!dic.ContainsKey(w)) dic[w] = i;
-
-            if (dic[c] != dic[w]) return false;
+            return false;
         }
-        return true;        
+
+        for (int i = 0; i < pattern.Length; i++)
+        {
+            if (!wordDic.TryGetValue(words[i], out int w))
+            {
+                wordDic[words[i]] = w = i;
+            }
+
+            if (!charDic.TryGetValue(pattern[i], out int c))
+            {
+                charDic[pattern[i]] = c = i;
+            }
+
+            if (w != c)
+            {
+                Console.WriteLine($"{w} {c}");
+                Console.WriteLine(i);
+                return false;
+            }
+        }
+
+        return true;
     }
 }
 // @lc code=end

@@ -8,36 +8,44 @@
 public class Solution {
     public IList<IList<string>> Partition(string s) {
         var result = new List<IList<string>>();
-        var temp = new List<string>();
+        var temp = new List<string>(s.Length);
         
-        Partition(s, 0, result, temp);
+        bool IsPalindrome (string str)
+        {
+            int l = 0, r = str.Length - 1;
+            
+            while (l < r)
+            {
+                if (str[l++] != str[r--])
+                {
+                    return false;
+                }
+            }
+            
+            return true;
+        }
+        
+        void Dfs(int p)
+        {
+            if (p == s.Length)
+            {
+                result.Add(new List<string>(temp));
+            }
+            
+            for (int i = p + 1; i <= s.Length; i++)
+            {
+                if (IsPalindrome(s[p..i]))
+                {
+                    temp.Add(s[p..i]);
+                    Dfs(i);
+                    temp.RemoveAt(temp.Count - 1);
+                }
+            }
+        }
+        
+        Dfs(0);
         
         return result;
-    }
-    
-    private void Partition(string s, int start, IList<IList<string>> result, IList<string> temp)
-    {
-        if (start == s.Length)
-            result.Add(new List<string>(temp));
-        
-        for (int i = start + 1; i <= s.Length; i++)
-        {
-            if (!IsPalindrome(s[start..i]))
-                continue;
-            
-            temp.Add(s[start..i]);
-            Partition(s, i, result, temp);
-            temp.RemoveAt(temp.Count - 1);
-        }
-    }
-    
-    private bool IsPalindrome(string s)
-    {
-        int l = 0, r = s.Length - 1;
-        while (l < r)
-            if (s[l++] != s[r--])
-                return false;
-        return true;
     }
 }
 // @lc code=end

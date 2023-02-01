@@ -19,7 +19,9 @@ public class Solution {
         }
         
         if (left < 0)
+        {
             return -1;
+        }
         
         return index;
     }

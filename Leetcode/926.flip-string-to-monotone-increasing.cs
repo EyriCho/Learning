@@ -7,27 +7,22 @@
 // @lc code=start
 public class Solution {
     public int MinFlipsMonoIncr(string s) {
-        var dp0 = s[0] == '0' ? 0 : 1;
-        var dp1 = 1 - dp0;
-        
-        for (int i = 1; i < s.Length; i++)
+        int result = 0,
+            one = 0;
+
+        foreach (var c in s)
         {
-            int _dp0 = 0, _dp1 = 0;
-            if (s[i] == '0')
+            if (c == '1')
             {
-                _dp0 = dp0;
-                _dp1 = Math.Min(dp0, dp1) + 1;
+                one++;
             }
             else
             {
-                _dp0 = dp0 + 1;
-                _dp1 = Math.Min(dp0, dp1);
+                result = Math.Min(result + 1, one);
             }
-            dp0 = _dp0;
-            dp1 = _dp1;
         }
-        
-        return Math.Min(dp0, dp1);
+
+        return result;
     }
 }
 // @lc code=end

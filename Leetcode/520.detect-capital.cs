@@ -7,20 +7,21 @@
 // @lc code=start
 public class Solution {
     public bool DetectCapitalUse(string word) {
-        if (word.Length == 1) return true;
-
-        bool first = word[0] < 'a';
-        bool last = word[1] < 'a';
-        if (!first && last) return false;
-        
-        for (int i = 2; i < word.Length; i++)
+        if (word.Length < 2)
         {
-            var current = word[i] < 'a';
-            if (last != current)
-                return false;
-            last = current;
+            return true;
         }
-        
+
+        bool isUpper = word[0] < 'a' && word[1] < 'a';
+
+        for (int i = 1; i < word.Length; i++)
+        {
+            if ((word[i] < 'a') != isUpper)
+            {
+                return false;
+            }
+        }
+
         return true;
     }
 }
