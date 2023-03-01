@@ -9,7 +9,9 @@ public class Solution {
     public IList<int> FindAnagrams(string s, string p) {
         var result = new List<int>();
         if (s.Length < p.Length)
+        {
             return result;
+        }
         
         var dict = new Dictionary<char, int>();
         

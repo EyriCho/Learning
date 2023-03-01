@@ -12,11 +12,17 @@ public class Solution {
         {
             var m = (l + r) >> 1;
             if (m % 2 == 1)
+            {
                 m--;
+            }
             if (nums[m] == nums[m + 1])
+            {
                 l = m + 2;
+            }
             else
+            {
                 r = m;
+            }
         }
         return nums[l];
     }

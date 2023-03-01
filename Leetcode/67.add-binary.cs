@@ -16,24 +16,36 @@ public class Solution {
         {
             var add = carry + (a[i--] - '0') + (b[j--] - '0');
             if (add > 1)
+            {
                 carry = 1;
+            }
             else
+            {
                 carry = 0;
+            }
             
             if (add == 0 || add == 2)
+            {
                 list.Add('0');
+            }
             else
+            {
                 list.Add('1');
+            }
         }
         
         while (i >= 0)
         {
             if (carry == 0)
+            {
                 list.Add(a[i--]);
+            }
             else
             {
                 if (a[i--] == '1')
+                {
                     list.Add('0');
+                }
                 else
                 {
                     list.Add('1');
@@ -45,7 +57,9 @@ public class Solution {
         while (j >= 0)
         {
             if (carry == 0)
+            {
                 list.Add(b[j--]);
+            }
             else
             {
                 if (b[j--] == '1')
@@ -58,7 +72,9 @@ public class Solution {
             }
         }
         if (carry > 0)
+        {
             list.Add('1');
+        }
         
         list.Reverse();
         return new string(list.ToArray());

@@ -13,9 +13,13 @@ public class Solution {
         {
             var m = (l + r) >> 1;
             if (nums[m] < target)
+            {
                 l = m + 1;
+            }
             else
+            {
                 r = m;
+            }
         }
         return l;
     }

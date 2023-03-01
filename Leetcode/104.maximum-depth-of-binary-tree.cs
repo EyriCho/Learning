@@ -16,34 +16,17 @@
  */
 public class Solution {
     public int MaxDepth(TreeNode root) {
-        if (root == null) return 0;
-
-        var result = 0;
-        var queue = new Queue<TreeNode>();
-        queue.Enqueue(root);
-        queue.Enqueue(null);
-        while (queue.Count != 0)
+        int Depth(TreeNode node)
         {
-            var node = queue.Dequeue();
             if (node == null)
             {
-                result++;
-                if (queue.Count == 0)
-                    break;
-                else
-                {
-                    queue.Enqueue(null);
-                    continue;
-                }
+                return 0;
             }
 
-            if (node.left != null)
-                queue.Enqueue(node.left);
-            if (node.right != null)
-                queue.Enqueue(node.right);
+            return Math.Max(Depth(node.left), Depth(node.right)) + 1;
         }
 
-        return result;
+        return Depth(root);
     }
 }
 // @lc code=end
