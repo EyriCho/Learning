@@ -10,24 +10,32 @@ public class Solution {
         int max = 1, min = 1;
         
         foreach (var pile in piles)
-            max = Math.Max(max, pile);
-        
-        bool CanEat(int speed)
         {
-            int time = 0;
-            foreach (var pile in piles)
-                time += (int)Math.Ceiling((double) pile / speed);
-            
-            return time <= h;
+            max = Math.Max(max, pile);
         }
         
         while (min < max)
         {
             var mid = (max + min) / 2;
-            if (CanEat(mid))
+
+            var time = 0;
+            foreach (var pile in piles)
+            {
+                time += pile / mid;
+                if (pile % mid > 0)
+                {
+                    time++;
+                }
+            }
+
+            if (time <= h)
+            {
                 max = mid;
+            }
             else
+            {
                 min = mid + 1;
+            }
         }
         
         return max;

@@ -18,27 +18,22 @@ public class Solution
 {
     public bool IsSymmetric(TreeNode root)
     {
-        if (root == null) return true;
-
-        var stack = new Stack<(TreeNode, TreeNode)>();
-        stack.Push((root.left, root.right));
-        while (stack.Any())
+        bool IsMirror(TreeNode l, TreeNode r)
         {
-            var (l, r) = stack.Pop();
-            if (l == null || r == null)
+            if (l == null && r == null)
             {
-                if (l != null || r != null)
-                    return false;
+                return true;
             }
-            else
+
+            if (l?.val != r?.val )
             {
-                if (l.val != r.val) return false;
-                stack.Push((l.left, r.right));
-                stack.Push((l.right, r.left));
+                return false;
             }
+            
+            return IsMirror(l.left, r. right) && IsMirror(l.right, r.left);
         }
 
-        return true;
+        return IsMirror(root.left, root.right);
     }
 }
 // @lc code=end

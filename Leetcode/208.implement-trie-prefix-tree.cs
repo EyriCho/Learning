@@ -18,7 +18,9 @@ public class Trie {
         {
             int i = c - 'a';
             if (node.Next[i] == null)
+            {
                 node.Next[i] = new CharNode();
+            }
             node = node.Next[i];
         }
         node.IsWord = true;
@@ -30,8 +32,9 @@ public class Trie {
         {
             int i = c - 'a';
             if (node.Next[i] == null)
+            {
                 return false;
-            
+            }
             node = node.Next[i];
         }
         return node.IsWord;
@@ -43,8 +46,9 @@ public class Trie {
         {
             int i = c - 'a';
             if (node.Next[i] == null)
+            {
                 return false;
-            
+            }
             node = node.Next[i];
         }
         

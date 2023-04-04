@@ -8,7 +8,9 @@
 public class Solution {
     public bool CanPlaceFlowers(int[] flowerbed, int n) {
         if (n == 0)
+        {
             return true;
+        }
         
         int l = 0, planted = 0;
         int i = 0;

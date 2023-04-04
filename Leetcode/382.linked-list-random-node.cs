@@ -34,7 +34,9 @@ public class Solution {
         {
             var r = random.Next(i);
             if (r == 0)
+            {
                 result = node.val;
+            }
             i++;
             node = node.next;
         }

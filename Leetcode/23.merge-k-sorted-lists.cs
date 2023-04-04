@@ -19,51 +19,34 @@
 public class Solution {
     public ListNode MergeKLists(ListNode[] lists) {
         if (lists.Length == 0)
-            return null;
-        
-        int step = 1;
-        while (step < lists.Length)
         {
-            for (int i = 0; i + step < lists.Length; i = i + step * 2)
-                lists[i] = MergeTwoLists(lists[i], lists[i + step]);
-            
-            step *= 2;
+            return null;
         }
         
+        ListNode head = new ListNode(),
+            node = head;
         
-        return lists[0];
-    }
-    
-    private ListNode MergeTwoLists(ListNode list1, ListNode list2)
-    {
-        if (list1 == null)
-            return list2;
-        if (list2 == null)
-            return list1;
-        
-        ListNode fake = new ListNode();
-        var node  = fake;
-        while (list1 != null && list2 != null)
+        while (node != null)
         {
-            if (list1.val <= list2.val)
+            int min = -1;
+            for (int i = 0; i < lists.Length; i++)
             {
-                node.next = list1;
-                list1 = list1.next;
+                if (lists[i] != null &&
+                   (min < 0 || lists[i].val < lists[min].val))
+                {
+                    min = i;
+                }
             }
-            else
+            
+            if (min >= 0)
             {
-                node.next = list2;
-                list2 = list2.next;
+                node.next = lists[min];
+                lists[min] = lists[min].next;
             }
             node = node.next;
         }
         
-        if (list1 != null)
-            node.next = list1;
-        if (list2 != null)
-            node.next = list2;
-        
-        return fake.next;
+        return head.next;
     }
 }
 // @lc code=end

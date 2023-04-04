@@ -28,16 +28,22 @@ public class Solution {
         while (queue.Count > 0)
         {
             var (node, sum) = queue.Dequeue();
-            sum = sum * 2 + node.val;
+            sum = sum * 10 + node.val;
             
             if (node.left == null && node.right == null)
+            {
                 result += sum;
+            }
             else
             {
                 if (node.left != null)
+                {
                     queue.Enqueue((node.left, sum));
+                }
                 if (node.right != null)
+                {
                     queue.Enqueue((node.right, sum));
+                }
             }
         }
         

@@ -7,28 +7,23 @@
 // @lc code=start
 public class Solution {
     public int FindKthPositive(int[] arr, int k) {
-        if (k < arr[0])
-            return k;
-        
-        int cur = 1;
-        int missing = 0;        
-        for (int i = 0; i < arr.Length; i++)
+        int prev = 0;
+
+        foreach (var num in arr)
         {
-            if (arr[i] != cur)
+            var missing = num - prev - 1;
+            if (k > missing)
             {
-                var m = arr[i] - cur;
-                if (m + missing >= k)
-                    return cur + k - missing - 1;
-                else
-                {
-                    missing += m;
-                    cur = arr[i];
-                }
+                k -= missing;
             }
-            
-            cur++;
+            else
+            {
+                return prev + k;
+            }
+            prev = num;
         }
-        return cur + k - missing - 1;
+
+        return prev + k;
     }
 }
 // @lc code=end

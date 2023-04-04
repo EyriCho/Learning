@@ -16,22 +16,25 @@
  */
 public class Solution {
     public TreeNode BuildTree(int[] inorder, int[] postorder) {
-        return BuildTree(inorder, postorder, 0, inorder.Length - 1, postorder.Length - 1);     
-    }
-
-    public TreeNode BuildTree(int[] inorder, int[] postorder,
-        int inStart, int inEnd, int postEnd)
-    {
-        if (postEnd < 0) return null;
-        if (inStart > inEnd) return null;
-        var node = new TreeNode(postorder[postEnd]);
-        var inIndex = Array.IndexOf(inorder, node.val);
-        var numCount = inIndex - inEnd;
-        node.left = BuildTree(inorder, postorder,
-            inStart, inIndex - 1, postEnd + numCount - 1);
-        node.right = BuildTree(inorder, postorder,
-            inIndex + 1, inEnd, postEnd - 1);
-        return node;
+        TreeNode Build(int inStart, int inEnd, int postEnd)
+        {
+            if (postEnd < 0)
+            {
+                return null;
+            }
+            if (inStart > inEnd)
+            {
+                return null;
+            }
+            var node = new TreeNode(postorder[postEnd]);
+            var inIndex = Array.IndexOf(inorder, node.val);
+            var numCount = inIndex - inEnd;
+            node.left = Build(inStart, inIndex - 1, postEnd + numCount - 1);
+            node.right = Build(inIndex + 1, inEnd, postEnd - 1);
+            return node;
+        };
+        
+        return Build(0, inorder.Length - 1, postorder.Length - 1);
     }
 }
 // @lc code=end

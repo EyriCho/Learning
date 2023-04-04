@@ -32,36 +32,32 @@
 public class Solution {
     public TreeNode SortedListToBST(ListNode head) {
         if (head == null)
-            return null;
-        
-        TreeNode BST(ListNode root)
         {
-            ListNode prev = null,
-                node = root,
-                fast = root;
-            
-            while (fast.next != null && fast.next.next != null)
-            {
-                prev = node;
-                node = node.next;
-                fast = fast.next.next;
-            }
-            
-            var treeNode = new TreeNode(node.val);
-            
-            if (prev != null)
-            {
-                prev.next = null;
-                treeNode.left = BST(root);
-            }
-                
-            if (node.next != null)
-                treeNode.right = BST(node.next);
-            
-            return treeNode;
+            return null;
         }
-        
-        return BST(head);
+
+        if (head.next == null)
+        {
+            return new TreeNode(head.val);
+        }
+
+        var pre = head;
+        var slow = head.next;
+        var fast = head.next.next;
+
+        while (fast != null && fast.next != null)
+        {
+            pre = slow;
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        pre.next = null;
+        var root = new TreeNode(slow.val);
+        root.left = SortedListToBST(head);
+        root.right = SortedListToBST(slow.next);
+
+        return root;
     }
 }
 // @lc code=end

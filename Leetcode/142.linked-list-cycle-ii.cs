@@ -19,19 +19,22 @@
 public class Solution {
     public ListNode DetectCycle(ListNode head) {
         ListNode node = head, fast = head;
-        int count = 0;
+        
         while (fast != null && fast.next != null)
         {
-            count++;
             node = node.next;
             fast = fast.next.next;
-            if (fast == node)
+            if (node == fast)
+            {
                 break;
+            }
         }
-        if (fast == null || fast.next == null)
-            return null;
         
-        node = head;
+        if (fast == null || fast.next == null)
+        {
+            return null;
+        }
+        
         while (head != fast)
         {
             head = head.next;

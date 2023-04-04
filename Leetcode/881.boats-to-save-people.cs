@@ -15,7 +15,9 @@ public class Solution {
         {
             if (l == r ||
                 (people[r] + people[l] <= limit))
+            {
                 l++;
+            }
             r--;
             result++;
         }
