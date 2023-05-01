@@ -31,24 +31,29 @@ public class Node {
 public class Solution {
     public Node CloneGraph(Node node) {
         var dict = new Dictionary<Node, Node>();
-        
+
         Node Dfs(Node n)
         {
             if (n == null)
+            {
                 return null;
+            }
+
             if (dict.ContainsKey(n))
+            {
                 return dict[n];
+            }
             
             var clone = new Node(n.val);
             dict[n] = clone;
-            foreach (var nei in n.neighbors)
+            foreach (var neighbor in n.neighbors)
             {
-                clone.neighbors.Add(Dfs(nei));
+                clone.neighbors.Add(Dfs(neighbor));
             }
-            
+
             return clone;
         }
-        
+
         return Dfs(node);
     }
 }

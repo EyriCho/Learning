@@ -16,7 +16,7 @@ public class Solution {
             
             while (i > 0)
             {
-                int p = (i - 1) / 2;
+                int p = (i - 1) >> 1;
                 if (num <= stack[p])
                 {
                     return;
@@ -84,7 +84,7 @@ public class Solution {
             int a = Pop(),
                 b = Pop();
             
-            int left = Math.Abs(a - b);
+            int left = a - b;
             if (left > 0)
             {
                 Add(left);

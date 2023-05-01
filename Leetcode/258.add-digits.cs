@@ -7,10 +7,12 @@
 // @lc code=start
 public class Solution {
     public int AddDigits(int num) {
-        if (num == 0) return 0;
+        if (num == 0)
+        {
+            return 0;
+        }
         var result = num % 9;
-        if (result == 0) return 9;
-        return result;
+        return result == 0 ? 9 : result;
     }
 }
 // @lc code=end
