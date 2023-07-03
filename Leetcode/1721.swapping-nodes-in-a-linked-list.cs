@@ -18,23 +18,28 @@
  */
 public class Solution {
     public ListNode SwapNodes(ListNode head, int k) {
-        ListNode from = head, behind = head;
-        int i = 1;
-        while (i++ < k)
-            from = from.next;
+        int count = 1;
+        var node = head;
         
-        var tail = from;
-        while (tail.next != null)
+        while (count++ < k)
         {
-            behind = behind.next;
-            tail = tail.next;
+            node = node.next;
         }
-        
-        if (from != behind)
+
+        var begin = node;
+
+        var end = head;
+        while (node.next != null)
         {
-            from.val ^= behind.val;
-            behind.val ^= from.val;
-            from.val ^= behind.val;
+            end = end.next;
+            node = node.next;
+        }
+
+        if (begin != end)
+        {
+            begin.val ^= end.val;
+            end.val ^= begin.val;
+            begin.val ^= end.val;
         }
         
         return head;

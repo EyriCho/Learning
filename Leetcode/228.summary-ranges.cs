@@ -7,25 +7,25 @@
 // @lc code=start
 public class Solution {
     public IList<string> SummaryRanges(int[] nums) {
+        int i = 0, start = 0;
         var result = new List<string>();
-        if (nums.Length == 0)
-            return result;
-        int last = nums[0];
-        for (int i = 1; i < nums.Length; i++)
+        while (i < nums.Length)
         {
-            if (nums[i] > 1 + nums[i - 1])
+            start = i++;
+            while (i < nums.Length && nums[i] - nums[i - 1] == 1)
             {
-                if (last == nums[i - 1])
-                    result.Add($"{last}");
-                else
-                    result.Add($"{last}->{nums[i - 1]}");
-                last = nums[i];
+                i++;
+            }
+            
+            if (i - start > 1)
+            {
+                result.Add($"{nums[start]}->{nums[i - 1]}");            
+            }
+            else
+            {
+                result.Add(nums[start].ToString());
             }
         }
-        if (last == nums[nums.Length - 1])
-            result.Add($"{last}");
-        else
-            result.Add($"{last}->{nums[nums.Length - 1]}");
         
         return result;
     }

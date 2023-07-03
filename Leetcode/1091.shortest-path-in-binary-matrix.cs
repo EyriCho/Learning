@@ -8,47 +8,60 @@
 public class Solution {
     public int ShortestPathBinaryMatrix(int[][] grid) {
         if (grid[0][0] == 1)
-            return -1;
-        
-        int[,] length = new int[grid.Length, grid[0].Length];
-        for (int i = 0; i < grid.Length; i++)
         {
-            for (int j = 0; j < grid[0].Length; j++)
-            {
-                length[i, j] = 10_002;
-            }
+            return -1;
         }
-        length[0, 0] = 1;
         
-        int[] dx = { 1, 1, 0, 1, 0, -1, -1, -1 };
-        int[] dy = { 1, 0, 1, -1, -1, 1, 0, -1 };
+        var visited = new bool[grid.Length, grid.Length];
         
+        var directions = new int[][] {
+            new int[] { 1, 1 },
+            new int[] { 1, 0 },
+            new int[] { 0, 1 },
+            new int[] { 1, -1 },
+            new int[] { -1, 1 },
+            new int[] { 0, -1 },
+            new int[] { -1, 0 },
+            new int[] { -1, -1 }
+        };
+        
+        var step = 1;
         var queue = new Queue<(int, int)>();
         queue.Enqueue((0, 0));
-        
+        visited[0, 0] = true;
         while (queue.Count > 0)
         {
-            var (x, y) = queue.Dequeue();
-            for (int i = 0; i < 8; i++)
+            var count = queue.Count;
+
+            while (count-- > 0)
             {
-                int  nx = x + dx[i],
-                    ny = y + dy[i];
+                var (i, j) = queue.Dequeue();
+
+                if (i == grid.Length - 1 && j == grid.Length - 1)
+                {
+                    return step;
+                }
                 
-                if (nx >= 0 && nx < grid.Length &&
-                    ny >= 0 && ny < grid[0].Length &&
-                   grid[nx][ny] == 0)
-                    if (length[nx, ny] > length[x, y] + 1)
+                for (int k = 0; k < 8; k++)
+                {
+                    int x = i + directions[k][0],
+                        y = j + directions[k][1];
+                    
+                    if (x >= 0 && x < grid.Length &&
+                        y >= 0 && y < grid.Length &&
+                        grid[x][y] == 0 &&
+                        !visited[x, y])
                     {
-                        length[nx, ny] = length[x, y] + 1;
-                        queue.Enqueue((nx, ny));
+                        queue.Enqueue((x, y));
+                        visited[x, y] = true;
                     }
+                }
             }
+
+            step++;
         }
         
-        if (length[grid.Length - 1, grid[0].Length - 1] < 10_002)
-            return length[grid.Length - 1, grid[0].Length - 1];
-        else
-            return -1;
+        return -1;;
     }
 }
 // @lc code=end
