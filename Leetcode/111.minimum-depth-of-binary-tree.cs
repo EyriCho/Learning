@@ -21,17 +21,40 @@
 public class Solution {
     public int MinDepth(TreeNode root) {
         if (root == null)
+        {
             return 0;
-        if (root.left == null && root.right == null)
-            return 1;
-        
-        int min = int.MaxValue;
-        if (root.left != null)
-            min = Math.Min(min, MinDepth(root.left));
-        if (root.right != null)
-            min = Math.Min(min, MinDepth(root.right));
-        
-        return 1 + min;
+        }
+
+        var queue = new Queue<TreeNode>();
+        queue.Enqueue(root);
+        var depth = 1;
+
+        while (queue.Count > 0)
+        {
+            var count = queue.Count;
+            while (count-- > 0)
+            {
+                var node = queue.Dequeue();
+                if (node.left == null && node.right == null)
+                {
+                    return depth;
+                }
+
+                if (node.left != null)
+                {
+                    queue.Enqueue(node.left);
+                }
+
+                if (node.right != null)
+                {
+                    queue.Enqueue(node.right);
+                }
+            }
+
+            depth++;
+        }
+
+        return 0;
     }
 }
 // @lc code=end

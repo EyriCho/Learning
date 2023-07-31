@@ -7,45 +7,39 @@
 // @lc code=start
 public class Solution {
     public int FindNumberOfLIS(int[] nums) {
-        if (nums.Length < 2)
-            return nums.Length;
-        
-        int[] counts = new int[nums.Length],
-            lengths = new int[nums.Length];
-        counts[0] = 1;
-        lengths[0] = 1;
-        int maxLength = 1;
-        for (int i = 1; i < nums.Length; i++)
+        int max = 0;
+
+        var dp = new (int, int)[nums.Length];
+        for (int i = 0; i < nums.Length; i++)
         {
-            lengths[i] = 1;
-            counts[i] = 1;
-            for (int j = i - 1; j >= 0; j--)
+            dp[i] = (1, 1);
+
+            for (int j = 0; j < i; j++)
             {
-                if (nums[j] < nums[i])
+                if (nums[i] > nums[j])
                 {
-                    if (lengths[j] >= lengths[i])
+                    if (dp[j].Item1 >= dp[i].Item1)
                     {
-                        lengths[i] = lengths[j] + 1;
-                        counts[i] = counts[j];
+                        dp[i] = (dp[j].Item1 + 1, dp[j].Item2);
                     }
-                    else if (lengths[j] + 1 == lengths[i])
+                    else if (dp[j].Item1 + 1 == dp[i].Item1)
                     {
-                        counts[i] += counts[j];
+                        dp[i].Item2 += dp[j].Item2;
                     }
                 }
             }
-            if (lengths[i] > maxLength)
-                maxLength = lengths[i];
+            max = Math.Max(max, dp[i].Item1);
         }
-        
-        int maxCount = 0;
-        for (int i = 0; i < nums.Length; i++)
+
+        var result = 0;
+        foreach (var (length, count) in dp)
         {
-            if (maxLength == lengths[i])
-                maxCount += counts[i];
+            if (length == max)
+            {
+                result += count;
+            }
         }
-        
-        return maxCount;
+        return result;
     }
 }
 // @lc code=end

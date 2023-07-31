@@ -10,7 +10,10 @@ public class Solution {
         double result = 1d;
         for (int i = n; i != 0; i /= 2, x *= x)
         {
-            if (i % 2 != 0) result *= x;
+            if (i % 2 != 0)
+            {
+                result *= x;
+            }
         }
         return n < 0 ? (1d / result) : result;
     }
