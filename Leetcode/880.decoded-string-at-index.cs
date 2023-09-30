@@ -7,25 +7,38 @@
 // @lc code=start
 public class Solution {
     public string DecodeAtIndex(string S, int K) {
-        long length = 0, K1 = K;
-        
+        long length = 0L,
+            k1 = k;
+
         int i = 0;
-        for (; i < S.Length && length < K; i++)
-            if (S[i] > '9')
-                length++;
+        for (; i < s.Length && length < k; i++)
+        {
+            if (s[i] < 'a')
+            {
+                length *= s[i] - '0';
+            }
             else
-                length *= (S[i] - '0');
-        
+            {
+                length++;
+            }
+        }
+
         for (--i; i >= 0; i--)
         {
-            K1 %= length;
-            if (K1 == 0 && S[i] > '9')
-                return S[i..(i + 1)];
-            
-            if (S[i] > '9')
+            k1 %= length;
+            if (k1 == 0 && s[i] > '9')
+            {
+                return s[i..(i + 1)];
+            }
+
+            if (s[i] > '9')
+            {
                 length--;
+            }
             else
-                length /= (S[i] - '0');
+            {
+                length /= s[i] - '0';
+            }
         }
         
         return string.Empty;

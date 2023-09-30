@@ -19,26 +19,27 @@
 public class Solution {
     public ListNode Partition(ListNode head, int x) {
         ListNode node = head,
+            next = null,
             less = new ListNode(),
             great = new ListNode();
         ListNode l = less, g = great;
         
         while (node != null)
         {
+            next = node.next;
             if (node.val < x)
             {
                 l.next = node;
-                node = node.next;
-                l = l.next;
-                l.next = null;
+                l = node;
             }
             else
             {
                 g.next = node;
-                node = node.next;
-                g = g.next;
-                g.next = null;
+                g = node;
             }
+            
+            node.next = null;
+            node = next;
         }
         
         l.next = great.next;

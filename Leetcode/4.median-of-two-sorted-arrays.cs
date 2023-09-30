@@ -39,7 +39,7 @@ public class Solution {
             }
         }
                 
-        return total % 2 == 1 ? (double)curr : ((double)prev + curr) / 2.0D;
+        return total % 2 == 1 ? (double)curr : (prev + curr) / 2.0D;
     }
 }
 // @lc code=end

@@ -18,41 +18,34 @@
  */
 public class Solution {
     public ListNode[] SplitListToParts(ListNode head, int k) {
-        int sum = 0;
-        foreach (var num in nums)
-            sum += num;
-        if (sum % k > 0)
-            return false;
-        
-        
-        Array.Sort(nums, (a, b) => b - a);
-        var average = sum / k;
-        if (nums[0] > average)
-            return false;
-        
-        var partitions = new int[k];
-        Array.Fill(partitions, average);
-        bool Dfs(int index)
+        var count = 0;
+        var node = head;
+        while (node != null)
         {
-            if (index == nums.Length)
-                return true;
-            
-            for (int i = 0; i < partitions.Length; i++)
-            {
-                if (partitions[i] > 0 && partitions[i] >= nums[index])
-                {
-                    partitions[i] -= nums[index];
-                    
-                    if (Dfs(index + 1))
-                        return true;
-                    
-                    partitions[i] += nums[index];
-                }
-            }
-            return false;
+            count++;
+            node = node.next;
         }
-        
-        return Dfs(0);
+
+        var result = new ListNode[k];
+        var num = count / k;
+        var left = count % k;
+        node = head;
+        var temp = new ListNode();
+        for (int i = 0; i < k; i++)
+        {
+            var n = temp;
+            temp.next = null;
+            var c = num + (i < left ? 1 : 0);
+            while (c-- > 0)
+            {
+                n.next = node;
+                node = node.next;
+                n = n.next;
+            }
+            n.next = null;
+            result[i] = temp.next;
+        }
+        return result;
     }
 }
 // @lc code=end

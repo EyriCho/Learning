@@ -24,7 +24,9 @@ public class Solution {
             s = s.next;
             f = f.next.next;
             if (s == f)
+            {
                 return true;
+            }
         }
         
         return false;

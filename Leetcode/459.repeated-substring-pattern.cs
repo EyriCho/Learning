@@ -7,25 +7,34 @@
 // @lc code=start
 public class Solution {
     public bool RepeatedSubstringPattern(string s) {
-        if (s.Length == 1) return false;
-        
+        if (s.Length == 1)
+        {
+            return false;
+        }
+
         for (int i = 0; i < s.Length / 2; i++)
         {
-            int length = i + 1;
-            if (s.Length % length == 0)
+            var len = i + 1;
+            if (s.Length % len != 0)
             {
-                int j = length;
-                for (; j < s.Length; j++)
+                continue;
+            }
+
+            int j = len;
+            for (; j < s.Length; j++)
+            {
+                if (s[j] != s[j % len])
                 {
-                    if (s[j] != s[j % length])
-                        break;
+                    break;
                 }
-            
-                if (j == s.Length)
-                    return true;                
+            }
+
+            if (j == s.Length)
+            {
+                return true;
             }
         }
-        
+
         return false;
     }
 }

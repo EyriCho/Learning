@@ -17,29 +17,25 @@ public class Solution {
             return result;
         }
         
-        var queue = new Queue<(int, int)>();
-        queue.Enqueue((lastX, lastY));
         obstacleGrid[lastX][lastY] = -1;
-        
-        while (queue.Count > 0)
+        for (int i = lastX; i >= 0; i--)
         {
-            var (i, j) = queue.Dequeue();
-            
-            if (i > 0 && obstacleGrid[i - 1][j] < 1)
+            for (int j = lastY; j >= 0; j--)
             {
-                if (obstacleGrid[i - 1][j] == 0)
+                if (obstacleGrid[i][j] > 0)
                 {
-                    queue.Enqueue((i - 1, j));
+                    continue;
                 }
-                obstacleGrid[i - 1][j] += obstacleGrid[i][j];
-            }
-            if (j > 0 && obstacleGrid[i][j - 1] < 1)
-            {
-                if (obstacleGrid[i][j - 1] == 0)
+
+                if (i > 0 && obstacleGrid[i - 1][j] <= 0)
                 {
-                    queue.Enqueue((i, j - 1));
+                    obstacleGrid[i - 1][j] += obstacleGrid[i][j];
                 }
-                obstacleGrid[i][j - 1] += obstacleGrid[i][j];
+
+                if (j > 0 && obstacleGrid[i][j - 1] <= 0)
+                {
+                    obstacleGrid[i][j - 1] += obstacleGrid[i][j];
+                }
             }
         }
         

@@ -7,35 +7,44 @@
 // @lc code=start
 public class Solution {
     public int FindKthLargest(int[] nums, int k) {
-        return QuickFind(nums, 0, nums.Length - 1, k - 1);
-    }
-    
-    private int QuickFind(int[] nums, int l, int r, int k)
-    {
-        if (l >= r)
-            return nums[r];
-        
-        int m = l, temp = 0;
-        for (int i = l + 1; i <= r; i++)
+        int QuickFind(int l, int r)
         {
-            if (nums[i] > nums[l])
+            if (l >= r)
             {
-                m++;
-                temp = nums[m];
-                nums[m] = nums[i];
-                nums[i] = temp;
+                return nums[r];
+            }
+
+            int m = l, temp = 0;
+            for (int i = l + 1; i <= r; i++)
+            {
+                if (nums[i] > nums[l])
+                {
+                    m++;
+                    temp = nums[m];
+                    nums[m] = nums[i];
+                    nums[i] = temp;
+                }
+            }
+
+            temp = nums[m];
+            nums[m] = nums[l];
+            nums[l] = temp;
+
+            if (m == k - 1)
+            {
+                return nums[m];
+            }
+            else if (m >= k)
+            {
+                return QuickFind(l, m - 1);
+            }
+            else
+            {
+                return QuickFind(m + 1, r);
             }
         }
-        temp = nums[m];
-        nums[m] = nums[l];
-        nums[l] = temp;
-        
-        if (m == k)
-            return nums[m];
-        else if (k > m)
-            return QuickFind(nums, m + 1, r, k);
-        else
-            return QuickFind(nums, l, m - 1, k);
+
+        return QuickFind(0, nums.Length - 1);
     }
 }
 // @lc code=end

@@ -16,7 +16,9 @@ public class Solution {
             {
                 var half = (dp[j] - 1d) / 2d;
                 if (half < 0d)
+                {
                     half = 0d;
+                }
                 dp[j] = half;
                 dp[j + 1] += half;
             }

@@ -12,9 +12,13 @@ public class Solution {
         for (int i = nums.Length - 1; i > -1; i--)
         {
             if (nums[i] < third)
+            {
                 return true;
+            }
             while (stack.Count > 0 && nums[i] > stack.Peek())
+            {
                 third = stack.Pop();
+            }
             
             stack.Push(nums[i]);
         }

@@ -7,40 +7,42 @@
 // @lc code=start
 public class Solution {
     public bool SearchMatrix(int[][] matrix, int target) {
-        if (matrix.Length == 0 || matrix[0].Length == 0)
-            return false;
-        
-        int l = 0, h = matrix.Length - 1, m = 0;
-        while (l <= h)
+        int top = 0, bottom = matrix.Length - 1,
+            m = 0,
+            row = 0;
+
+        while (top <= bottom)
         {
-            m = (l + h) / 2;
-            if (target > matrix[m][0])
-                l = m + 1;
-            else if (target < matrix[m][0])
-                h = m - 1;
+            m = (top + bottom) >> 1;
+            if (matrix[m][0] <= target)
+            {
+                top = m + 1;
+                row = m;
+            }
             else
+            {
+                bottom = m - 1;
+            }
+        }
+
+        int left = 0, right = matrix[0].Length - 1;
+        while (left <= right)
+        {
+            m = (left + right) >> 1;
+            if (matrix[row][m] < target)
+            {
+                left = m + 1;
+            }
+            else if (matrix[row][m] > target)
+            {
+                right = m - 1;
+            }
+            else
+            {
                 return true;
+            }
         }
-        
-        if (target < matrix[m][0])
-            if (m == 0)
-                return false;
-            else
-                m--;
-        
-        l = 1;
-        h = matrix[0].Length - 1;
-        int i = 0;
-        while (l <= h)
-        {
-            i = (l + h) / 2;
-            if (target > matrix[m][i])
-                l = i + 1;
-            else if (target < matrix[m][i])
-                h = i - 1;
-            else
-                return true; 
-        }
+
         return false;
     }
 }

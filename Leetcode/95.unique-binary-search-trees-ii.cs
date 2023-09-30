@@ -20,33 +20,33 @@
  */
 public class Solution {
     public IList<TreeNode> GenerateTrees(int n) {
-        IList<TreeNode> Build(int start, int end)
+        IList<TreeNode> Generate(int l, int r)
         {
             var result = new List<TreeNode>();
-            if (start > end)
+            if (l > r)
             {
                 result.Add(null);
                 return result;
             }
             
-            for (int i = start; i <= end; i++)
+            for (int i = l; i <= r; i++)
             {
-                var lefts = Build(start, i - 1);
-                var rights = Build(i + 1, end);
-                
-                for (int j = 0; j < lefts.Count; j++)
-                    for (int k = 0; k < rights.Count; k++)
+                var lefts = Generate(l, i - 1);
+                var rights = Generate(i + 1, r);
+
+                foreach (var left in lefts)
+                {
+                    foreach (var right in rights)
                     {
-                        var node = new TreeNode(i);
-                        node.left = lefts[j];
-                        node.right = rights[k];
-                        result.Add(node);
+                        result.Add(new TreeNode(i, left, right));
                     }
+                }
             }
+
             return result;
         }
-        
-        return Build(1, n);
+
+        return Generate(1, n);
     }
 }
 // @lc code=end

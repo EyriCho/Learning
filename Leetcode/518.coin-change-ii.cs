@@ -1,7 +1,7 @@
 /*
  * @lc app=leetcode id=518 lang=csharp
  *
- * [518] Coin Change 2
+ * [518] Coin Change II
  */
 
 // @lc code=start

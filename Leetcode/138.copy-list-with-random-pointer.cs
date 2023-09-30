@@ -22,39 +22,29 @@ public class Node {
 
 public class Solution {
     public Node CopyRandomList(Node head) {
-        if (head == null)
-            return null;
-        
-        var node = head;
-        while (node != null)
+        var dict = new Dictionary<Node, Node>();
+
+        Node Copy(Node node)
         {
-            var n = new Node(node.val);
-            n.next = node.next;
-            n.random = node.random;
-            node.next = n;
-            node = n.next;
+            if (node == null)
+            {
+                return null;
+            }
+
+            if (dict.ContainsKey(node))
+            {
+                return dict[node];
+            }
+
+            var rst = new Node(node.val);
+            dict[node] = rst;
+            rst.next = Copy(node.next);
+            rst.random = Copy(node.random);
+
+            return rst;
         }
-        
-        node = head;
-        while (node != null)
-        {
-            var n = node.next;
-            n.random = n.random == null ? null : n.random.next;
-            node = n.next;
-        }
-        
-        node = head;
-        var result = head.next;
-        while (node != null)
-        {
-            var n = node.next;
-            var next = n.next;
-            n.next = next == null ? null : next.next;
-            node.next = next;
-            node = next;
-        }
-        
-        return result;
+
+        return Copy(head);
     }
 }
 // @lc code=end

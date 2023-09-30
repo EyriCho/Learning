@@ -28,7 +28,9 @@ public class Solution {
                     return result;
                 }
                 if (visited[state, i])
+                {
                     continue;
+                }
                 visited[state, i] = true;
                 foreach (var next in graph[i])
                 {

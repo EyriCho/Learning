@@ -18,27 +18,28 @@
  */
 public class Solution {
     public ListNode ReverseBetween(ListNode head, int left, int right) {
-        ListNode faked = new ListNode(0, head);
+        var faked = new ListNode(0, head);
         ListNode prev = faked, node = head;
         
-        int i = 0;
-        while (++i != left)
+        while (--left > 0)
         {
             prev = node;
             node = node.next;
+            
+            --right;
         }
         
-        ListNode revPrev = prev, revTail = node,
+        ListNode tail = node,
             next = node.next;
-        while (i++ != right)
+        while (--right > 0)
         {
             var temp = next.next;
             next.next = node;
             node = next;
             next = temp;
         }
-        revPrev.next = node;
-        revTail.next = next;
+        prev.next = node;
+        tail.next = next;
         
         return faked.next;
     }
