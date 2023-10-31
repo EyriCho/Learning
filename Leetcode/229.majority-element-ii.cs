@@ -7,47 +7,65 @@
 // @lc code=start
 public class Solution {
     public IList<int> MajorityElement(int[] nums) {
-        var result = new List<int>();
-        
-        int a = 0, b = 0;
-        int aCount = 0, bCount = 0;
+        if (nums.Length < 2)
+        {
+            return new List<int>(nums);
+        }
+
+        int first = 0, second = 0;
+        int count1 = 0, count2 = 0;
+
         foreach (var num in nums)
         {
-            if (num == a)
-                aCount++;
-            else if (num == b)
-                bCount++;
-            else if (aCount == 0)
+            if (first == num)
             {
-                a = num;
-                aCount = 1;
+                count1++;
             }
-            else if (bCount == 0)
+            else if (second == num)
             {
-                b = num;
-                bCount = 1;
+                count2++;
+            }
+            else if (count1 == 0)
+            {
+                count1++;
+                first = num;
+            }
+            else if (count2 == 0)
+            {
+                count2++;
+                second = num;
             }
             else
             {
-                aCount--;
-                bCount--;
+                count1--;
+                count2--;
             }
         }
-        
-        aCount = 0;
-        bCount = 0;
+
+        count1 = count2 = 0;
+
         foreach (var num in nums)
         {
-            if (num == a)
-                aCount++;
-            else if (num == b)
-                bCount++;
+            if (first == num)
+            {
+                count1++;
+            }
+            else if (second == num)
+            {
+                count2++;
+            }
         }
-        if (aCount > nums.Length / 3)
-            result.Add(a);
-        if (bCount > nums.Length / 3)
-            result.Add(b);
-        
+
+        var result = new List<int>();
+        if (count1 > nums.Length / 3)
+        {
+            result.Add(first);
+        }
+        if (count2 > nums.Length / 3)
+        {
+            result.Add(second);
+        }
+
         return result;
     }
 }

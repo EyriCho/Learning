@@ -15,7 +15,9 @@ public class Solution {
             left = i - 1;
             right = i + 1;
             while (right < s.Length && s[right] == s[i])
+            {
                 right++;
+            }
             i = right;
             while (left >= 0 && right < s.Length && s[left] == s[right])
             {
