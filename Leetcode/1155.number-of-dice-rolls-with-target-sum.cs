@@ -12,25 +12,21 @@ public class Solution {
             return 0;
         }
         
-        var dp = new long[n + 1, target + 1];
+        long[,] dp = new long[n + 1, target + 1];
+        dp[0, 0] = 1L;
         
-        for (int i = 0; i <= n; i++)
+        for (int i = 1; i <= n; i++)
         {
-            for (int j = 0; j <= target; j++)
+            for (int j = 1; j <= target; j++)
             {
-                if (i == 0 && j == 0)
+                for (int roll = 1; roll <= k; roll++)
                 {
-                    dp[i, j] = 1L;
-                }
-                else
-                {
-                    for (int roll = 1; roll <= k; roll++)
+                    if (j < roll)
                     {
-                        if (i - 1 >= 0 && j - roll >= 0)
-                        {
-                            dp[i, j] = (dp[i, j] + dp[i - 1, j - roll]) % 1_000_000_007;
-                        }
+                        break;
                     }
+                    
+                    dp[i, j] = (dp[i, j] + dp[i - 1, j - roll]) % 1_000_000_007;
                 }
             }
         }

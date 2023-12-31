@@ -12,9 +12,13 @@ public class Solution {
         {
             var left = target - nums[i];
             if (dict.ContainsKey(left))
+            {
                 return new int[] {i, dict[left]};
+            }
             else if (!dict.ContainsKey(nums[i]))
+            {
                 dict[nums[i]] = i;
+            }
         }
         return new int[] {0, 1};
     }
