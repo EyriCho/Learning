@@ -10,8 +10,8 @@ public class Solution {
         var result = new List<int>();
         for (int i = 1; i <=9 ;i++)
         {
-            var last = i+1; //10
-            var sum = i; 
+            int last = i + 1, // 10
+                sum = i;
             while (sum <= high) // 12 < 300
             {
                 if (last >= 10)

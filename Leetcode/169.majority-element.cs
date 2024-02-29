@@ -8,7 +8,7 @@
 public class Solution {
     public int MajorityElement(int[] nums) {
         int major = 0, count = 1;
-        foreach (var num in nums)
+        foreach (int num in nums)
         {
             count += major == num ? 1 : -1;
             if (count == 0)

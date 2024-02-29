@@ -13,7 +13,9 @@ public class Solution {
         {
             t[tru[0]] = -1;
             if (t[tru[1]] >= 0)
+            {
                 t[tru[1]]++;
+            }
         }
         
         for (int i = 1; i <= n; i++)

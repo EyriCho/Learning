@@ -7,12 +7,9 @@
 // @lc code=start
 public class Solution {
     public IList<IList<int>> FindWinners(int[][] matches) {
-        var result = new List<IList<int>>();
-        result.Add(new List<int>());
-        result.Add(new List<int>());
-        var dict = new SortedDictionary<int, int>();
+        SortedDictionary<int, int> dict = new ();
         
-        foreach (var match in matches)
+        foreach (int[] match in matches)
         {
             if (!dict.ContainsKey(match[0]))
             {
@@ -26,7 +23,11 @@ public class Solution {
             dict[match[1]]++;
         }
         
-        foreach (var kv in dict)
+        List<IList<int>> result = new () {
+            new List<int>(),
+            new List<int>(),
+        };
+        foreach (KeyValuePair<int, int> kv in dict)
         {
             if (kv.Value == 0)
             {

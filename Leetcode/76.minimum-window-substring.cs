@@ -7,9 +7,9 @@
 // @lc code=start
 public class Solution {
     public string MinWindow(string s, string t) {
-        var counts = new int[128];
-        var current = new int[128];
-        foreach (var c in t)
+        int[] counts = new int[128];
+        int[] current = new int[128];
+        foreach (char c in t)
         {
             counts[c - 'A']++;
         }

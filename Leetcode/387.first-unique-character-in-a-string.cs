@@ -7,32 +7,25 @@
 // @lc code=start
 public class Solution {
     public int FirstUniqChar(string s) {
-        var chars = new int[26];
-        Array.Fill(chars, -1);
-        
+        int[] characters = new int[26];
+        Array.Fill(characters, -1);
+
         for (int i = 0; i < s.Length; i++)
         {
-            var index = s[i] - 'a';
-            
-            if (chars[index] < 0)
-            {
-                chars[index] = i;
-            }
-            else
-            {
-                chars[index] = int.MaxValue;
-            }
+            int c = s[i] - 'a';
+            characters[c] = characters[c] > -1 ?
+                int.MaxValue : i;
         }
-        
-        var result = int.MaxValue;
-        for (int i = 0; i < 26; i++)
+
+        int result = int.MaxValue;
+        foreach (int p in characters)
         {
-            if (chars[i] >= 0)
+            if (p > -1)
             {
-                result = Math.Min(result, chars[i]);
+                result = Math.Min(result, p);
             }
         }
-        
+
         return result == int.MaxValue ? -1 : result;
     }
 }

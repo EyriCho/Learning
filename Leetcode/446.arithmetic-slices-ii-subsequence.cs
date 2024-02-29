@@ -7,26 +7,24 @@
 // @lc code=start
 public class Solution {
     public int NumberOfArithmeticSlices(int[] nums) {
-        var result = 0;
-        
-        var dp = new Dictionary<long, int>[nums.Length];
+        int result = 0;
+        Dictionary<int, int>[] dp = new Dictionary<int, int>[nums.Length];
         
         for (int i = 0; i < nums.Length; i++)
         {
-            dp[i] = new Dictionary<long, int>();
+            dp[i] = new ();
             for (int j = 0; j < i; j++)
             {
-                var diff = (long)nums[i] - nums[j];
-                if (!dp[i].ContainsKey(diff))
-                    dp[i][diff] = 0;
-                
-                if (dp[j].ContainsKey(diff))
+                long diff = (long)nums[i] - nums[j];
+                if (diff >= int.MaxValue || diff <= int.MinValue)
                 {
-                    result += dp[j][diff];
-                    dp[i][diff] += dp[j][diff];
+                    continue;
                 }
-                
-                dp[i][diff]++;
+                int d = (int)diff;
+                dp[i].TryGetValue(d, out int countI);
+                dp[j].TryGetValue(d, out int countJ);
+                dp[i][d] = countI + countJ + 1;
+                result += countJ;
             }
         }
         

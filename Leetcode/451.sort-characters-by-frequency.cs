@@ -7,28 +7,19 @@
 // @lc code=start
 public class Solution {
     public string FrequencySort(string s) {
-        var array = new (char, int)[128];
-        foreach (var c in s)
+        Dictionary<char, int> dict = new ();
+        foreach (char c in s)
         {
-            array[c - '0'].Item1 = c;
-            array[c - '0'].Item2++;
+            dict.TryGetValue(c, out int count);
+            dict[c] = count + 1;
         }
         
-        Array.Sort(array, (a, b) => b.Item2 - a.Item2);
-        
-        var chars = new char[s.Length];
-        int j = 0;
-        for (int i = 0; i < 128; i++)
+        char[] chars = new char[s.Length];
+        int i = 0;
+        foreach (KeyValuePair<char, int> kv in dict.OrderByDescending(kv => kv.Value))
         {
-            if (array[i].Item2 > 0)
-            {
-                Array.Fill(chars, array[i].Item1, j, array[i].Item2);
-                j += array[i].Item2;
-            }
-            else
-            {
-                break;
-            }
+            Array.Fill(chars, kv.Key, i, kv.Value);
+            i += kv.Value;
         }
         
         return new string(chars);

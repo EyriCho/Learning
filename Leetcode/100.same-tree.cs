@@ -29,7 +29,10 @@ public class Solution {
             return IsSameTree(p.left, q.left) &&
                 IsSameTree(p.right, q.right);
         }
-        else return false;
+        else
+        {
+            return false;
+        }
     }
 }
 // @lc code=end

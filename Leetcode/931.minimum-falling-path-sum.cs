@@ -24,8 +24,6 @@ public class Solution {
                 }
 
                 matrix[i][j] += nextRowMin;
-
-                Console.WriteLine($"{i}-{j} {matrix[i][j]}");
             }
         }
 

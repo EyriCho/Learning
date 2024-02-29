@@ -8,45 +8,50 @@
 public class Solution {
     public int FurthestBuilding(int[] heights, int bricks, int ladders) {
         if (ladders > heights.Length - 2)
-            return heights.Length - 1;
-        
-        int i = 0, last = heights.Length - 1;
-        var array = new int[ladders + 1];
-        int length = 0;
-        
-        void Add(int value)
         {
-            var i = length;
-            array[length++] = value;
+            return heights.Length - 1;
+        }
+
+        int[] array = new int[ladders + 1];
+        int length = 0;
+
+        void Add(int bricks)
+        {
+            int i = length++,
+                p = 0;
+            array[i] = bricks;
             while (i > 0)
             {
-                int parent = (i - 1) / 2;
-                if (array[i] >= array[parent])
+                p = (i - 1) >> 1;
+                if (array[i] >= array[p])
+                {
                     return;
-                
-                array[i] ^= array[parent];
-                array[parent] ^= array[i];
-                array[i] ^= array[parent];
-                i = parent;
+                }
+
+                array[i] ^= array[p];
+                array[p] ^= array[i];
+                array[i] ^= array[p];
+                i = p;
             }
         }
-        
+
         int Pop()
         {
-            var result = array[0];
-            
+            int rst = array[0];
             array[0] = array[--length];
-            int i = 0;
+            int i = 0,
+                l = 0,
+                r = 0;
             while (true)
             {
-                int l = i * 2 + 1,
-                    r = i * 2 + 2;
-                
+                l = i * 2 + 1;
+                r = i * 2 + 2;
+
                 if (l >= length)
                 {
                     break;
                 }
-                
+
                 if (array[i] > array[l] ||
                     (r < length && array[i] > array[r]))
                 {
@@ -62,34 +67,37 @@ public class Solution {
                         array[i] ^= array[r];
                         array[r] ^= array[i];
                         array[i] ^= array[r];
-                        i = r;                    
+                        i = r;
                     }
                 }
-                else
+                else 
+                {
                     break;
+                }
             }
-            
-            return result;
-        }
-        
-        for (;i < last; i++)
-        {
-            if (heights[i + 1] > heights[i])
-            {
-                Add(heights[i + 1] - heights[i]);
 
+            return rst;
+        }
+
+        int diff = 0;
+        for (int i = 1; i < heights.Length; i++)
+        {
+            diff = heights[i] - heights[i - 1];
+            if (diff > 0)
+            {
+                Add(diff);
                 if (length > ladders)
                 {
                     bricks -= Pop();
                     if (bricks < 0)
                     {
-                        return i;
+                        return i - 1;
                     }
                 }
             }
         }
-        
-        return heights.Length - 1;        
+
+        return heights.Length - 1;
    }
 }
 // @lc code=end

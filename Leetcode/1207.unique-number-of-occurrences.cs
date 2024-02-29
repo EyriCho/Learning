@@ -7,10 +7,10 @@
 // @lc code=start
 public class Solution {
     public bool UniqueOccurrences(int[] arr) {
-        var dict = new Dictionary<int, int>();
-        var set = new HashSet<int>();
+        Dictionary<int, int> dict = new ();
+        HashSet<int> set = new ();
         
-        foreach (var num in arr)
+        foreach (int num in arr)
         {
             if (!dict.ContainsKey(num))
             {
@@ -19,7 +19,7 @@ public class Solution {
             dict[num]++;
         }
         
-        foreach (var freq in dict.Values)
+        foreach (int freq in dict.Values)
         {
             if (set.Contains(freq))
             {

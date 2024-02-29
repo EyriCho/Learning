@@ -15,11 +15,17 @@ public class Solution {
         {
             var index = Array.BinarySearch(array, 0, length, nums[i]);
             if (index < 0)
+            {
                 index = ~index;
+            }
             if (index >= length)
+            {
                 array[length++] = nums[i];
+            }
             else
+            {
                 array[index] = nums[i];
+            }
         }
         
         return length;
