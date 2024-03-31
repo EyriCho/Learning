@@ -7,22 +7,31 @@
 // @lc code=start
 public class Solution {
     public int FirstMissingPositive(int[] nums) {
+        int temp = 0,
+            pos = 0;
         for (int i = 0; i < nums.Length; i++)
         {
-            while (nums[i] > 0 &&
-                  nums[i] <= nums.Length &&
-                  nums[i] != nums[nums[i] - 1])
+            while (nums[i] > 0 && nums[i] <= nums.Length)
             {
-                var temp = nums[i];
-                nums[i] = nums[nums[i] - 1];
-                nums[temp - 1] = temp;
+                pos = nums[i] - 1;
+
+                if (nums[pos] == nums[i])
+                {
+                    break;
+                }
+
+                temp = nums[i];
+                nums[i] = nums[pos];
+                nums[pos] = temp;
             }
         }
-        
+
         for (int i = 0; i < nums.Length; i++)
         {
             if (nums[i] != i + 1)
+            {
                 return i + 1;
+            }
         }
         
         return nums.Length + 1;

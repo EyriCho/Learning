@@ -11,22 +11,25 @@ public class Solution {
         int left = 0, right = A.Length - 1;
         int leftSquare = A[left] * A[left];
         int rightSquare = A[right] * A[right];
-        int i = A.Length - 1;
-        for (; i >= 0; i--)
+        for (int i = A.Length - 1; i >= 0; i--)
         {
             if (leftSquare > rightSquare)
             {
                 result[i] = leftSquare;
                 left++;
                 if (left < A.Length)
+                {
                     leftSquare = A[left] * A[left];
+                }
             }
             else
             {
                 result[i] = rightSquare;
                 right--;
                 if (right >= 0)
+                {
                     rightSquare = A[right] * A[right];
+                }
             }
         }
         

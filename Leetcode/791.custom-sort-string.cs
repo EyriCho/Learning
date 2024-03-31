@@ -6,22 +6,37 @@
 
 // @lc code=start
 public class Solution {
-    public string CustomSortString(string order, string str) {
-        var array = new char[str.Length];
-        var occured = new int[26];
-        
-        foreach (var c in str)
-            occured[c - 'a']++;
-        
-        int i = 0;
-        foreach (var c in order)
-            while (occured[c - 'a']-- > 0)
-                array[i++] = c;
-        
+    public string CustomSortString(string order, string s) {
+        int[] charCount = new int[26];
+
+        foreach (char c in s)
+        {
+            charCount[c - 'a']++;
+        }
+
+        int i = 0,
+            index = 0;
+        char[] array = new char[s.Length];
+        foreach (char c in order)
+        {
+            index = c - 'a';
+            if (charCount[index] > 0)
+            {
+                Array.Fill(array, c, i, charCount[index]);
+                i += charCount[index];
+                charCount[index] = 0;
+            }
+        }
+
         for (int j = 0; j < 26; j++)
-            while (occured[j]-- > 0)
-                array[i++] = (char)(j + 'a');
-        
+        {
+            if (charCount[j] > 0)
+            {
+                Array.Fill(array, (char)('a' + j), i, charCount[j]);
+                i += charCount[j];
+            }
+        }
+
         return new string(array);
     }
 }

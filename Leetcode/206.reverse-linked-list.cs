@@ -19,19 +19,22 @@
 public class Solution {
     public ListNode ReverseList(ListNode head) {
         if (head == null)
+        {
             return null;
-        
+        }
+
         ListNode prev = null,
-            node = head;
+            node = head,
+            next = head;
         
         while (node != null)
         {
-            var next = node.next;
+            next = node.next;
             node.next = prev;
             prev = node;
             node = next;
         }
-        
+
         return prev;
     }
 }

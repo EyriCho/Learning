@@ -18,20 +18,18 @@
  */
 public class Solution {
     public void ReorderList(ListNode head) {
-        if (head == null || head.next == null) return;
+        ListNode mid = head,
+            last = head;
         
-        var slow = head;
-        var fast = head;
-        while (fast != null && fast.next != null)
+        while (last != null && last.next != null)
         {
-            slow = slow.next;
-            fast = fast.next.next;
+            mid = mid.next;
+            last = last.next.next;
         }
-        
-        // reverse seconde half
-        ListNode prev = null;
-        var node = slow;
-        ListNode next = null;
+
+        ListNode next = null,
+            prev = null,
+            node = mid;
         while (node != null)
         {
             next = node.next;
@@ -39,22 +37,27 @@ public class Solution {
             prev = node;
             node = next;
         }
-        
-        var first = head;
-        var second = prev;
-        while (first != null && second != null)
+
+        ListNode front = head,
+            tail = prev;
+
+        while (front != null && tail != null)
         {
-            var n = first.next;
-            first.next = second;
-            first = n;
-            
-            n = second.next;
-            second.next = first;
-            second = n;
+
+            Console.WriteLine($"{front.val}, {tail.val}");
+            next = front.next;
+            front.next = tail;
+            front = next;
+
+            next = tail.next;
+            tail.next = front;
+            tail = next;
         }
-        
-        if (first != null)
-            first.next = null;
+
+        if (front != null)
+        {
+            front.next = null;
+        }
     }
 }
 // @lc code=end

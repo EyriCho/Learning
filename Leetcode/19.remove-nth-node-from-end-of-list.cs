@@ -18,24 +18,25 @@
  */
 public class Solution {
     public ListNode RemoveNthFromEnd(ListNode head, int n) {
+        ListNode faked = new ListNode(0, head),
+            node = faked,
+            prev = faked;
+
         int i = 0;
-        var fake = new ListNode(0, head);
-        var node = fake;
         while (i++ < n)
         {
             node = node.next;
         }
-        
-        var prev = fake;
+
         while (node.next != null)
         {
             prev = prev.next;
             node = node.next;
         }
-        
-        prev.next = prev.next.next;
-        
-        return fake.next;
+
+        prev.next = removed.next.next;
+
+        return faked.next;
     }
 }
 // @lc code=end

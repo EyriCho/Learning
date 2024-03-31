@@ -7,26 +7,34 @@
 // @lc code=start
 public class Solution {
     public int LeastInterval(char[] tasks, int n) {
-        if (n == 0) return tasks.Length;
-        int max = 0, maxCount = 0;
-        var taskCount = new int[26];
-        
-        for (int i = 0; i < tasks.Length; i++)
+        if (n == 0)
         {
-            var index = tasks[i] - 'A';
-            taskCount[index]++;
-            
-            if (taskCount[index] > max)
+            return tasks.Length;
+        }
+
+        int[] counts = new int[26];
+        int max = 0,
+            maxCount = 0,
+            c = 0;
+        foreach (char task in tasks)
+        {
+            c = task - 'A';
+            counts[c]++;
+            if (counts[c] > max)
             {
-                max = taskCount[index];
+                max = counts[c];
                 maxCount = 1;
             }
-            else if (taskCount[index] == max)
+            else if (counts[c] == max)
+            {
                 maxCount++;
+            }
         }
-        
-        var result = (max - 1) * (n + 1) + maxCount;
-        return result > tasks.Length ? result : tasks.Length;
+
+        int empty = (max - 1) * (n - (maxCount - 1)),
+            idles = Math.Max(0, empty - (tasks.Length - maxCount * max));
+
+        return idles + tasks.Length;
     }
 }
 // @lc code=end

@@ -19,36 +19,37 @@
 public class Solution {
     public bool IsPalindrome(ListNode head) {
         ListNode mid = head,
+            fast = head.next,
             prev = null,
-            fast = head.next;
-        
+            next = null;
+
         while (fast != null && fast.next != null)
         {
-            var next = mid.next;
+            next = mid.next;
             mid.next = prev;
             prev = mid;
             mid = next;
             fast = fast.next.next;
         }
-        
-        ListNode l = prev, r = mid.next;
+
+        ListNode l = prev,
+            r = mid.next;
         if (fast != null)
         {
             mid.next = l;
             l = mid;
         }
-        
+
         while (r != null)
         {
             if (l.val != r.val)
             {
                 return false;
             }
-            
             l = l.next;
             r = r.next;
         }
-        
+
         return true;
     }
 }

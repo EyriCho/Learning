@@ -7,19 +7,23 @@
 // @lc code=start
 public class Solution {
     public int NumSubarrayProductLessThanK(int[] nums, int k) {
-        if (k <= 1)
-            return 0;
-        int product = 1, result = 0;
-        int start = 0;
-        for (int i = 0; i < nums.Length; i++)
-        {
-            product *= nums[i];
-            while (product >= k)
-                product /= nums[start++];
-            
-            result += i - start + 1;
-        }
+        int l = 0,
+            r = 0,
+            result = 0;
+
+        long product = 1L;
         
+        while (r < nums.Length)
+        {
+            product *= nums[r];
+            while (l <= r && product >= k)
+            {
+                product /= nums[l++];
+            }
+            result += r - l + 1;
+            r++;
+        }
+
         return result;
     }
 }
