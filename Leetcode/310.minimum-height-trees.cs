@@ -7,43 +7,58 @@
 // @lc code=start
 public class Solution {
     public IList<int> FindMinHeightTrees(int n, int[][] edges) {
-        if (n < 2)
-            return new List<int> { 0 };
-        var result = new List<int>();
-        var graph = new IList<int>[n];
-        var queue = new Queue<int>();
-        for (int i = 0; i < n; i++)
-            graph[i] = new List<int>();
-        
-        for (int i = 0; i < edges.Length; i++)
+        List<int> result = new ();
+        if (n == 1)
         {
-            graph[edges[i][0]].Add(edges[i][1]);
-            graph[edges[i][1]].Add(edges[i][0]);
+            result.Add(0);
+            return result;
         }
         
+        HashSet<int>[] graph = new HashSet<int>[n];
+        Queue<int> queue = new();
         for (int i = 0; i < n; i++)
+        {
+            graph[i] = new HashSet<int>();
+        }
+
+        foreach (int[] edge in edges)
+        {
+            graph[edge[0]].Add(edge[1]);
+            graph[edge[1]].Add(edge[0]);
+        }
+
+        for (int i = 0; i < n; i++)
+        {
             if (graph[i].Count == 1)
+            {
                 queue.Enqueue(i);
+            }
+        }
         
+        int count = 0,
+            current = 0;
         while (n > 2)
         {
-            int size = queue.Count;
-            n -= size;
-            while (size > 0)
+            count = queue.Count;
+            n -= count;
+            while (count-- > 0)
             {
-                var cur = queue.Dequeue();
-                foreach (var next in graph[cur])
+                current = queue.Dequeue();
+                foreach (int node in graph[current])
                 {
-                    graph[next].Remove(cur);
-                    if (graph[next].Count == 1)
-                        queue.Enqueue(next);
+                    graph[node].Remove(current);
+                    if (graph[node].Count == 1)
+                    {
+                        queue.Enqueue(node);
+                    }
                 }
-                --size;
             }
         }
         
         while (queue.Count > 0)
+        {
             result.Add(queue.Dequeue());
+        }
         
         return result;
     }

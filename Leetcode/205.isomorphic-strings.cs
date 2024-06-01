@@ -7,20 +7,17 @@
 // @lc code=start
 public class Solution {
     public bool IsIsomorphic(string s, string t) {
-        Dictionary<char, char> sDict = new Dictionary<char, char>(),
-            tDict = new Dictionary<char, char>();
-        
-        for (int i = 0; i < s.Length; i++)
+        int[] map = new int[256];
+
+        for (int i = 0; i < t.Length; i++)
         {
-            if (!sDict.ContainsKey(s[i]))
-                sDict[s[i]] = t[i];
-            else if (sDict[s[i]] != t[i])
+            int index = t[i] + 128;
+            if (map[s[i]] != map[index])
+            {
                 return false;
-            
-            if (!tDict.ContainsKey(t[i]))
-                tDict[t[i]] = s[i];
-            else if (tDict[t[i]] != s[i])
-                return false;
+            }
+
+            map[s[i]] = map[index] = i + 1;
         }
         
         return true;

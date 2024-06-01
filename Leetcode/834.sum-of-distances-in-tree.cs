@@ -9,49 +9,49 @@ public class Solution {
     public int[] SumOfDistancesInTree(int n, int[][] edges) {
         int[] result = new int[n],
             count = new int[n];
-        var map = new List<int>[n];
+
+        HashSet<int>[] map = new HashSet<int>[n];
         for (int i = 0; i < n; i++)
         {
-            map[i] = new List<int>();
+            map[i] = new HashSet<int>();
         }
+
         foreach (var edge in edges)
         {
             map[edge[0]].Add(edge[1]);
             map[edge[1]].Add(edge[0]);
         }
-        
-        void Total(int cur, int prev)
+
+        void Travel(int cur, int prev)
         {
-            foreach (var next in map[cur])
+            foreach (int next in map[cur])
             {
                 if (next == prev)
                 {
                     continue;
                 }
-                Total(next, cur);
+                Travel(next, cur);
                 count[cur] += count[next];
                 result[cur] += result[next] + count[next];
             }
             count[cur]++;
         }
-        
-        
+
         void Sum(int cur, int prev)
         {
-            foreach (var next in map[cur])
+            foreach (int next in map[cur])
             {
-                if (next == prev)
+                if (prev == next)
                 {
                     continue;
                 }
-                result[next] = result[cur] - count[next] + n - count[next];
+                result[next] = result[cur] + (n - count[next]) - count[next]; 
                 Sum(next, cur);
             }
         }
-        
-        Total(0, -1);
+
+        Travel(0, -1);
         Sum(0, -1);
-        
         return result;
     }
 }

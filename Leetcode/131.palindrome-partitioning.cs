@@ -7,9 +7,9 @@
 // @lc code=start
 public class Solution {
     public IList<IList<string>> Partition(string s) {
-        var result = new List<IList<string>>();
-        var temp = new List<string>(s.Length);
-        
+        List<IList<string>> result = new ();
+        List<string> temp = new (s.Length);
+                
         bool IsPalindrome (string str)
         {
             int l = 0, r = str.Length - 1;

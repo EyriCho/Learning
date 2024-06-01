@@ -19,11 +19,12 @@ public class Solution {
         {
             int a = 0,
                 b = 1,
-                c = 1;
+                c = 1,
+                num = 0;
 
             while (n-- > 2)
             {
-                var num = a + b + c;
+                num = a + b + c;
                 a = b;
                 b = c;
                 c = num;

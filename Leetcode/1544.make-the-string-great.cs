@@ -7,34 +7,34 @@
 // @lc code=start
 public class Solution {
     public string MakeGood(string s) {
-        var stack = new Stack<char>();
-        
-        for (int i = 0; i < s.Length; i++)
+        Stack<char> stack = new ();
+        int diff = 0;
+        foreach (char c in s)
         {
             if (stack.Count == 0)
             {
-                stack.Push(s[i]);
+                stack.Push(c);
+                continue;
+            }
+
+            diff = c - stack.Peek();
+            if (diff == 32 ||
+                diff == -32)
+            {
+                stack.Pop();
             }
             else
             {
-                var diff = s[i] - stack.Peek();
-                if (diff == 32 || diff == -32)
-                {
-                    stack.Pop();
-                }
-                else
-                {
-                    stack.Push(s[i]);
-                }
+                stack.Push(c);
             }
         }
-        
-        var array = new char[stack.Count];
+
+        char[] array = new char[stack.Count];
         for (int i = stack.Count - 1; i >= 0; i--)
         {
             array[i] = stack.Pop();
         }
-        
+
         return new string(array);
     }
 }

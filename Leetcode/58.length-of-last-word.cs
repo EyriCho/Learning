@@ -9,13 +9,16 @@ public class Solution {
     public int LengthOfLastWord(string s) {
         int p = s.Length - 1;
         while (p >= 0 && s[p] == ' ')
+        {
             p--;
-        
+        }
+
         int end = p;
-        
         while (p >= 0 && s[p] != ' ')
+        {
             p--;
-        
+        }
+
         return end - p;
     }
 }

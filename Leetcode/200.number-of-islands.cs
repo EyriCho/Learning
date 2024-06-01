@@ -7,7 +7,7 @@
 // @lc code=start
 public class Solution {
     public int NumIslands(char[][] grid) {
-        var directions = new int[,] {
+        int[,] directions = new int[,] {
             { -1, 0 },
             { 0, -1 },
             { 1, 0 },
@@ -18,12 +18,14 @@ public class Solution {
         
         void IdentifyIsland(int x, int y)
         {
+            int r = 0,
+                c = 0;
             grid[x][y] = '0';
             
             for (int i = 0; i < 4; i++)
             {
-                int r = x + directions[i, 0],
-                    c = y + directions[i, 1];
+                r = x + directions[i, 0];
+                c = y + directions[i, 1];
                 
                 if (r < 0 || r >= grid.Length ||
                     c < 0 || c >= grid[0].Length)
@@ -50,7 +52,6 @@ public class Solution {
                 }
             }
         }
-        
         
         return count;
     }

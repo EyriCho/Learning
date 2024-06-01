@@ -20,9 +20,10 @@
  */
 public class Solution {
     public int SumOfLeftLeaves(TreeNode root) {
-        var result = 0;
-        
-        var node = root;
+        int result = 0;
+        TreeNode node = root,
+            prev = null;
+
         while (node != null)
         {
             if (node.left == null)
@@ -31,13 +32,19 @@ public class Solution {
             }
             else
             {
-                var prev = node.left;
+                prev = node.left;
                 while (prev.right != null && prev.right != node)
+                {
                     prev = prev.right;
+                }
+
                 if (prev.right == null)
                 {
                     if (prev.left == null && node.left == prev)
+                    {
                         result += prev.val;
+                    }
+
                     prev.right = node;
                     node = node.left;
                 }
@@ -48,7 +55,7 @@ public class Solution {
                 }
             }
         }
-        
+
         return result;
     }
 }

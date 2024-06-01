@@ -7,7 +7,12 @@
 // @lc code=start
 public class Solution {
     public bool ValidPath(int n, int[][] edges, int source, int destination) {
-        var transits = new List<int>[n];
+        if (source == destination)
+        {
+            return true;
+        }
+
+        List<int>[] transits = new List<int>[n];
 
         for (int i = 0; i < n; i++)
         {
@@ -20,15 +25,16 @@ public class Solution {
             transits[edge[1]].Add(edge[0]);
         }
 
-        var set = new HashSet<int>();
+        int current = 0;
+        HashSet<int> set = new ();
         set.Add(source);
-        var queue = new Queue<int>();
+        Queue<int> queue = new ();
         queue.Enqueue(source);
         while (queue.Count > 0)
         {
-            var c = queue.Dequeue();
+            current = queue.Dequeue();
 
-            foreach (var next in transits[c])
+            foreach (int next in transits[current])
             {
                 if (set.Contains(next))
                 {

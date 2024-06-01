@@ -1,7 +1,7 @@
 /*
- * @lc app=leetcode id=623 lang=csharp
+ * @lc app=leetcode id=129 lang=csharp
  *
- * [623] Add One Row to Tree
+ * [129] Sum Root to Leaf Numbers
  */
 
 // @lc code=start
@@ -19,43 +19,37 @@
  * }
  */
 public class Solution {
-    public TreeNode AddOneRow(TreeNode root, int val, int depth) {
-        int row = 1,
-            count = 0;
-        
-        TreeNode fake = new (0, root),
-            node = null;
+    public int SumNumbers(TreeNode root) {
+        int result = 0;
+        TreeNode node = null;
         Queue<TreeNode> queue = new ();
-        queue.Enqueue(fake);
-        
-        while (row < depth)
-        {
-            count = queue.Count;
-            while (count-- > 0)
-            {
-                node = queue.Dequeue();
-                
-                if (node.left != null)
-                {
-                    queue.Enqueue(node.left);
-                }
-                
-                if (node.right != null)
-                {
-                    queue.Enqueue(node.right);
-                }
-            }
-            row++;
-        }
-        
+        queue.Enqueue(root);
+
         while (queue.Count > 0)
         {
             node = queue.Dequeue();
-            node.left = new TreeNode(val, node.left);        
-            node.right = new TreeNode(val, null, node.right);
+
+            if (node.left == null && node.right == null)
+            {
+                result += node.val;
+            }
+            else
+            {
+                if (node.left != null)
+                {
+                    node.left.val = node.val * 10 + node.left.val;
+                    queue.Enqueue(node.left);
+                }
+
+                if (node.right != null)
+                {
+                    node.right.val = node.val * 10 + node.right.val;
+                    queue.Enqueue(node.right);
+                }
+            }
         }
-        
-        return fake.left;
+
+        return result;
     }
 }
 // @lc code=end

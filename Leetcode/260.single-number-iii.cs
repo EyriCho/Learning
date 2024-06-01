@@ -7,21 +7,34 @@
 // @lc code=start
 public class Solution {
     public int[] SingleNumber(int[] nums) {
-        var diff = 0;
-        for (int i = 0; i < nums.Length; i++)
+        if (nums.Length == 2)
         {
-            diff ^= nums[i];
+            return nums;
         }
-        diff &= -diff;
-        var result = new int[2];
-        for (int i = 0; i < nums.Length; i++)
+
+        int xor = 0;
+        foreach (int num in nums)
         {
-            if ((diff & nums[i]) == 0)
-                result[0] ^= nums[i];
+            xor ^= num;
+        }
+
+        xor &= -xor;
+        int num1 = 0,
+            num2 = 0;
+
+        foreach (int num in nums)
+        {
+            if ((num & xor) == 0)
+            {
+                num1 ^= num;
+            }
             else
-                result[1] ^= nums[i];            
+            {
+                num2 ^= num;
+            }
         }
-        return result;
+
+        return new int[] { num1, num2 };
     }
 }
 // @lc code=end

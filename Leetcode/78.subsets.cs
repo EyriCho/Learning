@@ -7,22 +7,30 @@
 // @lc code=start
 public class Solution {
     public IList<IList<int>> Subsets(int[] nums) {
-        var result = new List<IList<int>>();
-        result.Add(new List<int>());
-        if (nums?.Any() != true) return result;
-
-        nums = nums.Distinct().ToArray();
-        var count = (int)Math.Pow(2, nums.Length);
-        for (int i = 1; i < count; i++)
+        int count = 1 << nums.Length,
+            num = 0,
+            j = 0;
+        
+        List<IList<int>> result = new ();
+        
+        for (int i = 0; i < count; i++)
         {
-            var list = new List<int>();
-            for (int j = 0; j < nums.Length; j++)
+            List<int> list = new ();
+            
+            num = i;
+            j = 0;
+            while (num > 0)
             {
-                if ((i & (1 << j)) > 0)
+                if (num % 2 == 1)
+                {
                     list.Add(nums[j]);
+                }
+                num >>= 1;
+                j++;
             }
             result.Add(list);
         }
+        
         return result;
     }
 }

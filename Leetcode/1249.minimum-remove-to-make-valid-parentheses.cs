@@ -7,7 +7,7 @@
 // @lc code=start
 public class Solution {
     public string MinRemoveToMakeValid(string s) {
-        var stack = new Stack<(char, int)>();
+        Stack<(char, int)> stack = new ();
         for (int i = s.Length - 1; i >= 0; i--)
         {
             if (s[i] == ')')
@@ -16,41 +16,41 @@ public class Solution {
             }
             else if (s[i] == '(')
             {
-                if (stack.Count == 0)
+                if (stack.Count == 0 ||
+                    stack.Peek().Item1 == '(')
                 {
                     stack.Push(('(', i));
                 }
                 else
                 {
-                    var (c, _) = stack.Peek();
-                    if (c == ')')
-                        stack.Pop();
-                    else
-                        stack.Push(('(', i));
+                    stack.Pop();
                 }
             }
         }
         
-        //return new string(stack.Select(pair => pair.Item1).ToArray());
-        
-        if (stack.Count == 0)
+        if (stack.Count() == 0)
+        {
             return s;
-        var list = new List<char>();
-        var (_, j) = stack.Pop();
+        }
+        
+        char[] array = new char[s.Length - stack.Count()];
+        (_, int toRemove) = stack.Pop();
+        int j = 0;
         for (int i = 0; i < s.Length; i++)
         {
-            if (i == j)
+            if (i != toRemove)
             {
-                if (stack.Count > 0)
-                    j = stack.Pop().Item2;
+                array[j++] = s[i];
+                continue;
             }
-            else
+            
+            if (stack.Count > 0)
             {
-                list.Add(s[i]);
+                (_, toRemove) = stack.Pop();
             }
         }
         
-        return new string(list.ToArray());
+        return new string(array);
     }
 }
 // @lc code=end

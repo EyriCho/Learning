@@ -7,62 +7,98 @@
 // @lc code=start
 public class Solution {
     public int OpenLock(string[] deadends, string target) {
-        var deads = new HashSet<int>();
-        foreach (var deadend in deadends)
+        HashSet<string> set = new (deadends);
+        if (set.Contains("0000"))
         {
-            var num = 0;
-            for (int i = 0; i < 4; i++)
-                num = num * 10 + (deadend[i] - '0');
-            if (num == 0)
-                return -1;
-            deads.Add(num);
+            return -1;
         }
-        
-        var t = 0;
-        for (int i = 0; i < 4; i++)
-            t = t * 10 + (target[i] - '0');
-        if (t == 0)
+        if (target == "0000")
+        {
             return 0;
-        deads.Add(t);
-        
-        var queue = new Queue<int>();
-        queue.Enqueue(t);
-        var result = 0;
-        
+        }
+
+        Queue<string> queue = new ();
+
+        bool CheckString(char[] a)
+        {
+            string s = new string(a);
+            if (s == target)
+            {
+                return true;
+            }
+            if (!set.Contains(s))
+            {
+                set.Add(s);
+                queue.Enqueue(s);
+            }
+            return false;
+        }
+
+        set.Add("0000");
+        queue.Enqueue("0000");
+        int step = 1,
+            count = 0;;
+        string current = null;
+        char c = '\0';
+        char[] array = new char[4];
         while (queue.Count > 0)
         {
-            result++;
-            var c = queue.Count;
-            while (c-- > 0)
+            count = queue.Count;
+            while (count-- > 0)
             {
-                var num = queue.Dequeue();
-                for (int i = 1; i < 10_000; i *= 10)
+                current = queue.Dequeue();
+                array = current.ToCharArray();
+
+                for (int i = 0; i < current.Length; i++)
                 {
-                    var digit = num / i % 10;
-                    
-                    // move a wheel forward
-                    var n = num + (digit == 9 ? -digit : 1) * i;
-                    if (n == 0)
-                        return result;
-                    else if (!deads.Contains(n))
+                    c = array[i];
+
+                    if (c == '9')
                     {
-                        deads.Add(n);
-                        queue.Enqueue(n);
+                        array[i] = '8';
+                        if (CheckString(array))
+                        {
+                            return step;
+                        }
+                        array[i] = '0';
+                        if (CheckString(array))
+                        {
+                            return step;
+                        }
                     }
-                    
-                    // move a wheel backward
-                    n = num + (digit == 0 ? 9 : -1) * i;
-                    if (n == 0)
-                        return result;
-                    else if (!deads.Contains(n))
+                    else if (c == '0')
                     {
-                        deads.Add(n);
-                        queue.Enqueue(n);
+                        array[i] = '9';
+                        if (CheckString(array))
+                        {
+                            return step;
+                        }
+                        array[i] = '1';
+                        if (CheckString(array))
+                        {
+                            return step;
+                        }
                     }
+                    else
+                    {
+                        array[i] = (char)(c + 1);
+                        if (CheckString(array))
+                        {
+                            return step;
+                        }
+                        array[i] = (char)(c - 1);
+                        if (CheckString(array))
+                        {
+                            return step;
+                        }
+                    }
+
+                    array[i] = c;
                 }
             }
+
+            step++;
         }
-        
         return -1;
     }
 }

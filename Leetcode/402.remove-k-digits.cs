@@ -11,11 +11,11 @@ public class Solution {
         {
             return "0";
         }
-        
-        var set = new HashSet<int>();
-        var stack = new Stack<int>();
-        int count = 0,
-            i = 0;
+
+        Stack<int> stack = new();
+        int i = 0,
+            count = 0;
+
         while (count < k && i < num.Length)
         {
             while (count < k && stack.Count > 0 && num[stack.Peek()] > num[i])
@@ -23,35 +23,33 @@ public class Solution {
                 stack.Pop();
                 count++;
             }
-            
-            stack.Push(i);
-            i++;
+
+            stack.Push(i++);
         }
-        
+
         while (i < num.Length)
         {
             stack.Push(i++);
         }
-        
+
         while (count < k)
         {
             stack.Pop();
             count++;
         }
-        
-        var list = new List<char>(stack.Count);
-        count = stack.Count;
-        while (count > 0)
+
+        List<char> list = new(stack.Count());
+        while (stack.Count > 0)
         {
             list.Insert(0, num[stack.Pop()]);
-            count--;
         }
+
         while (list.Count > 0 && list[0] == '0')
         {
             list.RemoveAt(0);
         }
-        
-        return list.Count == 0 ? "0" : string.Join("", list);
+
+        return list.Count == 0 ? "0" : new string(list.ToArray());
     }
 }
 // @lc code=end

@@ -7,32 +7,29 @@
 // @lc code=start
 public class Solution {
     public int MaximalRectangle(char[][] matrix) {
-        if (matrix == null || matrix.Length == 0 || matrix[0].Length == 0)
-            return 0;
-        
         int result = 0;
-        var height = new int[matrix[0].Length];
+        var heights = new int[matrix[0].Length];
         
         int getMaxRectangle()
         {
-            int r = 0;
-            
-            var stack = new Stack<int>();
+            int r = 0,
+                cur = 0;
+            Stack<int> stack = new ();
             
             for (int i = 0; i < matrix[0].Length; i++)
             {
-                while (stack.Count > 0 && height[stack.Peek()] >= height[i])
+                while (stack.Count > 0 && heights[stack.Peek()] >= heights[i])
                 {
-                    var cur = stack.Pop();
-                    r = Math.Max(r, height[cur] * (stack.Count == 0 ? i : (i - stack.Peek() - 1)));
+                    cur = stack.Pop();
+                    r = Math.Max(r, heights[cur] * (stack.Count == 0 ? i : (i - stack.Peek() - 1)));
                 }
                 stack.Push(i);
             }
             
             while(stack.Count > 0)
             {
-                    var cur = stack.Pop();
-                    r = Math.Max(r, height[cur] * (height.Length - (stack.Count == 0 ? -1 : stack.Peek()) - 1));
+                cur = stack.Pop();
+                r = Math.Max(r, heights[cur] * (heights.Length - (stack.Count == 0 ? -1 : stack.Peek()) - 1));
             }
             
             return r;
@@ -43,9 +40,13 @@ public class Solution {
             for (int j = 0; j < matrix[0].Length; j++)
             {
                 if (matrix[i][j] == '1')
-                    height[j]++;
+                {
+                    heights[j]++;
+                }
                 else
-                    height[j] = 0;
+                {
+                    heights[j] = 0;
+                }
             }
             
             result = Math.Max(result, getMaxRectangle());
