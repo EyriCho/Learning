@@ -14,7 +14,9 @@ public class Solution {
         while (missing <= n)
         {
             if (i < nums.Length && nums[i] <= missing)
+            {
                 missing += nums[i++];
+            }
             else
             {
                 missing += missing;

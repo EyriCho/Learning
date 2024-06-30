@@ -7,18 +7,28 @@
 // @lc code=start
 public class Solution {
     public bool JudgeSquareSum(int c) {
-        int l = 0, r = (int)Math.Sqrt(c);
-        var set = new HashSet<long>();
-        while (l <= r)
+        long a = 0,
+            b = (long)Math.Sqrt(c),
+            sum = 0;
+
+        while (a <= b)
         {
-            var sum = l * l + r * r;
+            sum = a * a + b * b;
+
             if (sum == c)
+            {
                 return true;
+            }
             else if (sum < c)
-                l++;
-            else 
-                r--;
+            {
+                a++;
+            }
+            else
+            {
+                b--;
+            }
         }
+
         return false;
     }
 }

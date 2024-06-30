@@ -27,8 +27,8 @@ public class Solution {
             bob[i] = i;
         }
 
-        var count = 0;
-        foreach (var edge in edges)
+        int count = 0;
+        foreach (int[] edge in edges)
         {
             if (edge[0] == 3)
             {
@@ -37,8 +37,8 @@ public class Solution {
                 if (u != v)
                 {
                     alice[u] = v;
-                    Find(bob, edge[1]);
-                    Find(bob, edge[2]);
+                    u = Find(bob, edge[1]);
+                    v = Find(bob, edge[2]);
                     bob[u] = v;
                 }
                 else
@@ -74,7 +74,7 @@ public class Solution {
             }
         }
 
-        var groups = 0;
+        int groups = 0;
         for (int i = 1; i <= n; i++)
         {
             if (i == alice[i])

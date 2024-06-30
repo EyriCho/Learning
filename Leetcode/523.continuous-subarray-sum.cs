@@ -8,7 +8,7 @@
 public class Solution {
     public bool CheckSubarraySum(int[] nums, int k) {
         int sum = 0;
-        var dict = new Dictionary<int, int>();
+        Dictionary<int, int> dict = new ();
         dict.Add(0, -1);
         
         for (int i = 0; i < nums.Length; i++)

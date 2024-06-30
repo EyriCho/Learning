@@ -7,26 +7,24 @@
 // @lc code=start
 public class Solution {
     public int LongestPalindrome(string s) {
-        var array = new int[52];
+        int[] counts = new int[256];
         foreach (char c in s)
         {
-            if (c >= 'a' && c <= 'z')
-                array[c - 'a' + 26]++;
-            if (c >= 'A' && c <= 'Z')
-                array[c - 'A']++;
+            counts[c - '\0']++;
         }
-        bool hasSingle = false;
-        int result = 0;
-        for (int i = 0; i < 52; i++)
+
+        bool odd = false;
+        int result = s.Length;
+        for (int i = 0; i < counts.Length; i++)
         {
-            if ((array[i] & 1) == 1)
+            if ((counts[i] & 1) > 0)
             {
-                hasSingle = true;
-                array[i]--;
+                result--;
+                odd = true;
             }
-            result += array[i];
         }
-        return hasSingle ? result + 1 : result;
+        
+        return odd ? (result + 1) : result;
     }
 }
 // @lc code=end

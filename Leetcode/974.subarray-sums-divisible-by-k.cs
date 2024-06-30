@@ -7,23 +7,19 @@
 // @lc code=start
 public class Solution {
     public int SubarraysDivByK(int[] nums, int k) {
-        var dict = new Dictionary<int, int>() {
+        Dictionary<int, int> dict = new () {
             { 0, 1 }
         };
         int result = 0,
-            total = 0;
+            total = 0,
+            left = 0;
 
         for (int i = 0; i < nums.Length; i++)
         {
             total += nums[i];
+            left = (total % k + k) % k;
 
-            var left = (total % k + k) % k;
-
-            if (!dict.TryGetValue(left, out int count))
-            {
-                dict[left] = count = 0;
-            }
-
+            dict.TryGetValue(left, out int count);
             result += count;
             dict[left] = count + 1;
         }

@@ -7,26 +7,16 @@
 // @lc code=start
 public class Solution {
     public void SortColors(int[] nums) {
-        int red = 0, white = 0, blue = 0;
-        foreach (var num in nums)
+        int[] colors = new int[3];
+
+        foreach (int num in nums)
         {
-            switch (num)
-            {
-                case 0:
-                    red++;
-                    break;
-                case 1:
-                    white++;
-                    break;
-                case 2:
-                    blue++;
-                    break;
-            }
+            colors[num]++;
         }
         
-        Array.Fill(nums, 0, 0, red);
-        Array.Fill(nums, 1, red, white);
-        Array.Fill(nums, 2, red + white, blue);
+        Array.Fill(nums, 0, 0, colors[0]);
+        Array.Fill(nums, 1, colors[0], colors[1]);
+        Array.Fill(nums, 2, colors[0] + colors[1], colors[2]);
     }
 }
 // @lc code=end
