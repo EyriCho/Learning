@@ -7,7 +7,7 @@
 // @lc code=start
 public class Solution {
     public int[] TwoSum(int[] nums, int target) {
-         var dict = new Dictionary<int, int>();
+        var dict = new Dictionary<int, int>();
         for (int i = 0; i < nums.Length; i++)
         {
             var left = target - nums[i];
