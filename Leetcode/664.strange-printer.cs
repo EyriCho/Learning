@@ -7,7 +7,7 @@
 // @lc code=start
 public class Solution {
     public int StrangePrinter(string s) {
-        var dp = new int[s.Length, s.Length];
+        int[,] dp = new int[s.Length, s.Length];
         for (int l = s.Length - 1; l >= 0; l--)
         {
             dp[l, l] = 1;

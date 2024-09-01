@@ -7,28 +7,37 @@
 // @lc code=start
 public class Solution {
     public int NthUglyNumber(int n) {
-        int a = 0, b = 0, c = 0;
+        int next = 1,
+            two = 0,
+            three = 0,
+            five = 0,
+            twoProduct = 2,
+            threeProduct = 3,
+            fiveProduct = 5;
+
         List<int> list = new List<int>(n) { 1 };
-        int next = 1;
-        int aProduct = 2, bProduct = 3, cProduct = 5;
         for (int i = 1; i < n; i++)
         {
-            next = Math.Min(aProduct, Math.Min(bProduct, cProduct));
+            next = Math.Min(twoProduct, Math.Min(threeProduct, fiveProduct));
             list.Add(next);
-            if (next >= aProduct ) {
-                a++;
-                aProduct = list[a] * 2;
+            if (twoProduct <= next)
+            {
+                two++;
+                twoProduct = list[two] * 2;
             }
-            if (next >= bProduct) {
-                b++;
-                bProduct = list[b] * 3;
+            if (threeProduct <= next)
+            {
+                three++;
+                threeProduct = list[three] * 3;
             }
-            if (next >= cProduct) {
-                c++;
-                cProduct = list[c] * 5;
+            if (fiveProduct <= next)
+            {
+                five++;
+                fiveProduct = list[five] * 5;
             }
         }
-        return next;        
+
+        return next;
     }
 }
 // @lc code=end

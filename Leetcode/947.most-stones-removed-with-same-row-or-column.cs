@@ -7,7 +7,7 @@
 // @lc code=start
 public class Solution {
     public int RemoveStones(int[][] stones) {
-        var roots = new int[stones.Length];
+        int[] roots = new int[stones.Length];
         
         int getRoot(int x) =>
             x == roots[x] ? x : getRoot(roots[x]);

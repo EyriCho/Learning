@@ -1,7 +1,7 @@
 /*
- * @lc app=leetcode id=589 lang=csharp
+ * @lc app=leetcode id=590 lang=csharp
  *
- * [589] N-ary Tree Preorder Traversal
+ * [590] N-ary Tree Postorder Traversal
  */
 
 // @lc code=start
@@ -17,7 +17,7 @@ public class Node {
         val = _val;
     }
 
-    public Node(int _val,IList<Node> _children) {
+    public Node(int _val, IList<Node> _children) {
         val = _val;
         children = _children;
     }
@@ -25,13 +25,12 @@ public class Node {
 */
 
 public class Solution {
-    public IList<int> Preorder(Node root) {
+    public IList<int> Postorder(Node root) {
         List<int> result = new ();
         if (root == null)
         {
             return result;
         }
-        
         Stack<Node> stack = new ();
         stack.Push(root);
         Node node;
@@ -39,13 +38,21 @@ public class Solution {
         {
             node = stack.Pop();
             result.Add(node.val);
-            
-            for (int i = node.children.Count - 1; i > -1; i--)
+
+            foreach (Node child in node.children)
             {
-                stack.Push(node.children[i]);
+                stack.Push(child);
             }
         }
-        
+
+        int l = 0,
+            r = result.Count - 1;
+        while (l < r)
+        {
+            result[l] ^= result[r];
+            result[r] ^= result[l];
+            result[l++] ^= result[r--];
+        }
         return result;
     }
 }

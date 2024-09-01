@@ -7,15 +7,16 @@
 // @lc code=start
 public class Solution {
     public int StoneGameII(int[] piles) {
-        var dp = new int[piles.Length, piles.Length + 1];
-        int sum = 0;
+        int[,] dp = new int[piles.Length, piles.Length + 1];
+        int sum = 0,
+            max = 0;
 
         for (int i = piles.Length - 1; i >= 0; i--)
         {
             sum += piles[i];
             for (int m = 1; m <= piles.Length; m++)
             {
-                var max = m << 1;
+                max = m << 1;
                 if (i + max >= piles.Length)
                 {
                     dp[i, m] = sum;

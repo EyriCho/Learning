@@ -16,19 +16,20 @@ public class KthLargest {
             Add(num);
         }
     }
-
+    
     int[] stack;
     int length;
     int k;
     
     private void AddNum(int num)
     {
-        int i = length++;
+        int i = length++,
+            p = 0;
         stack[i] = num;
         
         while (i > 0)
         {
-            var p = (i - 1) / 2;
+            p = (i - 1) / 2;
             if (num >= stack[p])
             {
                 break;
@@ -45,45 +46,40 @@ public class KthLargest {
     {
         int result = stack[0];
         stack[0] = stack[--length];
-        int i = 0;
+        int i = 0,
+            l = 0,
+            r = 0;
         while (true)
         {
-            int l = i * 2 + 1,
-                r = i * 2 + 2;
+            l = i * 2 + 1;
+            r = i * 2 + 2;
             
-            if (l >= length)
+            if (l >= length ||
+                (stack[i] <= stack[l] && (r >= length || stack[i] <= stack[r])))
             {
                 break;
             }
             
-            if (stack[i] > stack[l] ||
-                (r < length && stack[i] > stack[r]))
+            if (r >= length || stack[l] <= stack[r])
             {
-                if (r >= length || stack[l] <= stack[r])
-                {
-                    stack[i] ^= stack[l];
-                    stack[l] ^= stack[i];
-                    stack[i] ^= stack[l];
-                    
-                    i = l;
-                }
-                else
-                {
-                    stack[i] ^= stack[r];
-                    stack[r] ^= stack[i];
-                    stack[i] ^= stack[r];
-                    
-                    i = r;                    
-                }
+                stack[i] ^= stack[l];
+                stack[l] ^= stack[i];
+                stack[i] ^= stack[l];
+                
+                i = l;
             }
             else
             {
-                break;
+                stack[i] ^= stack[r];
+                stack[r] ^= stack[i];
+                stack[i] ^= stack[r];
+                
+                i = r;                    
             }
         }
         return result;
     }
-       
+    
     public int Add(int val) {
         if (length < k)
         {
@@ -95,7 +91,7 @@ public class KthLargest {
             Pop();
         }
         
-        return stack[0];        
+        return stack[0];
     }
 }
 

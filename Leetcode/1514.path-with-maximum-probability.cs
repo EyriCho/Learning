@@ -6,44 +6,35 @@
 
 // @lc code=start
 public class Solution {
-    public double MaxProbability(int n, int[][] edges, double[] succProb, int start, int end) {
-        var maps = new List<(int, double)>[n];
-        
+    public double MaxProbability(int n, int[][] edges, double[] succProb, int start_node, int end_node) {
+        List<(int, double)>[] maps = new List<(int, double)>[n];
         for (int i = 0; i < edges.Length; i++)
         {
-            var a = edges[i][0];
-            var b = edges[i][1];
-            var p = succProb[i];
+            maps[edges[i][0]] = maps[edges[i][0]] ?? new();
+            maps[edges[i][0]].Add((edges[i][1], succProb[i]));
 
-            if (maps[a] == null)
-            {
-                maps[a] = new List<(int, double)>();
-            }
-            maps[a].Add((b, p));
-
-            if (maps[b] == null)
-            {
-                maps[b] = new List<(int, double)>();
-            }
-            maps[b].Add((a, p));
+            maps[edges[i][1]] = maps[edges[i][1]] ?? new();
+            maps[edges[i][1]].Add((edges[i][0], succProb[i]));
         }
 
-        var dp = new double[n];
-        dp[start] = 1D;
-        var queue = new Queue<int>();
-        queue.Enqueue(start);
+        double[] dp = new double[n];
+        dp[start_node] = 1D;
+        int node = 0;
+        Queue<int> queue = new();
+        queue.Enqueue(start_node);
         while (queue.Count > 0)
         {
-            var node = queue.Dequeue();
+            node = queue.Dequeue();
             if (maps[node] == null)
             {
                 continue;
             }
-            if (node == end)
+            if (node == end_node)
             {
                 continue;
             }
-            foreach (var (next, p) in maps[node])
+
+            foreach ((int next, double p) in maps[node])
             {
                 if (dp[node] * p > dp[next])
                 {
@@ -52,8 +43,8 @@ public class Solution {
                 }
             }
         }
-        
-        return dp[end];
+
+        return dp[end_node];
     }
 }
 // @lc code=end
