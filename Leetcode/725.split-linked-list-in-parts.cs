@@ -18,25 +18,32 @@
  */
 public class Solution {
     public ListNode[] SplitListToParts(ListNode head, int k) {
-        var count = 0;
-        var node = head;
+        int count = 0;
+        ListNode node = head;
         while (node != null)
         {
-            count++;
             node = node.next;
+            count++;
         }
-
-        var result = new ListNode[k];
-        var num = count / k;
-        var left = count % k;
+        
+        ListNode[] result = new ListNode[k];
         node = head;
-        var temp = new ListNode();
+        ListNode temp = new (),
+            n = null;
+        int size = count / k,
+            left = count % k,
+            c = 0;
         for (int i = 0; i < k; i++)
         {
-            var n = temp;
+            n = temp;
             temp.next = null;
-            var c = num + (i < left ? 1 : 0);
-            while (c-- > 0)
+            for (c = 0; c < size; c++)
+            {
+                n.next = node;
+                node = node.next;
+                n = n.next;
+            }
+            if (i < left)
             {
                 n.next = node;
                 node = node.next;
@@ -45,6 +52,7 @@ public class Solution {
             n.next = null;
             result[i] = temp.next;
         }
+
         return result;
     }
 }

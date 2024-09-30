@@ -7,24 +7,16 @@
 // @lc code=start
 public class Solution {
     public string LargestNumber(int[] nums) {
-        string[] str = new string[nums.Length];
-        
-        bool isZero = true;
+        string[] array = new string[nums.Length];
         for (int i = 0; i < nums.Length; i++)
         {
-            str[i] = nums[i].ToString();
-            if (nums[i] > 0)
-                isZero = false;
+            array[i] = nums[i].ToString();
         }
-        if (isZero)
-            return "0";
-        
-        Array.Sort(
-            str,
-            Comparer<string>.Create((x, y) => {
-                return string.Compare(y + x, x + y);
-            }));        
-        return string.Concat(str);
+
+        Array.Sort(array, (a, b) => string.Concat(b, a).CompareTo(string.Concat(a, b)));
+        string result = string.Join("", array);
+
+        return result[0] == '0' ? "0" : result;
     }
 }
 // @lc code=end

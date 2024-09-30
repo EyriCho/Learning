@@ -7,11 +7,11 @@
 // @lc code=start
 public class Solution {
     public int MinExtraChar(string s, string[] dictionary) {
-        var dp = new int[s.Length + 1];
+        int[] dp = new int[s.Length + 1];
         for (int i = 1; i <= s.Length; i++)
         {
             dp[i] = dp[i - 1] + 1;
-            foreach (var word in dictionary)
+            foreach (string word in dictionary)
             {
                 if (i >= word.Length &&
                     s[(i - word.Length)..i] == word)
