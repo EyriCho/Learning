@@ -12,19 +12,16 @@ public class Solution {
             return false;
         }
 
-        var dict = new Dictionary<char, int>();
-        foreach (var c in s1)
+        Dictionary<char, int> dict = new ();
+        int count = 0;
+        foreach (char c in s1)
         {
-            if (!dict.TryGetValue(c, out int _))
-            {
-                dict[c] = 0;
-            }
-
-            dict[c]++;
+            dict.TryGetValue(c, out count);
+            dict[c] = count + 1;
         }
 
-        int l = 0, r = 0,
-            count = dict.Count;
+        int l = 0, r = 0;
+        count = dict.Count;
 
         while (r < s2.Length)
         {

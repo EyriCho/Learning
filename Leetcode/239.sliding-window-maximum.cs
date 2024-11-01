@@ -7,82 +7,32 @@
 // @lc code=start
 public class Solution {
     public int[] MaxSlidingWindow(int[] nums, int k) {
-        var array = new int[nums.Length];
-        var length = 0;
+        int targetArrival = times[targetFriend][0];
+        Array.Sort(times, (a, b) => a[0] - b[0]);
 
-        void Add(int index)
+        PriorityQueue<int, int> available = new ();
+        PriorityQueue<(int, int), int> occupied = new ();
+
+        int chair = 0,
+            seat = 0;
+        foreach (int[] time in times)
         {
-            int i = length++;
-            array[i] = index;
-            while (i > 0)
+            while (occupied.Count > 0 &&
+                occupied.Peek().Item1 <= time[0])
             {
-                var p = (i - 1) >> 1;
-                if (nums[array[i]] > nums[array[p]])
-                {
-                    array[i] ^= array[p];
-                    array[p] ^= array[i];
-                    array[i] ^= array[p];
-                }
-                i = p;
+                seat = occupied.Dequeue().Item2;
+                available.Enqueue(seat, seat);
             }
-        }
 
-        void Pop()
-        {
-            array[0] = array[--length];
-            int i = 0;
-            while (true)
+            seat = available.Count == 0 ? chair++ : available.Dequeue();
+            if (time[0] == targetArrival)
             {
-                int l = i * 2 + 1,
-                    r = i * 2 + 2;
-
-                if (l >= length)
-                {
-                    break;
-                }
-
-                if (nums[array[i]] < nums[array[l]] ||
-                    (r < length && nums[array[i]] < nums[array[r]]))
-                {
-                    if (r >= length || nums[array[l]] > nums[array[r]])
-                    {
-                        array[i] ^= array[l];
-                        array[l] ^= array[i];
-                        array[i] ^= array[l];
-                        i = l;
-                    }
-                    else
-                    {
-                        array[i] ^= array[r];
-                        array[r] ^= array[i];
-                        array[i] ^= array[r];
-                        i = r;
-                    }
-                }
-                else
-                {
-                    break;
-                }
+                return seat;
             }
+            occupied.Enqueue((time[1], seat), time[1]);
         }
 
-        var result = new int[nums.Length - k + 1];
-        for (int i = 0; i < k - 1; i++)
-        {
-            Add(i);
-        }
-
-        for (int i = 0; i + k <= nums.Length; i++)
-        {
-            Add(i + k - 1);
-            while (length > 0 && array[0] < i)
-            {
-                Pop();
-            }
-            result[i] = nums[array[0]];
-        }
-
-        return result;
+        return 0;
     }
 }
 // @lc code=end
