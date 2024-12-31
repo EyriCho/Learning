@@ -7,10 +7,8 @@
 // @lc code=start
 public class Solution {
     public int CountGoodStrings(int low, int high, int zero, int one) {
-        var dp = new long[high + 1];
+        long[] dp = new long[high + 1];
         dp[0] = 1;
-
-        var result = 0;
         for (int i = Math.Min(zero, one); i <= high; i++)
         {
             if (i >= zero)
@@ -26,11 +24,13 @@ public class Solution {
             dp[i] %= 1_000_000_007;
         }
 
+        long result = 0L;
         for (int i = low; i <= high; i++)
         {
-            result = (int)((result + dp[i]) % 1_000_000_007);
+            result = (result + dp[i]) % 1_000_000_007;
         }
-        return result;
+
+        return (int)result;
     }
 }
 // @lc code=end

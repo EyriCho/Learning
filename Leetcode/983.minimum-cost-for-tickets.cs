@@ -7,12 +7,14 @@
 // @lc code=start
 public class Solution {
     public int MincostTickets(int[] days, int[] costs) {
-        var totalDays = days[days.Length - 1];
-        var dp = new int[totalDays + 1];
-        int j = 0;
-        for (int i = 1; i <= totalDays; i++)
+        int total = days[days.Length - 1];
+        int[] dp = new int[total + 1];
+        
+        int d = 0,
+            p = 0;
+        for (int i = 1; i <= total; i++)
         {
-            if (i < days[j])
+            if (i < days[d])
             {
                 dp[i] = dp[i - 1];
             }
@@ -20,19 +22,19 @@ public class Solution {
             {
                 dp[i] = dp[i - 1] + costs[0];
 
-                var seven = i - 7;
-                seven = Math.Max(0, seven);
-                dp[i] = Math.Min(dp[i], dp[seven] + costs[1]);
+                p = i - 7;
+                p = Math.Max(p, 0);
+                dp[i] = Math.Min(dp[i], dp[p] + costs[1]);
 
-                var thirty = i - 30;
-                thirty = Math.Max(0, thirty);
-                dp[i] = Math.Min(dp[i], dp[thirty] + costs[2]);
+                p = i - 30;
+                p = Math.Max(p, 0);
+                dp[i] = Math.Min(dp[i], dp[p] + costs[2]);
 
-                j++;
+                d++;
             }
         }
 
-        return dp[totalDays];
+        return dp[total];
     }
 }
 // @lc code=end

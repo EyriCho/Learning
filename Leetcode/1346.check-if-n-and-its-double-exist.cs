@@ -7,16 +7,24 @@
 // @lc code=start
 public class Solution {
     public bool CheckIfExist(int[] arr) {
-        if (arr == null || arr.Length == 0) return false;
-        
-        var dict = new Dictionary<int, int>();
-        for (int i = 0; i < arr.Length; i++)
+        HashSet<int> set = new ();
+
+        foreach (int num in arr)
         {
-            if (dict.ContainsKey(arr[i] * 2) || 
-               (arr[i] % 2 == 0 && dict.ContainsKey(arr[i] / 2)))
+            if (set.Contains(num * 2))
+            {
                 return true;
-            dict[arr[i]] = i;
+            }
+
+            if (num % 2 == 0 &&
+                set.Contains(num >> 1))
+            {
+                return true;
+            }
+
+            set.Add(num);
         }
+
         return false;
     }
 }

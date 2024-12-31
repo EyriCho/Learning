@@ -28,11 +28,13 @@ public class Solution {
         
         Queue<TreeNode> queue = new();
         queue.Enqueue(root);
+        int max = 0,
+            count = 0;
 
         while (queue.Count > 0)
         {
-            int max = int.MinValue;
-            int count = queue.Count;
+            max = int.MinValue;
+            count = queue.Count;
             while (count-- > 0)
             {
                 TreeNode node = queue.Dequeue();
