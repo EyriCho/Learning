@@ -7,70 +7,84 @@
 // @lc code=start
 public class Solution {
     public int LargestIsland(int[][] grid) {
-        var visited = new bool[grid.Length, grid.Length];
-        var islands = new List<int>();
-        islands.Add(0);
-        var directions = new int[,] {
+        Dictionary<int, int> dict = new ();
+        int id = 1,
+            nx = 0,
+            ny = 0;
+        int[,] ds = new int[,] {
+            { 0, 1 },
+            { 1, 0 },
             { 0, -1 },
             { -1, 0 },
-            { 0, 1 },
-            { 1, 0 }
         };
-        
-        void TravelIsland(int x, int y, int num)
+
+        void Travel(int x, int y, int identity)
         {
-            islands[num]++;
-            visited[x, y] = true;
-            grid[x][y] = num;
-            
+            dict[identity]++;
+            grid[x][y] = identity;
             for (int i = 0; i < 4; i++)
             {
-                int nx = x + directions[i, 0],
-                    ny = y + directions[i, 1];
-                
-                if (nx > -1 && nx < grid.Length &&
-                   ny > -1 && ny < grid.Length &&
-                   grid[nx][ny] == 1 && !visited[nx, ny])
-                    TravelIsland(nx, ny, num);
+                nx = x + ds[i, 0];
+                ny = y + ds[i, 1];
+                if (nx >= 0 && nx < grid.Length &&
+                    ny >= 0 && ny < grid.Length &&
+                    grid[nx][ny] == 1)
+                {
+                    Travel(nx, ny, identity);
+                }
             }
         }
-        
-        int result = 0;
+
         for (int i = 0; i < grid.Length; i++)
+        {
             for (int j = 0; j < grid.Length; j++)
-                if (grid[i][j] == 1 && !visited[i, j])
+            {
+                if (grid[i][j] == 1)
                 {
-                    var n = islands.Count;
-                    islands.Add(0);
-                    TravelIsland(i, j, n);
-                    result = Math.Max(islands[n], result);
+                    dict[++id] = 0;
+                    Travel(i, j, id);
                 }
-        
-        var set = new HashSet<int>();
+            }
+        }
+
+        if (dict.Count == 0)
+        {
+            return 1;
+        }
+
+        HashSet<int> set = new ();
+        int max = 0, sum = 0;
         for (int i = 0; i < grid.Length; i++)
+        {
             for (int j = 0; j < grid.Length; j++)
-                if (grid[i][j] == 0)
+            {
+                if (grid[i][j] != 0)
                 {
-                    int c = 1;
-                    set.Clear();
-                    for (int k = 0; k < 4; k++)
+                    continue;
+                }
+                set.Clear();
+                sum = 1;
+                for (int k = 0; k < 4; k++)
+                {
+                    nx = i + ds[k, 0];
+                    ny = j + ds[k, 1];
+                    if (nx >= 0 && nx < grid.Length &&
+                        ny >= 0 && ny < grid.Length &&
+                        grid[nx][ny] > 1)
                     {
-                        int nx = i + directions[k, 0],
-                            ny = j + directions[k, 1];
-                        if (nx > -1 && nx < grid.Length &&
-                           ny > -1 && ny < grid.Length &&
-                           grid[nx][ny] > 0 &&
-                           !set.Contains(grid[nx][ny]))
+                        if (set.Contains(grid[nx][ny]))
                         {
-                            c += islands[grid[nx][ny]];
-                            set.Add(grid[nx][ny]);
+                            continue;
                         }
+                        set.Add(grid[nx][ny]);
+                        sum += dict[grid[nx][ny]];
                     }
-                    
-                    result = Math.Max(result, c);
                 }
-        
-        return result;
+                max = Math.Max(max, sum);
+            }
+        }
+
+        return max == 0 ? grid.Length * grid.Length : max;
     }
 }
 // @lc code=end

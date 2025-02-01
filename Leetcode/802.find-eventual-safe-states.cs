@@ -7,41 +7,35 @@
 // @lc code=start
 public class Solution {
     public IList<int> EventualSafeNodes(int[][] graph) {
-        var isLoop = new bool?[graph.Length];
-        var set = new HashSet<int>();
+        bool?[] terminal = new bool?[graph.Length];
 
-        bool CheckLoop(int idx)
+        bool IsTerminal(int idx)
         {
-            if (isLoop[idx].HasValue)
+            if (terminal[idx].HasValue)
             {
-                return isLoop[idx].Value;
+                return terminal[idx].Value;
             }
-            set.Add(idx);
 
-            isLoop[idx] = false;
-            foreach (var next in graph[idx])
+            terminal[idx] = false;
+            foreach (int next in graph[idx])
             {
-                if (set.Contains(next)
-                    || CheckLoop(next))
+                if (!IsTerminal(next))
                 {
-                    isLoop[idx] = true;
-                    break;
+                    return false;
                 }
             }
-            set.Remove(idx);
+            terminal[idx] = true;
 
-            return isLoop[idx].Value;
+            return true;
         }
 
-        var result = new List<int>();
+        List<int> result = new ();
         for (int i = 0; i < graph.Length; i++)
         {
-            if (CheckLoop(i))
+            if (IsTerminal(i))
             {
-                continue;
+                result.Add(i);
             }
-
-            result.Add(i);
         }
 
         return result;

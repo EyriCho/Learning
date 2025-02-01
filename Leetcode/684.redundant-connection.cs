@@ -7,29 +7,36 @@
 // @lc code=start
 public class Solution {
     public int[] FindRedundantConnection(int[][] edges) {
-        var idx = new int[edges.Length + 1];
-        for (int i = 0; i <= edges.Length; i++)
-            idx[i] = i;
-        
-        var result = edges[0];
-        foreach (var edge in edges)
+        int[] group = new int[edges.Length + 1];
+        for (int i = 1; i <= edges.Length; i++)
         {
-            int ix0 = edge[0],
-                ix1 = edge[1];
-            while (ix0 != idx[ix0])
-                ix0 = idx[ix0];
-            while (ix1 != idx[ix1])
-                ix1 = idx[ix1];
-            if (ix1 != ix0)
-            {
-                int ix = Math.Min(ix0, ix1);
-                idx[ix0] = idx[ix1] = ix;
-            }
-            else
-                result = edge;
+            group[i] = i;
         }
-        
-        return result;
+
+        int FindGroup(int node)
+        {
+            if (group[node] != node)
+            {
+                return group[node] = FindGroup(group[node]);
+            }
+
+            return node;
+        }
+
+        int a = 0, b = 0;
+        foreach (int[] edge in edges)
+        {
+            a = FindGroup(edge[0]);
+            b = FindGroup(edge[1]);
+            if (a == b)
+            {
+                return edge;
+            }
+
+            group[a] = b;
+        }
+
+        return null;
     }
 }
 // @lc code=end

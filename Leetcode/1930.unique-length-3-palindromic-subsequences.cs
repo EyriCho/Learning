@@ -7,16 +7,22 @@
 // @lc code=start
 public class Solution {
     public int CountPalindromicSubsequence(string s) {
-        int result = 0;
+        bool[] middles = new bool[26];
+        int result = 0,
+            l = 0,
+            r = 0,
+            m = 0;
 
         for (char c = 'a'; c <= 'z'; c++)
         {
-            int l = 0, r = s.Length - 1;
+            l = 0;
+            r = s.Length - 1;
+
             while (l < s.Length && s[l] != c)
             {
                 l++;
             }
-            while (r > l && s[r] != c)
+            while (r >= 0 && s[r] != c)
             {
                 r--;
             }
@@ -26,15 +32,14 @@ public class Solution {
                 continue;
             }
 
-            int m = l;
-            bool[] visited = new bool[26];
+            Array.Fill(middles, false);
+            m = l;
             while (++m < r)
             {
-                int cIndex = s[m] - 'a';
-                if (!visited[cIndex])
+                if (!middles[s[m] - 'a'])
                 {
                     result++;
-                    visited[cIndex] = true;
+                    middles[s[m] - 'a'] = true;
                 }
             }
         }
