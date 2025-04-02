@@ -6,28 +6,25 @@
 
 // @lc code=start
 public class Solution {
-    public IList<int> PartitionLabels(string S) {
-        var end = new int[26];
-        for (int i = 0; i < S.Length; i++)
+    public IList<int> PartitionLabels(string s) {
+        int[] lasts = new int[26];
+        for (int i = 0; i < s.Length; i++)
         {
-            var index = (int)(S[i] - 'a');
-            end[index] = i;
+            lasts[s[i] - 'a'] = i;
         }
-        
-        var result = new List<int>();
-        var start = 0;
-        var last = -1;
-        for (int i = 0; i < S.Length; i++)
+
+        List<int> result = new ();
+        int idx = 0,
+            start = 0,
+            last = 0;
+        for (int i = 0; i < s.Length; i++)
         {
-            var index = (int)(S[i] - 'a');
-            if (end[index] > last)
+            idx = lasts[s[i] - 'a'];
+            last = Math.Max(last, idx);
+
+            if (i == last)
             {
-                last = end[index];
-            }
-            
-            if (last == i)
-            {
-                result.Add(i + 1 - start);
+                result.Add(last - start + 1);
                 start = i + 1;
             }
         }

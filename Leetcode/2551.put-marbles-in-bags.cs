@@ -19,7 +19,7 @@ public class Solution {
 
         Array.Sort(weights, 0, weights.Length - 1);
 
-        var result = 0L;
+        long result = 0L;
         for (int i = 0 ; i < k - 1; i++)
         {
             result += weights[weights.Length - 2 - i] - weights[i];

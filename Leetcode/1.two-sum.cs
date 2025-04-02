@@ -7,10 +7,11 @@
 // @lc code=start
 public class Solution {
     public int[] TwoSum(int[] nums, int target) {
-        var dict = new Dictionary<int, int>();
+        Dictionary<int, int> dict = new ();
+        int left = 0;
         for (int i = 0; i < nums.Length; i++)
         {
-            var left = target - nums[i];
+            left = target - nums[i];
             if (dict.ContainsKey(left))
             {
                 return new int[] {i, dict[left]};

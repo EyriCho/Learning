@@ -7,20 +7,14 @@
 // @lc code=start
 public class Solution {
     public long MostPoints(int[][] questions) {
-        var dp = new long[questions.Length];
-        var last = questions.Length - 1;
+        long[] dp = new long[questions.Length];
+        dp[^1] = questions[^1][0];
 
-        dp[last] = questions[last][0];
+        int nextBrain = 0;
         for (int i = questions.Length - 2; i >= 0; i--)
         {
-            if (i + questions[i][1] + 1 < questions.Length)
-            {
-                dp[i] = Math.Max(dp[i + 1], dp[i + questions[i][1] + 1] + questions[i][0]);
-            }
-            else
-            {
-                dp[i] = Math.Max(dp[i + 1], questions[i][0]);
-            }
+            nextBrain = i + questions[i][1] + 1;
+            dp[i] = Math.Max(dp[i + 1], (nextBrain < dp.Length ? dp[nextBrain] : 0L) + questions[i][0]);
         }
 
         return dp[0];
