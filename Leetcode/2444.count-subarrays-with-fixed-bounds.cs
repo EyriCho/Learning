@@ -7,27 +7,29 @@
 // @lc code=start
 public class Solution {
     public long CountSubarrays(int[] nums, int minK, int maxK) {
-        long result = 0L;
-        for (int i = 0, t = -1, l = -1, r = -1; i < nums.Length; i++)
+        long result = 0;
+        for (int i = 0, outScope = -1, min = -1, max = -1;
+            i < nums.Length;
+            i++)
         {
             if (nums[i] < minK || nums[i] > maxK)
             {
-                l = r = -1;
-                t = i;
+                outScope = i;
+                min = max = -1;
             }
             else
             {
-                if (nums[i] == minK) 
+                if (nums[i] == minK)
                 {
-                    l = i;
+                    min = i;
                 }
                 if (nums[i] == maxK)
                 {
-                    r = i;
+                    max = i;
                 }
-                if (l != -1 && r != -1)
+                if (min > -1 && max > -1)
                 {
-                    result += Math.Min(l, r) - t;
+                    result += Math.Min(min, max) - outScope;
                 }
             }
         }

@@ -8,37 +8,39 @@
 public class Solution {
     public IList<int> LargestDivisibleSubset(int[] nums) {
         Array.Sort(nums);
-        
-        int maxLen = 1, maxIndex = 0;
-        int[] dp = new int[nums.Length],
-            path = new int[nums.Length];
-        Array.Fill(dp, 1);
-        Array.Fill(path, -1);
-        
+
+        (int len, int prev)[] dp = new (int, int)[nums.Length];
+        dp[0] = (1, -1);
+
+        int max = 1,
+            last = 0;
         for (int i = 1; i < nums.Length; i++)
         {
-            for (int j = 0; j < i; j++)
+            dp[i] = (1, -1);
+            for (int p = 0; p < i; p++)
             {
-                if (nums[i] % nums[j] == 0 && dp[j] + 1 > dp[i])
+                if (nums[i] % nums[p] == 0 &&
+                    dp[p].len + 1 > dp[i].len)
                 {
-                    dp[i] = dp[j] + 1;
-                    path[i] = j;
+                    dp[i] = (dp[p].len + 1, p);
                 }
             }
-            
-            if (dp[i] > maxLen)
+
+            if (dp[i].len > max)
             {
-                maxLen = dp[i];
-                maxIndex = i;
+                max = dp[i].len;
+                last = i;
             }
         }
-        
-        var result = new List<int>(maxLen);
-        while (maxIndex > -1)
+
+        List<int> result = new ();
+        while (last > -1)
         {
-            result.Add(nums[maxIndex]);
-            maxIndex = path[maxIndex];
+            result.Add(nums[last]);
+            last = dp[last].prev;
         }
+        result.Reverse();
+
         return result;
     }
 }

@@ -7,24 +7,13 @@
 // @lc code=start
 public class Solution {
     public int SubsetXORSum(int[] nums) {
-        List<int> array = new ();
-        array.Add(0);
-
-        int count = 0,
-            result = 0,
-            xor = 0;
+        int or = 0;
         foreach (int num in nums)
         {
-            count = array.Count;
-            for (int i = 0; i < count; i++)
-            {
-                xor = array[i] ^ num;
-                array.Add(xor);
-                result += xor;
-            }
+            or |= num;
         }
 
-        return result;
+        return or << (nums.Length - 1);
     }
 }
 // @lc code=end

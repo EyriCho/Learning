@@ -7,20 +7,25 @@
 // @lc code=start
 public class Solution {
     public int FindNumbers(int[] nums) {
-        int count = 0;
-        foreach (int number in nums)
+        int result = 0;
+        foreach (int num in nums)
         {
-            int num = number;
-            int numCount = 0;
-            while (num != 0)
+            if (num < 10)
             {
-                num = num / 10;
-                numCount++;
+                continue;
             }
-            if (numCount % 2 == 0)
-                count++;
+            else if (num > 99 && num < 1_000)
+            {
+                continue;
+            }
+            else if (num > 9_999 && num < 100_000)
+            {
+                continue;
+            }
+
+            result++;
         }
-        return count;
+        return result;
     }
 }
 // @lc code=end

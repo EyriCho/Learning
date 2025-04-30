@@ -7,15 +7,12 @@
 // @lc code=start
 public class Solution {
     public long CountFairPairs(int[] nums, int lower, int upper) {
-        Array.Sort(nums);
-
-        long FindPair(int target)
+        long FindPairs(int target)
         {
             long rst = 0L;
             int l = 0,
                 r = nums.Length - 1,
                 sum = 0;
-
             while (l < r)
             {
                 sum = nums[l] + nums[r];
@@ -29,11 +26,11 @@ public class Solution {
                     r--;
                 }
             }
-
             return rst;
         }
 
-        return FindPair(upper) - FindPair(lower - 1);
+        Array.Sort(nums);
+        return FindPairs(upper) - FindPairs(lower - 1);
     }
 }
 // @lc code=end

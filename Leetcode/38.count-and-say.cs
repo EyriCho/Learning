@@ -9,27 +9,27 @@ public class Solution {
     public string CountAndSay(int n) {
         List<char> Say(List<char> sequence)
         {
-            var list = new List<char>();
+            List<char> rst = new ();
             
-            int i = 0;
+            int i = 0,
+                j = 0;
+            char c;
             while (i < sequence.Count)
             {
-                var c = sequence[i];
-                var j = i + 1;
+                c = sequence[i];
+                j = i + 1;
                 while (j < sequence.Count && sequence[j] == c)
                 {
                     j++;
                 }
-                list.Add((char)(j - i + '0'));
-                list.Add(c);
+                rst.Add((char)(j - i + '0'));
+                rst.Add(c);
                 i = j;
             }
-            return list;
+            return rst;
         }
         
-        var word = new List<char>() {
-            '1'
-        };
+        List<char> word = new () { '1' };
         while (--n > 0)
         {
             word = Say(word);
