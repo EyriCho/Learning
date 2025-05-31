@@ -7,28 +7,16 @@
 // @lc code=start
 public class Solution {
     public bool ThreeConsecutiveOdds(int[] arr) {
-        bool first = false,
-            second = false;
+        int count = 0;
         foreach (int num in arr)
         {
-            if ((num & 1) > 0)
+            if ((num & 1) == 0)
             {
-                if (second)
-                {
-                    return true;
-                }
-                else if (first)
-                {
-                    second = true;
-                }
-                else
-                {
-                    first = true;
-                }
+                count = 0;
             }
-            else
+            else if (++count == 3)
             {
-                first = second = false;
+                return true;
             }
         }
 

@@ -14,43 +14,45 @@ public class Solution {
         dist1[node1] = 0;
         dist2[node2] = 0;
 
-        void bfs(int node, int[] dist)
+        void Bfs(int[] dist, int node)
         {
-            var queue = new Queue<int>();
-            queue.Enqueue(node);
-            while (queue.Count > 0)
+            while (node != -1)
             {
-                var n = queue.Dequeue();
-                if (edges[n] > -1)
+                if (edges[node] == -1)
                 {
-                    if (dist[edges[n]] < 0)
-                    {
-                        dist[edges[n]] = dist[n] + 1;
-                        queue.Enqueue(edges[n]);
-                    }
+                    break;;
                 }
+
+                if (dist[edges[node]] > -1)
+                {
+                    break;
+                }
+
+                dist[edges[node]] = dist[node] + 1;
+                node = edges[node];
             }
         }
 
-        bfs(node1, dist1);
-        bfs(node2, dist2);
+        Bfs(dist1, node1);
+        Bfs(dist2, node2);
 
-        int min = int.MaxValue,
+        int min = edges.Length,
+            max = 0,
             result = -1;
 
         for (int i = 0; i < edges.Length; i++)
         {
-            if (dist1[i] > -1 && dist2[i] > -1)
+            if (dist1[i] == -1 || dist2[i] == -1)
             {
-                var max = Math.Max(dist1[i], dist2[i]);
-                if (max > -1 && max < min)
-                {
-                    min = max;
-                    result = i;
-                }
+                continue;
             }
 
-            Console.WriteLine($"{dist1[i]}, {dist2[i]}");
+            max = Math.Max(dist1[i], dist2[i]);
+            if (max < min)
+            {
+                min = max;
+                result = i;
+            }
         }
 
         return result;

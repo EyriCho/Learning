@@ -7,39 +7,41 @@
 // @lc code=start
 public class Solution {
     public int SnakesAndLadders(int[][] board) {
-        (int, int) Locate(int num)
+        (int, int) Locate(int position)
         {
-            num--;
-            var x = board.Length - num / board.Length - 1;
+            position--;
 
-            if (((num / board.Length) & 1) == 0)
+            int x = board.Length - 1 - position / board.Length;
+            if (((position / board.Length) & 1) == 0)
             {
-                return (x, num % board.Length);
+                return (x, position % board.Length);
             }
             else
             {
-                return (x, board.Length - 1 - num % board.Length);
+                return (x, board.Length - 1 - position % board.Length);
             }
         }
 
-        var queue = new Queue<int>();
+        int pos = 0, x = 0, y = 0, next = 0,
+            target = board.Length * board.Length,
+            count = 0,
+            move = 0;
+        Queue<int> queue = new ();
         queue.Enqueue(1);
-        var move = 0;
-        var target = board.Length * board.Length;
-        var visited = new bool[target + 1];
+        bool[] visited = new bool[target + 1];
         visited[1] = true;
 
         while (queue.Count > 0)
         {
             move++;
-            var count = queue.Count;
+            count = queue.Count;
             while (count-- > 0)
             {
-                var pos = queue.Dequeue();
-
+                pos = queue.Dequeue();
+                
                 for (int i = 1; i <= 6; i++)
                 {
-                    var next = pos + i;
+                    next = pos + i;
                     if (next == target)
                     {
                         return move;
@@ -49,8 +51,8 @@ public class Solution {
                         break;
                     }
 
-                    var (x, y) = Locate(next);
-                    if (board[x][y] != -1)
+                    (x, y) = Locate(next);
+                    if (board[x][y] > 0)
                     {
                         if (board[x][y] == target)
                         {

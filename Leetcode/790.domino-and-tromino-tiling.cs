@@ -8,16 +8,18 @@
 public class Solution {
     public int NumTilings(int n) {
         if (n < 3)
+        {
             return n;
-        var dp = new long[n + 1];
-        const int mod = 1_000_000_007;
-        
-        dp[1] = 1;
-        dp[2] = 2;
-        dp[3] = 5;
+        }
+        long[] dp = new long[n + 1];
+        dp[1] = 1L;
+        dp[2] = 2L;
+        dp[3] = 5L;
         for (int i = 4; i <= n; i++)
-            dp[i] = (dp[i - 1] * 2 + dp[i - 3]) % mod;
-        
+        {
+            dp[i] = (dp[i - 1] * 2 + dp[i - 3]) % 1_000_000_007L;
+        }
+
         return (int)dp[n];
     }
 }

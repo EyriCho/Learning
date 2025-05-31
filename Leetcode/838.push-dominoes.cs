@@ -7,9 +7,8 @@
 // @lc code=start
 public class Solution {
     public string PushDominoes(string dominoes) {
-        var array = dominoes.ToCharArray();
-        
-        var queue = new Queue<int>();
+        char[] array = dominoes.ToCharArray();
+        Queue<int> queue = new ();
         for (int i = 0; i < array.Length; i++)
         {
             if (array[i] != '.')
@@ -17,34 +16,37 @@ public class Solution {
                 queue.Enqueue(i);
             }
         }
-        
-        int last = -1;
+
+        int c = 0,
+            last = -1,
+            l = -1,
+            r = 0;
+
         while (queue.Count > 0)
         {
-            var i = queue.Dequeue();
-            
-            if (dominoes[i] == 'L')
+            c = queue.Dequeue();
+            if (array[c] == 'L')
             {
-                var l = i;
+                l = c;
                 while (l > last)
                 {
                     array[l--] = 'L';
                 }
-                last = i;
+                last = c;
             }
             else
             {
-                int r = dominoes.Length;
+                r = array.Length;
                 if (queue.Count > 0)
                 {
                     r = queue.Peek();
                 }
-                
-                if (r == dominoes.Length || dominoes[r] == 'R')
+
+                if (r == array.Length || array[r] == 'R')
                 {
-                    while (i < r)
+                    while (c < r)
                     {
-                        array[i++] = 'R'; 
+                        array[c++] = 'R';
                     }
                     last = r;
                 }
@@ -52,15 +54,15 @@ public class Solution {
                 {
                     queue.Dequeue();
                     last = r;
-                    while (++i < --r)
+                    while (++c < --r)
                     {
                         array[r] = 'L';
-                        array[i] = 'R';
+                        array[c] = 'R';
                     }
                 }
             }
         }
-        
+
         return new string(array);
     }
 }

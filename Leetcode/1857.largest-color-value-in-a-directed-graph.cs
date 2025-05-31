@@ -7,63 +7,56 @@
 // @lc code=start
 public class Solution {
     public int LargestPathValue(string colors, int[][] edges) {
-        var nexts = new List<int>[colors.Length];
-        var prevs = new int[colors.Length];
-        var group = new int[colors.Length, 26];
-
+        List<int>[] maps = new List<int>[colors.Length];
+        int[] prevs = new int[colors.Length];
         for (int i = 0; i < colors.Length; i++)
         {
-            nexts[i] = new List<int>();
+            maps[i] = new ();
         }
 
-        foreach (var edge in edges)
+        foreach (int[] edge in edges)
         {
-            nexts[edge[0]].Add(edge[1]);
+            maps[edge[0]].Add(edge[1]);
             prevs[edge[1]]++;
         }
 
-        var list = new List<int>();
+        int[,] groups = new int[colors.Length, 26];
+        Queue<int> queue = new ();
         for (int i = 0; i < colors.Length; i++)
         {
             if (prevs[i] == 0)
             {
-                list.Add(i);
-                group[i, colors[i] - 'a']++;
+                queue.Enqueue(i);
+                groups[i, colors[i] - 'a']++;
             }
         }
 
-        var visited = new bool[colors.Length];
-        int result = 1;
-
-        int l = 0, r = list.Count;
-        while (l < r)
+        int node = 0,
+            c = 0,
+            visited = 0,
+            result = 1;
+        while (queue.Count > 0)
         {
-            var node = list[l];
-            l++;
-            foreach (var next in nexts[node])
+            node = queue.Dequeue();
+            visited++;
+
+            foreach (int next in maps[node])
             {
-                for (int c = 0; c < 26; c++)
+                for (c = 0; c < 26; c++)
                 {
-                    group[next, c] = Math.Max(group[next, c], group[node, c]);
+                    groups[next, c] = Math.Max(groups[next, c], groups[node, c]);
                 }
 
                 prevs[next]--;
                 if (prevs[next] == 0)
                 {
-                    list.Add(next);
-                    r++;
-                    var count = ++group[next, colors[next] - 'a'];
-                    result = Math.Max(result, count);
+                    queue.Enqueue(next);
+                    result = Math.Max(result, ++groups[next, colors[next] - 'a']);
                 }
             }
         }
 
-        if (list.Count != colors.Length)
-        {
-            return -1;
-        }
-
-        return result;
+        return visited < colors.Length ? -1 : result;
     }
 }
 // @lc code=end

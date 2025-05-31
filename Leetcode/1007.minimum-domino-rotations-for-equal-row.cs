@@ -7,37 +7,36 @@
 // @lc code=start
 public class Solution {
     public int MinDominoRotations(int[] A, int[] B) {
-        int Check(int target)
+        int Check(int num)
         {
-            int t = 0, b = 0;
-            
+            int t = 0,
+                b = 0;
             for (int i = 0; i < tops.Length; i++)
             {
-                if (tops[i] != target && bottoms[i] != target)
+                if (tops[i] != num && bottoms[i] != num)
                 {
                     return -1;
                 }
-                else if (tops[i] != target)
+                else if (tops[i] != num)
                 {
                     t++;
                 }
-                else if (bottoms[i] != target)
+                else if (bottoms[i] != num)
                 {
                     b++;
                 }
             }
-            
-            return Math.Min(t, b);
+
+            return Math.Min(b, t);
         }
-        
-        var rotation = Check(tops[0]);
-        
-        if (rotation == -1)
+
+        int rotate = Check(tops[0]);
+        if (rotate == -1)
         {
-            return Check(bottoms[0]);
+            rotate = Check(bottoms[0]);
         }
-        
-        return rotation;
+
+        return rotate;
     }
 }
 // @lc code=end
