@@ -7,44 +7,42 @@
 // @lc code=start
 public class Solution {
     public string SmallestEquivalentString(string s1, string s2, string baseStr) {
-        var group = new int[26];
+        int[] groups = new int[26];
         for (int i = 0; i < 26; i++)
         {
-            group[i] = i;
+            groups[i] = i;
         }
 
-        int findGroup(int i)
+        int FindGroup(char c)
         {
-            while (group[i] != i)
+            int idx = c - 'a';
+            while (groups[idx] != idx)
             {
-                i = group[i];
+                idx = groups[idx];
             }
-
-            return i;
+            return idx;
         }
 
+        int g1 = 0, g2 = 0;
         for (int i = 0; i < s1.Length; i++)
         {
-            if (s1[i] != s2[i])
-            {
-                int g1 = findGroup(s1[i] - 'a');
-                int g2 = findGroup(s2[i] - 'a');
+            g1 = FindGroup(s1[i]);
+            g2 = FindGroup(s2[i]);
 
-                if (g1 < g2)
-                {
-                    group[g2] = g1;
-                }
-                else if (g1 > g2)
-                {
-                    group[g1] = g2;
-                }
+            if (g1 < g2)
+            {
+                groups[g2] = g1;
+            }
+            else if (g2 < g1)
+            {
+                groups[g1] = g2;
             }
         }
 
-        var array = new char[baseStr.Length];
-        for (int i = 0; i < baseStr.Length; i++)
+        char[] array = new char[baseStr.Length];
+        for (int i = 0; i < array.Length; i++)
         {
-            array[i] = (char)(findGroup(baseStr[i] - 'a') + 'a');
+            array[i] = (char)('a' + FindGroup(baseStr[i]));
         }
 
         return new string(array);

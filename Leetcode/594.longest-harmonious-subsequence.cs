@@ -7,22 +7,22 @@
 // @lc code=start
 public class Solution {
     public int FindLHS(int[] nums) {
-        var dict = new Dictionary<int, int>();
-        foreach (var num in nums)
-        {
-            if (dict.ContainsKey(num))
-                dict[num]++;
-            else
-                dict[num] = 1;
-        }
+        Array.Sort(nums);
+        int l = 0, r = 0, temp = 0,
+            result = 0;
         
-        var result = 0;
-        foreach (var entry in dict)
+        while (r < nums.Length)
         {
-            if (dict.TryGetValue(entry.Key + 1, out var count))
+            temp = r;
+            while (r < nums.Length && nums[r] == nums[temp])
             {
-                result = Math.Max(result, entry.Value + count);
+                r++;
             }
+            if (nums[temp] - nums[l] == 1)
+            {
+                result = Math.Max(result, r - l);
+            }
+            l = temp;
         }
         return result;
     }

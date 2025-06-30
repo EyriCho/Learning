@@ -9,11 +9,12 @@ public class Solution {
     public int FindKthNumber(int n, int k) {
         long current = 1L,
             counts = 0L;
-        k -= 1;
+        k--;
 
-        long Count(long left, long right)
+        long Count(long left)
         {
-            long result = 0L;
+            long right = left + 1L,
+                result = 0L;
             while (left <= n)
             {
                 result += Math.Min(n + 1, right) - left;
@@ -22,9 +23,10 @@ public class Solution {
             }
             return result;
         }
+
         while (k > 0)
         {
-            counts = Count(current, current + 1L);
+            counts = Count(current);
             if (counts <= k)
             {
                 current += 1L;
@@ -33,7 +35,7 @@ public class Solution {
             else
             {
                 current *= 10L;
-                k -= 1;
+                k--;
             }
         }
         return (int)current;

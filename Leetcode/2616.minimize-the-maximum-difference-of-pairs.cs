@@ -14,25 +14,30 @@ public class Solution {
 
         Array.Sort(nums);
 
-        bool Check(int maxDiff)
+        bool Check(int diff)
         {
-            var dp = new int[nums.Length + 1];
+            int prev = 0,
+                temp = 0,
+                current = 0;
             for (int i = 1; i < nums.Length; i++)
             {
-                dp[i + 1] = dp[i];
-                if (nums[i] - nums[i - 1] <= maxDiff)
+                temp = current;
+                if (nums[i] - nums[i - 1] <= diff)
                 {
-                    dp[i + 1] = Math.Max(dp[i + 1], dp[i - 1] + 1);
+                    temp = Math.Max(temp, prev + 1);
                 }
+
+                prev = current;
+                current = temp;
             }
 
-            return dp[nums.Length] >= p;
+            return current >= p;
         }
-        
-        int l = 0,
-            r = nums[nums.Length - 1] - nums[0],
-            m = 0;
 
+        int l = 0,
+            m = 0,
+            r = nums[^1] - nums[0];
+        
         while (l < r)
         {
             m = (l + r) >> 1;
@@ -47,43 +52,6 @@ public class Solution {
         }
 
         return r;
-    }
-        var reached = new Dictionary<string, bool>();
-        reached[beginWord] = true;
-        var wordDict = new Dictionary<string, bool>();
-        foreach (var word in wordList)
-            wordDict[word] = true;
-        if (!wordDict.ContainsKey(endWord))
-            return 0;
-        
-        int length = 1;
-        while (!reached.ContainsKey(endWord))
-        {
-            var toAdd = new Dictionary<string, bool>();
-            foreach (var reach in reached.Keys)
-            {
-                for (int i = 0; i < reach.Length; i++)
-                {
-                    var array = reach.ToCharArray();
-                    for (char c = 'a'; c <= 'z'; c++)
-                    {
-                        array[i] = c;
-                        string str = new String(array);
-                        if (wordDict.ContainsKey(str))
-                        {
-                            toAdd[str] = true;
-                            wordDict.Remove(str);
-                        }
-                    }
-                }
-            }
-            length++;
-            if (toAdd.Count == 0)
-                return 0;
-            reached = toAdd;
-        }
-        
-        return length;
     }
 }
 // @lc code=end

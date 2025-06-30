@@ -8,7 +8,7 @@
 public class Solution {
     public int NumSubseq(int[] nums, int target) {
         Array.Sort(nums);
-        var power2 = new int[nums.Length];
+        int[] power2 = new int[nums.Length];
         power2[0] = 1;
         for (int i = 1; i < nums.Length; i++)
         {
@@ -16,9 +16,9 @@ public class Solution {
         }
 
         int l = 0,
-            r = nums.Length - 1;
+            r = nums.Length - 1,
+            result = 0;
 
-        int result = 0;
         while (l <= r)
         {
             if (nums[l] + nums[r] > target)
@@ -31,6 +31,7 @@ public class Solution {
                 l++;
             }
         }
+
         return result;
     }
 }
