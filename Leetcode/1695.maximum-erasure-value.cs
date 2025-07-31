@@ -7,31 +7,26 @@
 // @lc code=start
 public class Solution {
     public int MaximumUniqueSubarray(int[] nums) {
-        var dict = new Dictionary<int, int>();
+        HashSet<int> set = new ();
+
+        int result = 0,
+            sum = 0,
+            l = 0,
+            r = 0;
         
-        int l = 0, r = 0, sum = 0,
-            result = 0;
         while (r < nums.Length)
         {
-            if (!dict.ContainsKey(nums[r]))
+            while (set.Contains(nums[r]))
             {
-                sum += nums[r];
-                dict.Add(nums[r], r);
+                sum -= nums[l];
+                set.Remove(nums[l++]);
             }
-            else
-            {
-                while (nums[l] != nums[r])
-                {
-                    sum -= nums[l];
-                    dict.Remove(nums[l]);
-                    l++;
-                }
-                l++;
-            }
-            
-            r++;
+
+            sum += nums[r];
+            set.Add(nums[r++]);
             result = Math.Max(result, sum);
         }
+
         return result;
     }
 }

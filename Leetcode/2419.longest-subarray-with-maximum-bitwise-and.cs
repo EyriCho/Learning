@@ -7,11 +7,7 @@
 // @lc code=start
 public class Solution {
     public int LongestSubarray(int[] nums) {
-        int max = 0;
-        foreach (int num in nums)
-        {
-            max = Math.Max(num, max);
-        }
+        int max = nums.Max();
 
         int i = 0,
             l = 0,
@@ -26,7 +22,7 @@ public class Solution {
 
             l = i;
             while (i < nums.Length &&
-                nums[i] == max)
+                nums[i] == nums[l])
             {
                 i++;
             }

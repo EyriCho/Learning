@@ -11,18 +11,11 @@ public class Solution {
             stack2 = new();
         
         int result = 0,
-            max = 0,
-            min = 0;
+            max = x,
+            min = y;
         char first = 'a',
             second = 'b';
-        if (x >= y)
-        {
-            max = x;
-            min = y;
-            first = 'a';
-            second = 'b';
-        }
-        else
+        if (x < y)
         {
             max = y;
             min = x;

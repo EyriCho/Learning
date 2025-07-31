@@ -7,26 +7,31 @@
 // @lc code=start
 public class Solution {
     public int CountMaxOrSubsets(int[] nums) {
-        Dictionary<int, int> dict = new ();
-        int max = 0;
-
-        void Dfs(int current, int index)
+        int max = 0,
+            result = 0;
+        foreach (int num in nums)
         {
-            int next = 0,
-                count = 0;
-            for (int i = index; i < nums.Length; i++)
+            max |= num;
+        }
+
+        void Dfs(int index, int current)
+        {
+            if (current == max)
             {
-                next = current | nums[i];
-                dict.TryGetValue(next, out count);
-                dict[next] = count + 1;
-                max = Math.Max(next, max);
-                Dfs(next, i + 1);
+                result += 1 << (nums.Length - index);
+                return;
             }
+            else if (index == nums.Length)
+            {
+                return;
+            }
+
+            Dfs(index + 1, current | nums[index]);
+            Dfs(index + 1, current);
         }
 
         Dfs(0, 0);
-
-        return dict[max];
+        return result;
     }
 }
 // @lc code=end

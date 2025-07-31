@@ -7,16 +7,17 @@
 // @lc code=start
 public class Solution {
     public int MaxValue(int[][] events, int k) {
-        Array.Sort(events, (a, b) => a[1] > b[1] ? 1 : a[1] == b[1] ? 0 : -1);
+        Array.Sort(events, (a, b) => a[1].CompareTo(b[1]));
 
-        var dp = new int[events.Length, k + 1];
+        int[,] dp = new int[events.Length, k + 1];
         dp[0, 1] = events[0][2];
-
+        int prev = 0,
+            l = 0, r = 0, m = 0;
         for (int i = 1; i < events.Length; i++)
         {
-
-            int l = 0, r = i - 1, m = 0,
-                found = events.Length;
+            l = 0;
+            r = i - 1;
+            prev = events.Length;
 
             while (l <= r)
             {
@@ -27,10 +28,9 @@ public class Solution {
                 }
                 else
                 {
-                    if (m == events.Length - 1 ||
-                        events[m + 1][1] >= events[i][0])
+                    if (events[m + 1][1] >= events[i][0])
                     {
-                        found = m;
+                        prev = m;
                         break;
                     }
                     else
@@ -44,8 +44,7 @@ public class Solution {
             {
                 dp[i, t] = dp[i - 1, t];
             }
-
-            if (found == events.Length)
+            if (prev == events.Length)
             {
                 dp[i, 1] = Math.Max(dp[i, 1], events[i][2]);
             }
@@ -53,17 +52,16 @@ public class Solution {
             {
                 for (int t = 0; t < k; t++)
                 {
-                    dp[i, t + 1] = Math.Max(dp[i, t + 1], dp[found, t] + events[i][2]);
+                    dp[i, t + 1] = Math.Max(dp[i, t + 1], dp[prev, t] + events[i][2]);
                 }
             }
         }
 
-        var result = 0;
+        int result = 0;
         for (int t = 1; t <= k; t++)
         {
             result = Math.Max(result, dp[events.Length - 1, t]);
         }
-
         return result;
     }
 }

@@ -18,7 +18,7 @@
  */
 public class Solution {
     public int GetDecimalValue(ListNode head) {
-         int i = 0;
+        int i = 0;
         while (head != null)
         {
             i = (i << 1) + head.val;

@@ -9,46 +9,49 @@ public class Solution {
     public int MostBooked(int n, int[][] meetings) {
         int[] rooms = new int[n];
         long[] endTimes = new long[n];
-
-        Array.Sort(meetings, (a, b) => a[0] - b[0]);
-        long minTime = 0L;
-        int room = 0;
-        foreach (int[] meeting in meetings)
-        {
-            minTime = long.MaxValue;
-            room = 0;;
-
-            for (int i = 0; i < n; i++)
-            {
-                if (endTimes[i] <= meeting[0])
-                {
-                    room = i;
-                    break;
-                }
-
-                if (minTime > endTimes[i])
-                {
-                    room = i;
-                    minTime = endTimes[i];
-                }
-            }
-
-            rooms[room]++;
-            endTimes[room] = endTimes[room] > meeting[0] ?
-                endTimes[room] + meeting[1] - meeting[0] :
-                meeting[1];
-        }
-
-        int max = 0,
-            result = 0;
+        Array.Sort(meetings, (a, b) => a[0].CompareTo(b[0]));
+        PriorityQueue<int, int> occupied = new (Comparer<int>.Create((a, b) =>
+            endTimes[a] == endTimes[b] ? a.CompareTo(b) : endTimes[a].CompareTo(endTimes[b])));
+        SortedSet<int> frees = new ();
         for (int i = 0; i < n; i++)
         {
-            if (rooms[i] > max)
+            frees.Add(i);
+        }
+        
+        int free = 0;
+        long delayTime = 0L;
+        for (int i = 0; i < meetings.Length; i++)
+        {
+            while (occupied.Count > 0 &&
+                endTimes[occupied.Peek()] <= meetings[i][0])
             {
-                max = rooms[i];
+                frees.Add(occupied.Dequeue());
+            }
+            if (occupied.Count == n)
+            {
+                delayTime = endTimes[occupied.Peek()] - meetings[i][0];
+                frees.Add(occupied.Dequeue());
+            }
+            else
+            {
+                delayTime = 0L;
+            }
+            free = frees.Min;
+            rooms[free]++;
+            endTimes[free] = delayTime + meetings[i][1];
+            frees.Remove(free);
+            occupied.Enqueue(free, free);
+        }
+
+        int result = 0;
+        for (int i = 1; i < n; i++)
+        {
+            if (rooms[i] > rooms[result])
+            {
                 result = i;
             }
         }
+
         return result;
     }
 }
