@@ -7,21 +7,21 @@
 // @lc code=start
 public class Solution {
     public IList<IList<int>> Generate(int numRows) {
-        var result = new List<IList<int>>() {
-            new List<int> { 1 }
-        };
+        List<IList<int>> result = new ();
+        List<int> prev = new () { 1 };
+        result.Add(prev);
         
         for (int row = 1; row < numRows; row++)
         {
-            var list = new List<int>(row + 1);
-            var prev = result[row - 1];
+            List<int> list = new (row + 1);
             list.Add(1);
-            for (int j = 1; j < row; j++)
+            for (int i = 1; i < row; i++)
             {
-                list.Add(prev[j - 1] + prev[j]);
+                list.Add(prev[i - 1] + prev[i]);
             }
             list.Add(1);
             result.Add(list);
+            prev = list;
         }
         
         return result;

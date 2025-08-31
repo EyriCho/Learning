@@ -7,51 +7,83 @@
 // @lc code=start
 public class Solution {
     public void SolveSudoku(char[][] board) {
-        bool IsValid(int x, int y, char c)
-        {
-            for (int i = 0; i < 9; i++)
-                if (board[i][y] == c)
-                    return false;
-
-            for (int j = 0; j < 9; j++)
-                if (board[x][j] == c)
-                    return false;
-            
-            int row = x - x % 3,
-                column = y - y % 3;
-            
-            for (int i = 0; i < 3; i++)
-                for (int j = 0; j < 3; j++)
-                    if (board[row + i][column + j] == c)
-                        return false;
-
-            return true;
-        }
+        int[] rows = new int[9],
+            cols = new int[9],
+            boxes = new int[9];
         
-        bool Travel(int x, int y)
+        int box = 0,
+            num = 0;
+        for (int i = 0; i < board.Length; i++)
         {
-            if (x == 9)
-                return true;
-            if (y == 9)
-                return Travel(x + 1, 0);
-            
-            if (board[x][y] != '.')
-                return Travel(x, y + 1);
-            
-            for (char c = '1'; c <= '9'; c++)
+            for (int j = 0; j < board.Length; j++)
             {
-                if (!IsValid(x, y, c))
+                if (board[i][j] == '.')
+                {
                     continue;
-                board[x][y] = c;
-                if (Travel(x, y + 1))
-                    return true;
-                board[x][y] = '.';
+                }
+
+                num = 1 << (board[i][j] - '0');
+                box = i / 3 * 3 + j / 3;
+                rows[i] |= num;
+                cols[j] |= num;
+                boxes[box] |= num;
             }
-            
-            return false;
         }
         
-        Travel(0, 0);
+        bool solved = false;
+        void Next(int x, int y)
+        {
+            if (x == 8 && y == 8)
+            {
+                solved = true;
+            }
+            else if (y == 8)
+            {
+                Dfs(x + 1, 0);
+            }
+            else
+            {
+                Dfs(x, y + 1);
+            }
+        }
+
+        void Dfs(int x, int y)
+        {
+            if (board[x][y] != '.')
+            {
+                Next(x, y);
+                return;
+            }
+
+
+            int b = x / 3 * 3 + y / 3,
+                n = 0;
+            for (int c = 1; c < 10; c++)
+            {
+                n = 1 << c;
+                if (((rows[x] | cols[y] | boxes[b]) & n) > 0)
+                {
+                    continue;
+                }
+                
+                board[x][y] = (char)(c + '0');
+                rows[x] |= n;
+                cols[y] |= n;
+                boxes[b] |= n;
+                Next(x, y);
+                if (solved)
+                {
+                    return;
+                }
+
+                board[x][y] = '.';
+                rows[x] ^= n;
+                cols[y] ^= n;
+                boxes[b] ^= n;
+            }
+        }
+
+        Dfs(0, 0);
     }
 }
 // @lc code=end

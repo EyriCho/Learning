@@ -7,8 +7,10 @@
 // @lc code=start
 public class Solution {
     public int Maximum69Number (int num) {
-        var temp = num;
-        int pos = 1, adjust = 0;
+        int temp = num,
+            pos = 1,
+            adjust = 0;
+        
         while (temp > 0)
         {
             if (temp % 10 == 6)
@@ -18,7 +20,7 @@ public class Solution {
             temp /= 10;
             pos *= 10;
         }
-        
+
         return num + adjust;
     }
 }

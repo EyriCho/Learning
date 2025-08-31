@@ -7,61 +7,57 @@
 // @lc code=start
 public class Solution {
     public int[] FindDiagonalOrder(int[][] matrix) {
-        if (matrix.Length == 0)
-            return new int[0];
+        int[] result = new int[mat.Length * mat[0].Length];
+
+        int i = 0,
+            x = 0, y = 0,
+            dx = -1, dy = 1;
         
-        var size = matrix.Length * matrix[0].Length;
-        var result = new int[size];
-        
-        int x = 0, y = 0,
-            dx = -1, dy = 1, i = 0;
-        
-        while (i < size)
+        while (i < result.Length)
         {
-            result[i++] = matrix[x][y];
-                
-            
+            result[i++] = mat[x][y];
+
             x += dx;
             y += dy;
-            
+
             if (x < 0)
             {
-                x++;
-                if (y == matrix[0].Length)
+                x = 0;
+                if (y == mat[0].Length)
                 {
-                    y--;
-                    x++;
+                    y = mat[0].Length - 1;
+                    x = 1;
                 }
                 dx = 1;
                 dy = -1;
             }
             else if (y < 0)
             {
-                y++;
-                if (x == matrix.Length)
+                y = 0;
+                if (x == mat.Length)
                 {
-                    x--;
-                    y++;
+                    x = mat.Length - 1;
+                    y = 1;
                 }
                 dx = -1;
                 dy = 1;
             }
-            else if (x == matrix.Length)
+            else if (x == mat.Length)
             {
-                x--;
+                x = mat.Length - 1;
                 y += 2;
                 dx = -1;
                 dy = 1;
             }
-            else if (y == matrix[0].Length)
+            else if (y == mat[0].Length)
             {
-                y--;
                 x += 2;
+                y = mat[0].Length - 1;
                 dx = 1;
                 dy = -1;
             }
         }
-        
+
         return result;
     }
 }

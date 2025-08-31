@@ -11,33 +11,32 @@ public class Solution {
         {
             return 1D;
         }
-        if (k - 1 + maxPts <= n)
+        if (k + maxPts <= n)
         {
             return 1D;
         }
-
-        var dp = new double[k + maxPts];
+        double[] dp = new double[n + 1];
         dp[0] = 1D;
-
-        for (int i = 1; i < dp.Length; i++)
+        double sum = 1D, result = 0D;
+        for (int i = 1; i <= n; i++)
         {
-            dp[i] = dp[i - 1];
-            if (i <= maxPts)
+            dp[i] = sum / maxPts;
+            if (i < k)
             {
-                dp[i] += dp[i - 1] / maxPts;
+                sum += dp[i];
             }
             else
             {
-                dp[i] += (dp[i - 1] - dp[i - 1 - maxPts]) / maxPts;
+                result += dp[i];
             }
 
-            if (i > k)
+            if (i >= maxPts)
             {
-                dp[i] -= (dp[i - 1] - dp[k - 1]) / maxPts;
+                sum -= dp[i - maxPts];
             }
         }
 
-        return dp[n] - dp[k - 1];
+        return result;
     }
 }
 // @lc code=end

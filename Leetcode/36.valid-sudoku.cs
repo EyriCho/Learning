@@ -7,62 +7,43 @@
 // @lc code=start
 public class Solution {
     public bool IsValidSudoku(char[][] board) {
-        for (int i = 0; i < 9; i++)
+        int[] rows = new int[9],
+            cols = new int[9],
+            boxes = new int[9];
+
+        int num = 0,
+            box = 0;
+        for (int i = 0; i < board.Length; i++)
         {
-            var valid = new bool[9];
-            for (int j = 0; j < 9; j++)
+            for (int j = 0; j < board.Length; j++)
             {
-                if (board[i][j] != '.')
+                if (board[i][j] == '.')
                 {
-                    var num = board[i][j] - '1';
-                    if (valid[num])
-                    {
-                        return false;
-                    }
-                    valid[num] = true;
+                    continue;
                 }
+                num = 1 << (board[i][j] - '0');
+
+                if ((rows[i] & num) > 1)
+                {
+                    return false;
+                }
+                rows[i] |= num;
+
+                if ((cols[j] & num) > 1)
+                {
+                    return false;
+                }
+                cols[j] |= num;
+
+                box = i / 3 * 3 + j / 3;
+                if ((boxes[box] & num) > 1)
+                {
+                    return false;
+                }
+                boxes[box] |= num;
             }
         }
-        
-        for (int j = 0; j < 9; j++)
-        {
-            var valid = new bool[9];
-            for (int i = 0; i < 9; i++)
-            {
-                if (board[i][j] != '.')
-                {
-                    var num = board[i][j] - '1';
-                    if (valid[num])
-                    {
-                        return false;
-                    }
-                    valid[num] = true;
-                }
-            }
-        }
-        
-        for (int i = 0; i < 9; i += 3)
-        {
-            for (int j = 0; j < 9; j += 3)
-            {
-                var valid = new bool[9];
-                for (int k = 0; k < 9; k++)
-                {
-                    int x = i + k / 3,
-                        y = j + k % 3;
-                    if (board[x][y] != '.')
-                    {
-                        var num = board[x][y] - '1';
-                        if (valid[num])
-                        {
-                            return false;
-                        }
-                        valid[num] = true;
-                    }
-                }
-            }
-        }
-        
+
         return true;
     }
 }

@@ -7,7 +7,9 @@
 // @lc code=start
 public class Solution {
     public bool IsPowerOfThree(int n) {
-        return n > 0 && 1_162_261_467 % n == 0;
+        // maximum power of three 1162261467
+        return n > 0 &&
+            1_162_261_467 % n == 0;
     }
 }
 // @lc code=end

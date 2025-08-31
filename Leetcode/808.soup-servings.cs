@@ -12,7 +12,7 @@ public class Solution {
             return 1D;
         }
         
-        var dp = new double[200, 200];
+        double[,] dp = new double[200, 200];
 
         double serve(int a, int b)
         {

@@ -7,39 +7,42 @@
 // @lc code=start
 public class Solution {
     public bool ReorderedPowerOf2(int N) {
-        int[] countDigit(int num)
+        int[] CountDigits(int num)
         {
-            var result = new int[10];
+            int[] rst = new int[10];
             while (num > 0)
             {
-                result[num % 10]++;
+                rst[num % 10]++;
                 num /= 10;
             }
-            return result;
+            return rst;
         }
-        
-        bool match(int[] origin, int num)
-        {
-            var target = countDigit(num);
-            int i = 0;
-            while (i < 10)
-            {
-                if (origin[i] != target[i])
-                    return false;
-                
-                i++;
-            }
-            return true;
-        }
-        
-        int[] digits = countDigit(N);
-        
+
+        int[] digits = CountDigits(n),
+            digitPowerTwo = null;
+        int powerTwo = 0,
+            d = 0;
         for (int i = 0; i < 32; i++)
         {
-            if (match(digits, 1 << i))
+            powerTwo = 1 << i;
+            digitPowerTwo = CountDigits(powerTwo);
+
+            d = 0;
+            while (d < 10)
+            {
+                if (digits[d] != digitPowerTwo[d])
+                {
+                    break;
+                }
+                d++;
+            }
+
+            if (d == 10)
+            {
                 return true;
+            }
         }
-        
+
         return false;
     }
 }

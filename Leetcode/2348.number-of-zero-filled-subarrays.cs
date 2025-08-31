@@ -7,25 +7,22 @@
 // @lc code=start
 public class Solution {
     public long ZeroFilledSubarray(int[] nums) {
-        var result = 0L;
-
-        int i = 0;
+        long result = 0L;
+        int i = 0,
+            l = -1;
+        
         while (i < nums.Length)
         {
-            while (i < nums.Length && nums[i] != 0)
+            if (nums[i] != 0)
             {
-                i++;
+                l = i;
+            }
+            else
+            {
+                result += i - l;
             }
 
-            var l = i;
-
-            while (i < nums.Length && nums[i] == 0)
-            {
-                i++;
-            }
-
-            long count = i - l;
-            result += (count + 1) * count / 2;
+            i++;
         }
 
         return result;
