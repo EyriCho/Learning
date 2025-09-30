@@ -7,57 +7,68 @@
 // @lc code=start
 public class Solution {
     public string[] Spellchecker(string[] wordlist, string[] queries) {
-        var vowel = new char[] { 'a', 'e', 'i', 'o', 'u' };
-        string GetVowel(string s)
+        HashSet<string> set = new (wordlist);
+        Dictionary<string, string> lowerDict = new();
+        Dictionary<string, string> vowelDict = new ();
+        HashSet<char> vowels = new () {
+            'a', 'e', 'i', 'o', 'u',
+        };
+
+        string ExcludeVowel(string str)
         {
-            var chars = new char[s.Length];
-            for (int j = 0; j < s.Length; j++)
+            char[] array = str.ToCharArray();
+            for (int i = 0; i < array.Length; i++)
             {
-                var c = Char.ToLower(s[j]);
-                chars[j] = vowel.Contains(c) ? '-' : c;
+                if (vowels.Contains(str[i]))
+                {
+                    array[i] = '*';
+                }
             }
-            
-            return new string(chars);
+            return new string(array);
         }
-        
-        var result = new string[queries.Length];
-        
-        var word_Set = new HashSet<string>(wordlist);
-        var word_Cap = new Dictionary<string, string>();
-        var word_Vow = new Dictionary<string, string>();
-        
-        foreach (var word in wordlist)
+
+        string lower = string.Empty,
+            vowel = string.Empty;
+        foreach (string word in wordlist)
         {
-            var l = word.ToLower();
-            if (!word_Cap.ContainsKey(l))
-                word_Cap.Add(l, word);
-            var v = GetVowel(word);
-            if (!word_Vow.ContainsKey(v))
-                word_Vow.Add(v, word);
+            lower = word.ToLower();
+            vowel = ExcludeVowel(lower);
+            if (!lowerDict.ContainsKey(lower))
+            {
+                lowerDict.Add(lower, word);
+            }
+            if (!vowelDict.ContainsKey(vowel))
+            {
+                vowelDict.Add(vowel, word);
+            }
         }
-        
+
+        string[] result = new string[queries.Length];
         for (int i = 0; i < queries.Length; i++)
         {
-            if (word_Set.Contains(queries[i]))
+            if (set.Contains(queries[i]))
             {
                 result[i] = queries[i];
                 continue;
             }
-            var l = queries[i].ToLower();
-            if (word_Cap.ContainsKey(l))
+
+            lower = queries[i].ToLower();
+            if (lowerDict.ContainsKey(lower))
             {
-                result[i] = word_Cap[l];
+                result[i] = lowerDict[lower];
                 continue;
             }
-            var v = GetVowel(queries[i]);
-            if (word_Vow.ContainsKey(v))
+
+            vowel = ExcludeVowel(lower);
+            if (vowelDict.ContainsKey(vowel))
             {
-                result[i] = word_Vow[v];
+                result[i] = vowelDict[vowel];
                 continue;
             }
+
             result[i] = string.Empty;
         }
-        
+
         return result;
     }
 }

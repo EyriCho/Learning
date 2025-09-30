@@ -7,31 +7,30 @@
 // @lc code=start
 public class Solution {
     public double MaxAverageRatio(int[][] classes, int extraStudents) {
-        PriorityQueue<(double, int, int), double>
-            queue = new (Comparer<double>.Create((a, b) => b.CompareTo(a)));
-
-        double result = 0D,
-            g = 0D;
-
-        double GainByAddStudent(int p, int t)
+        double GainByExtra(int pass, int total)
         {
-            return (double)(p + 1) / (t + 1) - (double)p / t;
+            return (double)(pass + 1) / (total + 1) - (double)pass / total;
         }
 
+        PriorityQueue<(double, int, int), double> queue = new (Comparer<double>.Create((a, b) => b.CompareTo(a)));
+        double result = 0D,
+            gain = 0D,
+            extra = 0D;
         foreach (int[] c in classes)
         {
             result += (double)c[0] / c[1];
-            g = GainByAddStudent(c[0], c[1]);
-            queue.Enqueue((g, c[0], c[1]), g);
+            gain = GainByExtra(c[0], c[1]);
+            queue.Enqueue((gain, c[0], c[1]), gain);
         }
 
-        (double gain, int pass, int total) max;
-        while (extraStudents-- > 0)
+        int pass = 0,
+            total = 0;
+        while (extraStudents--  > 0)
         {
-            max = queue.Dequeue();
-            result += max.gain;
-            g = GainByAddStudent(max.pass + 1, max.total + 1);
-            queue.Enqueue((g, max.pass + 1, max.total + 1), g);
+            (gain, pass, total) = queue.Dequeue();
+            result += gain;
+            extra = GainByExtra(pass + 1, total + 1);
+            queue.Enqueue((extra, pass + 1, total + 1), extra);
         }
 
         return result / classes.Length;

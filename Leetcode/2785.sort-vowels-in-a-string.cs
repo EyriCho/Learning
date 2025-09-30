@@ -7,31 +7,44 @@
 // @lc code=start
 public class Solution {
     public string SortVowels(string s) {
-        HashSet<char> set = new () {
+        char[] array = s.ToCharArray();
+        List<char> list = new () {
             'A', 'E', 'I', 'O', 'U',
             'a', 'e', 'i', 'o', 'u'
         };
         Queue<int> queue = new ();
-        List<char> list = new();
+        Dictionary<char, int> dict = new ();
+        int count = 0;
 
         for (int i = 0; i < s.Length; i++)
         {
-            if (set.Contains(s[i]))
+            if (!list.Contains(s[i]))
             {
-                queue.Enqueue(i);
-                list.Add(s[i]);
+                continue;
             }
-        }
-        list.Sort();
 
-        char[] array = s.ToCharArray();
-        int l = 0;
+            queue.Enqueue(i);
+            dict.TryGetValue(s[i], out count);
+            dict[s[i]] = count + 1;
+        }
+
+        int index = 0;
         while (queue.Count > 0)
         {
-            int index = queue.Dequeue();
-            array[index] = list[l++];
-        }
+            index = queue.Dequeue();
+            foreach (char c in list)
+            {
+                dict.TryGetValue(c, out count);
+                if (count == 0)
+                {
+                    continue;
+                }
 
+                array[index] = c;
+                dict[c]--;
+                break;
+            }
+        }
         return new string(array);
     }
 }

@@ -7,131 +7,42 @@
 // @lc code=start
 public class FoodRatings {
 
-    private class RankStack
-    {
-        (int, string)[] array;
-        int length;
-
-        internal RankStack ()
-        {
-            array = new (int, string)[40_001];
-            length = 0;
-        }
-
-        internal bool Compare((int, string) a, (int, string) b)
-        {
-            if (a.Item1 == b.Item1)
-            {
-                return string.Compare(b.Item2, a.Item2) > 0;
-            }
-            else
-            {
-                return a.Item1 > b.Item1;
-            }
-        }
-
-        internal void Add(string food, int rating)
-        {
-            int i = length++;
-            array[i] = (rating, food);
-            while (i > 0)
-            {
-                int p = (i - 1) / 2;
-                if (Compare(array[p], array[i]))
-                {
-                    break;
-                }
-
-                (int, string) temp = array[i];
-                array[i] = array[p];
-                array[p] = temp;
-                i = p;
-            }
-        }
-
-        internal void Pop()
-        {
-            int i = 0;
-            array[0] = array[--length];
-
-            while (true)
-            {
-                int l = i * 2 + 1,
-                    r = i * 2 + 2;
-
-                if (l >= length)
-                {
-                    break;
-                }
-
-                if (Compare(array[l], array[i]) ||
-                    (r < length && Compare(array[r], array[i])))
-                {
-                    if (r >= length || Compare(array[l], array[r]))
-                    {
-                        (int, string) temp = array[i];
-                        array[i] = array[l];
-                        array[l] = temp;
-                        i = l;
-                    }
-                    else
-                    {
-                        (int, string) temp = array[i];
-                        array[i] = array[r];
-                        array[r] = temp;
-                        i = r;
-                    }
-                }
-                else
-                {
-                    break;
-                }
-            }
-        }
-
-        internal (int, string) Highest()
-        {
-            return array[0];
-        }
-
-    }
-
-    Dictionary<string, (string, int)> foods;
-    Dictionary<string, RankStack> stacks;
+    Dictionary<string, PriorityQueue<(string, int), (string, int)>> cuisineDict;
+    Dictionary<string, (int, string)> foodDict;
 
     public FoodRatings(string[] foods, string[] cuisines, int[] ratings) {
-        this.foods = new ();
-        this.stacks = new ();
+        cuisineDict = new ();
+        foodDict = new ();
 
         for (int i = 0; i < foods.Length; i++)
         {
-            this.foods[foods[i]] = (cuisines[i], ratings[i]);
-
-            if (!stacks.TryGetValue(cuisines[i], out RankStack stack))
+            foodDict[foods[i]] = (ratings[i], cuisines[i]);
+            if (!cuisineDict.TryGetValue(cuisines[i], out PriorityQueue<(string, int), (string, int)> queue))
             {
-                stacks[cuisines[i]] = stack = new RankStack();
+                queue = cuisineDict[cuisines[i]] = new (Comparer<(string food, int rate)>.Create((a, b) => 
+                    a.rate.Equals(b.rate) ? a.food.CompareTo(b.food) : b.rate.CompareTo(a.rate)));
             }
-
-            stack.Add(foods[i], ratings[i]);
+            queue.Enqueue((foods[i], ratings[i]), (foods[i], ratings[i]));
         }
     }
     
     public void ChangeRating(string food, int newRating) {
-        string cuisine = foods[food].Item1;
-        stacks[cuisine].Add(food, newRating);
-        
-        foods[food] = (cuisine, newRating);
+        string cuisine = foodDict[food].Item2;
+        foodDict[food] = (newRating, cuisine);
+        cuisineDict.TryGetValue(cuisine, out PriorityQueue<(string, int), (string, int)> queue);
+        queue.Enqueue((food, newRating), (food, newRating));
     }
     
     public string HighestRated(string cuisine) {
-        RankStack stack = stacks[cuisine];
-        (int rating, string food) = stack.Highest();
-        while (foods[food].Item2 != rating)
+        cuisineDict.TryGetValue(cuisine, out PriorityQueue<(string, int), (string, int)> queue);
+        string food = null;
+        int rate = 0;
+        (food, rate) = queue.Peek();
+        while (foodDict[food].Item1 != rate)
         {
-            stack.Pop();
-            (rating, food) = stack.Highest();
+            queue.Dequeue();
+            (food, rate) = queue.Peek();
         }
-
         return food;
     }
 }
