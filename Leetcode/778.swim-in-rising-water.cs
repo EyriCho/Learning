@@ -7,55 +7,75 @@
 // @lc code=start
 public class Solution {
     public int SwimInWater(int[][] grid) {
-        var directions = new int[,] 
-        {
-            { 0, -1 },
-            { -1, 0 },
+        int[,] ds = new int[,] {
+            { 1, 0 },
             { 0, 1 },
-            { 1, 0 }
+            { -1, 0 },
+            { 0, -1 },
         };
-        
-        bool Search(int level)
+        int last = grid.Length - 1;
+
+        bool FindPath(int level)
         {
-            var set = new HashSet<int>();
+            HashSet<int> set = new ();
             set.Add(0);
-            var stack = new Stack<int>();
+            Stack<int> stack = new ();
             stack.Push(0);
+            int x = 0, y = 0, p = 0,
+                nx = 0, ny = 0, np = 0;
+            
             while (stack.Count > 0)
             {
-                var next = stack.Pop();
-                int i = next / grid.Length, j = next % grid.Length;
-                if (i == grid.Length - 1 && j == grid.Length - 1)
-                    return true;
-                for (int k = 0; k < 4; k++)
+                p = stack.Pop();
+                x = p / grid.Length;
+                y = p % grid.Length;
+
+                if (x == last && y == last)
                 {
-                    int x = i + directions[k, 0],
-                        y = j + directions[k, 1];
-                    
-                    var n = x * grid.Length + y;
-                    if (x < 0 || x >= grid.Length ||
-                       y < 0 || y >= grid.Length ||
-                       set.Contains(n) ||
-                       grid[x][y] > level)
+                    return true;
+                }
+
+                for (int d = 0; d < 4; d++)
+                {
+                    nx = x + ds[d, 0];
+                    ny = y + ds[d, 1];
+                    if (nx < 0 || nx >= grid.Length ||
+                        ny < 0 || ny >= grid.Length ||
+                        grid[nx][ny] > level)
+                    {
                         continue;
-                    set.Add(n);
-                    stack.Push(n);
+                    }
+                    np = nx * grid.Length + ny;
+                    if (set.Contains(np))
+                    {
+                        continue;
+                    }
+
+                    set.Add(np);
+                    stack.Push(np);
                 }
             }
-            
+
             return false;
         }
-        
-        int l = grid[0][0], r = grid.Length * grid.Length;
+
+        int l = grid[0][0],
+            r = grid.Length * grid.Length,
+            m = 0;
+
         while (l < r)
         {
-            var m = (l + r) / 2;
-            if (!Search(m))
+            m = (l + r) >> 1;
+            if (!FindPath(m))
+            {
                 l = m + 1;
+            }
             else
+            {
                 r = m;
+            }
         }
-        
+
         return l;
     }
 }

@@ -7,30 +7,15 @@
 // @lc code=start
 public class Solution {
     public int MinimumOneBitOperations(int n) {
-        bool flag = true;
-        long mask = 1L << 31;
-        long result = 0;
-
-        while (mask > 0)
+        // Same as Gray Code Sequence, 
+        // Convert it back to Binary Known is Position
+        int result = 0;
+        while (n > 0)
         {
-            if ((n & mask) > 0)
-            {
-                if (flag)
-                {
-                    result += (mask << 1) - 1;
-                }
-                else
-                {
-                    result -= (mask << 1) - 1;
-                }
-
-                flag = !flag;
-            }
-
-            mask >>= 1;
+            result ^= n;
+            n >>= 1;
         }
-
-        return (int)result;
+        return result;
     }
 }
 // @lc code=end

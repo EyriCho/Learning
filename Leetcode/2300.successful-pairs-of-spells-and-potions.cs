@@ -9,22 +9,22 @@ public class Solution {
     public int[] SuccessfulPairs(int[] spells, int[] potions, long success) {
         Array.Sort(potions);
 
-        var result = new int[spells.Length];
+        int[] result = new int[spells.Length];
+        int l = 0, r = 0, m = 0;
         for (int i = 0; i < spells.Length; i++)
         {
-            int l = 0, r = potions.Length;
-
+            l = 0;
+            r = potions.Length;
             while (l < r)
             {
-                var m = (l + r) >> 1;
-                var p = (long)spells[i] * potions[m];
-                if (p >= success)
+                m = (l + r) >> 1;
+                if ((long)spells[i] * potions[m] < success)
                 {
-                    r = m;
+                    l = m + 1;
                 }
                 else
                 {
-                    l = m + 1;
+                    r = m;
                 }
             }
 

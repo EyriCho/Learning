@@ -7,12 +7,12 @@
 // @lc code=start
 public class Solution {
     public int FindMaxForm(string[] strs, int m, int n) {
-        var dp = new int[m + 1, n + 1];
+        int[,] dp = new int[m + 1, n + 1];
         
-        foreach (var str in strs)
+        foreach (string str in strs)
         {
             int z = 0, o = 0;
-            foreach (var c in str)
+            foreach (char c in str)
             {
                 _ = c == '0' ? z++ : o++;
             }

@@ -7,19 +7,23 @@
 // @lc code=start
 public class Solution {
     public bool KLengthApart(int[] nums, int k) {
-        if (k == 0)
-            return true;
-
-        int last = -k - 1;
-        for (int i = 0; i < nums.Length; i++)
+        int dist = k;
+        foreach (int num in nums)
         {
-            if (nums[i] == 1)
+            if (num == 0)
             {
-                if (i - last <= k)
-                    return false;
-                last = i;
+                dist++;
+                continue;
             }
+
+            if (dist < k)
+            {
+                return false;
+            }
+
+            dist = 0;
         }
+
         return true;
     }
 }

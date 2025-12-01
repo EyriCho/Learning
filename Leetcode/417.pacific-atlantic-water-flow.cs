@@ -7,55 +7,67 @@
 // @lc code=start
 public class Solution {
     public IList<IList<int>> PacificAtlantic(int[][] matrix) {
-        var result = new List<IList<int>>();
-        if (matrix.Length == 0)
-            return result;
-        if (matrix[0].Length == 0)
-            return result;
-        
-        bool[,] p_reach = new bool[matrix.Length, matrix[0].Length];
-        bool[,] a_reach = new bool[matrix.Length, matrix[0].Length];
-        
-        int lastX = matrix.Length - 1,
-            lastY = matrix[0].Length - 1;
-        int[,] directions = new int[,] {
-            { 0, 1 },
+        List<IList<int>> result = new ();
+
+        int[,] ds = new int[,] {
             { 1, 0 },
+            { 0, 1 },
+            { -1, 0 },
             { 0, -1 },
-            { -1, 0 }
         };
+
+        bool[,] pReach = new bool[heights.Length, heights[0].Length],
+            aReach = new bool[heights.Length, heights[0].Length];
         
-        void dfs(bool[,] r, int x, int y)
+        void Dfs(int x, int y, bool[,] reach)
         {
-            r[x, y] = true;
-            for (int i = 0; i < 4; i++)
+            reach[x, y] = true;
+
+            int i = 0,
+                j = 0;
+            
+            for (int d = 0; d < 4; d++)
             {
-                int nextX = x + directions[i, 0],
-                    nextY = y + directions[i, 1];
-                
-                if (nextX > -1 && nextX < matrix.Length &&
-                   nextY > -1 && nextY < matrix[0].Length &&
-                   !r[nextX, nextY] && matrix[x][y] <= matrix[nextX][nextY])
-                    dfs(r, nextX, nextY);
+                i = x + ds[d, 0];
+                j = y + ds[d, 1];
+
+                if (i < 0 || i >= heights.Length ||
+                    j < 0 || j >= heights[0].Length ||
+                    reach[i, j] ||
+                    heights[i][j] < heights[x][y])
+                {
+                    continue;
+                }
+
+                Dfs(i, j, reach);
             }
         }
 
-        for (int i = 0; i < matrix.Length; i++)
+        for (int i = 0; i < heights.Length; i++)
         {
-            dfs(p_reach, i, 0);
-            dfs(a_reach, i, lastY);
+            Dfs(i, 0, pReach);
+
+            Dfs(i, heights[0].Length - 1, aReach);
         }
-        for (int i = 0; i < matrix[0].Length; i++)
+
+        for (int j = 0; j < heights[0].Length; j++)
         {
-            dfs(p_reach, 0, i);
-            dfs(a_reach, lastX, i);
+            Dfs(0, j, pReach);
+
+            Dfs(heights.Length - 1, j, aReach);
         }
-        
-        for (int i = 0; i < matrix.Length; i++)
-            for (int j = 0; j < matrix[0].Length; j++)
-                if (a_reach[i, j] && p_reach[i, j])
+
+        for (int i = 0; i < heights.Length; i++)
+        {
+            for (int j = 0; j < heights[0].Length; j++)
+            {
+                if (pReach[i, j] && aReach[i, j])
+                {
                     result.Add(new List<int> { i, j });
-        
+                }
+            }
+        }
+
         return result;
     }
 }
