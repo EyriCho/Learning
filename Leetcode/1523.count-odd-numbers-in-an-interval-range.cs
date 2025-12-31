@@ -7,7 +7,7 @@
 // @lc code=start
 public class Solution {
     public int CountOdds(int low, int high) {
-        var count = high - low + 1;
+        int count = high - low + 1;
         if (count % 2 == 1 && low % 2 == 1)
         {
             return count / 2 + 1;

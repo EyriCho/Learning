@@ -34,13 +34,8 @@ public class Solution {
             }
             dict[current] = i;
         }
-        
-        if (result >= nums.Length)
-        {
-            return -1;
-        }
 
-        return result;
+        return result < nums.Length ? result : -1;
     }
 }
 // @lc code=end

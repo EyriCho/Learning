@@ -7,23 +7,38 @@
 // @lc code=start
 public class Solution {
     public int CountNegatives(int[][] grid) {
-        int r = grid[0].Length - 1,
+        int r = grid[0].Length,
             result = 0;
+
+        int Locate(int[] array, int end)
+        {
+            int l = 0;
+            while (l < end)
+            {
+                int m = (l + end) >> 1;
+                if (array[m] >= 0)
+                {
+                    l = m + 1;
+                }
+                else
+                {
+                    end = m;
+                }
+            }
+            return l;
+        }
 
         for (int i = 0; i < grid.Length; i++)
         {
-            while (r >= 0 && grid[i][r] < 0)
-            {
-                r--;
-            }
+            r = Locate(grid[i], r);
 
-            if (r == -1)
+            if (r == 0)
             {
                 result += (grid.Length - i) * grid[0].Length;
                 break;
             }
 
-            result += grid[0].Length - r - 1;
+            result += grid[0].Length - r;
         }
 
         return result;

@@ -7,51 +7,54 @@
 // @lc code=start
 public class Solution {
     public int MostBooked(int n, int[][] meetings) {
-        int[] rooms = new int[n];
-        long[] endTimes = new long[n];
         Array.Sort(meetings, (a, b) => a[0].CompareTo(b[0]));
-        PriorityQueue<int, int> occupied = new (Comparer<int>.Create((a, b) =>
-            endTimes[a] == endTimes[b] ? a.CompareTo(b) : endTimes[a].CompareTo(endTimes[b])));
-        SortedSet<int> frees = new ();
-        for (int i = 0; i < n; i++)
-        {
-            frees.Add(i);
-        }
-        
-        int free = 0;
-        long delayTime = 0L;
-        for (int i = 0; i < meetings.Length; i++)
-        {
-            while (occupied.Count > 0 &&
-                endTimes[occupied.Peek()] <= meetings[i][0])
-            {
-                frees.Add(occupied.Dequeue());
-            }
-            if (occupied.Count == n)
-            {
-                delayTime = endTimes[occupied.Peek()] - meetings[i][0];
-                frees.Add(occupied.Dequeue());
-            }
-            else
-            {
-                delayTime = 0L;
-            }
-            free = frees.Min;
-            rooms[free]++;
-            endTimes[free] = delayTime + meetings[i][1];
-            frees.Remove(free);
-            occupied.Enqueue(free, free);
-        }
 
-        int result = 0;
-        for (int i = 1; i < n; i++)
+        long[] roomAvailableTimes = new long[n];
+        int[] held = new int[n];
+
+        long availableTime = 0L;
+        int availableRoom = 0;
+        bool foundRoomBeforeStart = false;
+        foreach (int[] meeting in meetings)
         {
-            if (rooms[i] > rooms[result])
+            availableTime = long.MaxValue;
+            availableRoom = 0;
+            foundRoomBeforeStart = false;
+
+            for (int r = 0; r < n; r++)
             {
-                result = i;
+                if (roomAvailableTimes[r] <= meeting[0])
+                {
+                    foundRoomBeforeStart = true;
+                    roomAvailableTimes[r] = meeting[1];
+                    held[r]++;
+                    break;
+                }
+
+                if (availableTime > roomAvailableTimes[r])
+                {
+                    availableTime = roomAvailableTimes[r];
+                    availableRoom = r;
+                }
+            }
+
+            if (!foundRoomBeforeStart)
+            {
+                roomAvailableTimes[availableRoom] += meeting[1] - meeting[0];
+                held[availableRoom]++;
             }
         }
 
+        int result = 0,
+            maxHeld = held[0];
+        for (int r = 1; r < n; r++)
+        {
+            if (held[r] > maxHeld)
+            {
+                result = r;
+                maxHeld = held[r];
+            }
+        }
         return result;
     }
 }

@@ -7,7 +7,7 @@
 // @lc code=start
 public class Solution {
     public int MinDeletionSize(string[] strs) {
-        var result = 0;
+        int result = 0;
         
         for (int i = 0; i < strs[0].Length; i++)
         {

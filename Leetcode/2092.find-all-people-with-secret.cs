@@ -7,7 +7,16 @@
 // @lc code=start
 public class Solution {
     public IList<int> FindAllPeople(int n, int[][] meetings, int firstPerson) {
-        Dictionary<int, IList<(int, int)>> timeDict = new();
+        int[] group = new int[n];
+        for (int p = 1; p < n; p++)
+        {
+            group[p] = p;
+        }
+        group[firstPerson] = 0;
+
+        int FindGroup(int p) => group[p] = (p == group[p] ? p : FindGroup(group[p]));
+
+        Dictionary<int, IList<(int, int)>> timeDict = new ();
         foreach (int[] meeting in meetings)
         {
             if (!timeDict.TryGetValue(meeting[2], out IList<(int, int)> list))
@@ -18,46 +27,33 @@ public class Solution {
             list.Add((meeting[0], meeting[1]));
         }
 
-        int[] group = new int[n];
-        for (int i = 0; i < n; i++)
-        {
-            group[i] = i;
-        }
-        group[firstPerson] = 0;
+        int aGroup = 0, bGroup = 0;
 
-        int Find(int person)
+        for (int t = 1; t <= 100_000; t++)
         {
-            if (group[person] != person)
-            {
-                return group[person] = Find(group[person]);
-            }
-
-            return person;
-        }
-
-        for (int time = 1; time < 100_001; time++)
-        {
-            if (!timeDict.ContainsKey(time))
+            if (!timeDict.ContainsKey(t))
             {
                 continue;
             }
 
-            foreach ((int a, int b) in timeDict[time])
+            foreach ((int a, int b) in timeDict[t])
             {
-                int aGroup = Find(a),
-                    bGroup = Find(b);
+                aGroup = FindGroup(a);
+                bGroup = FindGroup(b);
+
                 if (aGroup == 0 || bGroup == 0)
                 {
                     group[aGroup] = 0;
                     group[bGroup] = 0;
                 }
-                group[Find(a)] = group[Find(b)];
+
+                group[FindGroup(a)] = group[FindGroup(b)];
             }
 
-            foreach ((int a, int b) in timeDict[time])
+            foreach ((int a, int b) in timeDict[t])
             {
-                int aGroup = Find(a),
-                    bGroup = Find(b);
+                aGroup = FindGroup(a);
+                bGroup = FindGroup(b);
                 if (aGroup == 0 || bGroup == 0)
                 {
                     group[aGroup] = 0;
@@ -71,10 +67,10 @@ public class Solution {
             }
         }
 
-        List<int> result = new();
+        List<int> result = new ();
         for (int i = 0; i < n; i++)
         {
-            if (Find(i) == 0)
+            if (FindGroup(i) == 0)
             {
                 result.Add(i);
             }

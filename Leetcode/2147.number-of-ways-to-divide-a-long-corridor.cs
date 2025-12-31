@@ -7,16 +7,15 @@
 // @lc code=start
 public class Solution {
     public int NumberOfWays(string corridor) {
-        Queue<int> queue = new();
-        int p = 0, s = 0;
-        
+        int s = 0, p = 0;
+        long result = 1L;
         for (int i = 0; i < corridor.Length; i++)
         {
             if (corridor[i] == 'S')
             {
                 if (s > 0 && (s & 1) == 0)
                 {
-                    queue.Enqueue(p + 1);
+                    result = (result * (p + 1)) % 1_000_000_007L;
                     p = 0;
                 }
                 s++;
@@ -35,13 +34,6 @@ public class Solution {
         {
             return 0;
         }
-        
-        long result = 1L;
-        while (queue.Count > 0)
-        {
-            result = (result * queue.Dequeue()) % 1_000_000_007;
-        }
-
         return (int)result;
     }
 }

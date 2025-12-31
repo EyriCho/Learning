@@ -9,8 +9,7 @@ public class Solution {
     public int MaxTwoEvents(int[][] events) {
         Array.Sort(events, (a, b) => a[0].CompareTo(b[0]));
 
-        int l = 0,
-            r = 0,
+        int r = 0,
             prevMax = 0,
             max = 0;
 

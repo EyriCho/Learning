@@ -9,10 +9,12 @@ public class Solution {
     public long MaximumHappinessSum(int[] happiness, int k) {
         Array.Sort(happiness);
 
-        long result = 0L;
+        long result = 0L,
+            happy = 0L;
+
         for (int i = 0; i < k; i++)
         {
-            long happy = Math.Max(happiness[happiness.Length - 1 - i] - i, 0L);
+            happy = Math.Max(happiness[happiness.Length - 1 - i] - i, 0L);
             result += happy;
         }
 

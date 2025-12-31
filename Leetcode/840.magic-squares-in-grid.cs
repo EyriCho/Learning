@@ -33,7 +33,7 @@ public class Solution {
 
         for (int i = 2; i < grid.Length; i++)
         {
-            for (int j = 2; j < grid.Length; j++)
+            for (int j = 2; j < grid[0].Length; j++)
             {
                 if (grid[i - 1][j - 1] != 5)
                 {
@@ -44,7 +44,6 @@ public class Solution {
                     grid[i - 2][j - 1] < 1 || grid[i - 2][j - 1] > 9 ||
                     grid[i - 2][j] < 1 || grid[i - 2][j] > 9 ||
                     grid[i - 1][j - 2] < 1 || grid[i - 1][j - 2] > 9 ||
-                    grid[i - 1][j - 1] < 1 || grid[i - 1][j - 1] > 9 ||
                     grid[i - 1][j] < 1 || grid[i - 1][j] > 9 ||
                     grid[i][j - 2] < 1 || grid[i][j - 2] > 9 ||
                     grid[i][j - 1] < 1 || grid[i][j - 2] > 9 ||
@@ -53,14 +52,18 @@ public class Solution {
                     continue;
                 }
 
-                if (grid[i - 2][j - 2] + grid[i - 2][j - 1] + grid[i - 2][j] == 15 &&
-                    grid[i - 1][j - 2] + grid[i - 1][j - 1] + grid[i - 1][j] == 15 &&
+                if (
+                    // Row Sum
+                    grid[i - 2][j - 2] + grid[i - 2][j - 1] + grid[i - 2][j] == 15 &&
+                    grid[i - 1][j - 2] + grid[i - 1][j] == 10 &&
                     grid[i][j - 2] + grid[i][j - 1] + grid[i][j] == 15 &&
+                    // Column Sum
                     grid[i - 2][j - 2] + grid[i - 1][j - 2] + grid[i][j - 2] == 15 &&
-                    grid[i - 2][j - 1] + grid[i - 1][j - 1] + grid[i][j - 1] == 15 &&
+                    grid[i - 2][j - 1] + grid[i][j - 1] == 10 &&
                     grid[i - 2][j] + grid[i - 1][j] + grid[i][j] == 15 &&
-                    grid[i - 2][j - 2] + grid[i - 1][j - 1] + grid[i][j] == 15 &&
-                    grid[i - 2][j] + grid[i - 1][j - 1] + grid[i][j - 2] == 15 &&
+                    // Diagonal Sum
+                    grid[i - 2][j - 2] + grid[i][j] == 10 &&
+                    grid[i - 2][j] + grid[i][j - 2] == 10 &&
                     IsUnique(i, j))
                 {
                     result++;

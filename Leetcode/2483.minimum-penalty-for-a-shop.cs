@@ -7,34 +7,22 @@
 // @lc code=start
 public class Solution {
     public int BestClosingTime(string customers) {
-        var closePenalty = new int[customers.Length + 1];
-        for (int i = customers.Length - 1; i >= 0; i--)
-        {
-            closePenalty[i] = closePenalty[i + 1];
-            if (customers[i] == 'Y')
-            {
-                closePenalty[i] += 1;
-            }
-        }
-
-        var min = closePenalty[0];
-        var minDay = 0;
-        var openPenalty = 0;
+        int profit = 0,
+            hour = 0,
+            maxProfit = 0;
+        
         for (int i = 0; i < customers.Length; i++)
         {
-            if (openPenalty + closePenalty[i] < min)
-            {
-                min = openPenalty + closePenalty[i];
-                minDay = i;
-            }
+            profit += customers[i] == 'Y' ? 1 : -1;
 
-            if (customers[i] == 'N')
+            if (profit > maxProfit)
             {
-                openPenalty++;
+                maxProfit = profit;
+                hour = i + 1;
             }
         }
 
-        return openPenalty < min ? customers.Length : minDay;
+        return hour;
     }
 }
 // @lc code=end
