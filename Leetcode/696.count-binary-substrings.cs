@@ -7,28 +7,23 @@
 // @lc code=start
 public class Solution {
     public int CountBinarySubstrings(string s) {
-        var c = s[0];
-        int prevCount = 0, count = 1,
+        int prev = 0, curr = 1,
             result = 0;
-        
         for (int i = 1; i < s.Length; i++)
         {
-            if (s[i] == c)
-                count++;
+            if (s[i] == s[i - 1])
+            {
+                curr++;
+            }
             else
             {
-                c = s[i];
-                prevCount = count;
-                count = 1;
-            }
-            if (prevCount > 0)
-            {
-                prevCount--;
-                result++;
+                result += Math.Min(prev, curr);
+                prev = curr;
+                curr = 1;
             }
         }
-        
-        
+
+        result += Math.Min(prev, curr);
         return result;
     }
 }

@@ -20,26 +20,31 @@
  */
 public class Solution {
     public TreeNode SubtreeWithAllDeepest(TreeNode root) {
-        SubtreeWithAllDeepest(root, 0);
-        return result;
-    }
-    
-    int level;
-    TreeNode result;
-    
-    private int SubtreeWithAllDeepest(TreeNode node, int depth)
-    {
-        level = Math.Max(level, depth);
-        if (node == null)
-            return depth;
-        
-        int l = SubtreeWithAllDeepest(node.left, depth + 1),
-            r = SubtreeWithAllDeepest(node.right, depth + 1);
-        
-        if (l == r && l == level)
-            result = node;
-        
-        return Math.Max(l, r);
+        (TreeNode Node, int Level) Helper(TreeNode node)
+        {
+            if (node == null)
+            {
+                return (null, 0);
+            }
+
+            var l = Helper(node.left);
+            var r = Helper(node.right);
+
+            if (l.Level == r.Level)
+            {
+                return (node, l.Level + 1);
+            }
+            else if (l.Level > r.Level)
+            {
+                return (l.Node, l.Level + 1);
+            }
+            else
+            {
+                return (r.Node, r.Level + 1);
+            }
+        }
+
+        return Helper(root).Node;
     }
 }
 // @lc code=end

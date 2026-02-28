@@ -20,34 +20,32 @@
  */
 public class Solution {
     public int SumRootToLeaf(TreeNode root) {
-        var result = 0;
-        
-        var queue = new Queue<(TreeNode, int)>();
-        queue.Enqueue((root, 0));
-        
-        while (queue.Count > 0)
+        int sum = 0;
+
+        void Sum(TreeNode node, int accumulate)
         {
-            var (node, sum) = queue.Dequeue();
-            sum = sum * 10 + node.val;
-            
+            accumulate = (accumulate << 1) + node.val;
+
             if (node.left == null && node.right == null)
             {
-                result += sum;
+                sum += accumulate;
+                return;
             }
-            else
+            
+            if (node.left != null)
             {
-                if (node.left != null)
-                {
-                    queue.Enqueue((node.left, sum));
-                }
-                if (node.right != null)
-                {
-                    queue.Enqueue((node.right, sum));
-                }
+                Sum(node.left, accumulate);
+            }
+
+            if (node.right != null)
+            {
+                Sum(node.right, accumulate);
             }
         }
-        
-        return result;
+
+        Sum(root, 0);
+
+        return sum;
     }
 }
 // @lc code=end

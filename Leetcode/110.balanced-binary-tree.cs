@@ -20,25 +20,32 @@
  */
 public class Solution {
     public bool IsBalanced(TreeNode root) {
-        return Helper(root).Item1;
-    }
-    
-    private (bool, int) Helper(TreeNode root)
-    {
-        if (root == null)
-            return (true, 0);
-        
-        var (l, lLevel) = Helper(root.left);
-        if (!l)
-            return (false, 0);
-        var (r, rLevel) = Helper(root.right);
-        if (!r)
-            return (false, 0);
-        
-        var diff = Math.Abs(lLevel - rLevel);
-        var level = Math.Max(lLevel, rLevel) + 1;
-        
-        return (diff < 2, level);
+        (bool, int) Balanced(TreeNode node)
+        {
+            if (node == null)
+            {
+                return (true, 0);
+            }
+
+            (bool balanced, int level) left = Balanced(node.left),
+                right = Balanced(node.right);
+            
+            if (!left.balanced || !right.balanced)
+            {
+                return (false, 0);
+            }
+
+            int max = Math.Max(left.level, right.level);
+            if (max - left.level > 1 ||
+                max - right.level > 1)
+            {
+                return (false, 0);
+            }
+
+            return (true, max + 1);
+        }
+
+        return Balanced(root).Item1;
     }
 }
 // @lc code=end

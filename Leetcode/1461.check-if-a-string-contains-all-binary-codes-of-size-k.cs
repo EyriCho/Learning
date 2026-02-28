@@ -8,7 +8,7 @@
 public class Solution {
     public bool HasAllCodes(string s, int k) {
         int count = 1 << k;
-        var found = new bool[count];
+        bool[] found = new bool[count];
         int mask = count - 1,
             num = 0;
         
@@ -16,7 +16,9 @@ public class Solution {
         {
             num <<= 1;
             if (s[i] == '1')
+            {
                 num |= 1;
+            }
             num &= mask;
             
             if (i + 1 >= k && !found[num])
@@ -25,7 +27,6 @@ public class Solution {
                 count--;
             }
         }
-        
         
         return count == 0;
     }

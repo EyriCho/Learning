@@ -20,37 +20,42 @@
  */
 public class Solution {
     public int MaxLevelSum(TreeNode root) {
-        var queue = new Queue<TreeNode>();
+        Queue<TreeNode> queue = new ();
         queue.Enqueue(root);
-
-        int max = int.MinValue,
-            level = 1,
-            maxLevel = 1;
+        TreeNode node = null;
+        int level = 1,
+            maxLevel = 1,
+            sum = 0,
+            max = int.MinValue,
+            count = 0;
+        
         while (queue.Count > 0)
         {
-            var c = queue.Count;
-            var sum = 0;
-            while (c-- > 0)
+            count = queue.Count;
+            sum = 0;
+            while (count-- > 0)
             {
-                var node = queue.Dequeue();
+                node = queue.Dequeue();
                 sum += node.val;
                 if (node.left != null)
                 {
                     queue.Enqueue(node.left);
                 }
-
                 if (node.right != null)
                 {
                     queue.Enqueue(node.right);
                 }
             }
+
             if (sum > max)
             {
                 max = sum;
                 maxLevel = level;
             }
+
             level++;
         }
+
         return maxLevel;
     }
 }

@@ -7,34 +7,34 @@
 // @lc code=start
 public class Solution {
     public int MinimumDeleteSum(string s1, string s2) {
-        var dp = new int[s1.Length + 1, s2.Length + 1];
+        int[,] dp = new int[s1.Length + 1, s2.Length + 1];
 
-        for (int i1 = 1; i1 <= s1.Length; i1++)
+        for (int i1 = 0; i1 < s1.Length; i1++)
         {
-            for (int i2 = 1; i2 <= s2.Length; i2++)
+            for (int i2 = 0; i2 < s2.Length; i2++)
             {
-                if (s1[i1 - 1] == s2[i2 - 1])
+                if (s1[i1] == s2[i2])
                 {
-                    dp[i1, i2] = dp[i1 - 1, i2 - 1] + s1[i1 - 1];
+                    dp[i1 + 1, i2 + 1] = dp[i1, i2] + s1[i1];
                 }
                 else
                 {
-                    dp[i1, i2] = Math.Max(dp[i1 - 1, i2], dp[i1, i2 - 1]);
+                    dp[i1 + 1, i2 + 1] = Math.Max(dp[i1 + 1, i2], dp[i1, i2 + 1]);
                 }
             }
         }
 
-        var sum = 0;
-        for (int i = 0; i < s1.Length; i++)
+        int total = 0;
+        foreach (char c in s1)
         {
-            sum += s1[i];
+            total += c;
         }
-        for (int i = 0; i < s2.Length; i++)
+        foreach (char c in s2)
         {
-            sum += s2[i];
+            total += c;
         }
 
-        return sum - dp[s1.Length, s2.Length] * 2;
+        return total - dp[s1.Length, s2.Length] * 2;
     }
 }
 // @lc code=end

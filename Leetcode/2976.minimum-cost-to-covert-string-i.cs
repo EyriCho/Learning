@@ -23,7 +23,7 @@ public class Solution {
         {
             ori = original[i] - 'a';
             cha = changed[i] - 'a';
-            if (maps[ori, cha] < 0)
+            if (maps[ori, cha] < 0L)
             {
                 maps[ori, cha] = cost[i];
             }
@@ -37,20 +37,20 @@ public class Solution {
         {
             for (int i = 0; i < 26; i++)
             {
-                if (maps[i, k] < 0)
+                if (maps[i, k] < 0L)
                 {
                     continue;
                 }
 
                 for (int j = 0; j < 26; j++)
                 {
-                    if (maps[k, j] < 0)
+                    if (maps[k, j] < 0L)
                     {
                         continue;
                     }
 
 
-                    if (maps[i, j] < 0)
+                    if (maps[i, j] < 0L)
                     {
                         maps[i, j] = maps[i, k] + maps[k, j];
                     }
@@ -62,14 +62,14 @@ public class Solution {
             }
         }
 
-        long result = 0,
-            c = 0;
+        long result = 0L,
+            c = 0L;
         for (int i = 0; i < source.Length; i++)
         {
             c = maps[source[i] - 'a', target[i] - 'a'];
-            if (c == -1)
+            if (c == -1L)
             {
-                return -1;
+                return -1L;
             }
             result += c;
         }

@@ -7,17 +7,16 @@
 // @lc code=start
 public class Solution {
     public uint reverseBits(uint n) {
-        uint result = 0;
-        uint mask = 1u << 31;
-        
-        while (n > 0)
+        int result = 0,
+            i = 0;
+        while (i++ < 32)
         {
-            result += mask * (n % 2);
-            mask >>= 1;
+            result = (result << 1) | (n & 1);
             n >>= 1;
         }
+
         return result;
-        }
+    }
 }
 // @lc code=end
 

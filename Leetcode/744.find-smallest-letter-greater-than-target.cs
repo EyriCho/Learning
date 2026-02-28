@@ -7,9 +7,9 @@
 // @lc code=start
 public class Solution {
     public char NextGreatestLetter(char[] letters, char target) {
-        var result = char.MaxValue;
+        char result = char.MaxValue;
 
-        foreach (var c in letters)
+        foreach (char c in letters)
         {
             if (c > target && c < result)
             {
