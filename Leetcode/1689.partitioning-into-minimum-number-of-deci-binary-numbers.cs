@@ -7,15 +7,14 @@
 // @lc code=start
 public class Solution {
     public int MinPartitions(string n) {
-        var c = '0';
-        foreach (var digit in n)
+        int result = 0;
+        
+        foreach (var c in n)
         {
-            if (digit == '9')
-                return 9;
-            else if (digit > c)
-                c = digit;
+            result = Math.Max(result, c - '0');
         }
-        return c - '0';
+        
+        return result;
     }
 }
 // @lc code=end

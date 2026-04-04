@@ -11,21 +11,15 @@ public class Solution {
         {
             return '0';
         }
-        
-        int count = (1 << n) - 1;
-        int half = count >> 1;
-        if (k - 1 == half)
+
+        int len = (1 << n) - 1,
+            m = len >> 1;
+        return k switch
         {
-            return '1';
-        }
-        else if (k <= half)
-        {
-            return FindKthBit(n - 1, k);
-        }
-        else
-        {
-            return FindKthBit(n - 1, count - k + 1) == '0' ? '1' : '0';
-        }
+            _ when k <= m => FindKthBit(n - 1, k),
+            _ when k - 1 == m => '1',
+            _ => FindKthBit(n - 1, len - k + 1) == '0' ? '1' : '0',
+        };
     }
 }
 // @lc code=end

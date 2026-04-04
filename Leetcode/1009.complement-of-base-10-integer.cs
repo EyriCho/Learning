@@ -8,7 +8,9 @@
 public class Solution {
     public int BitwiseComplement(int N) {
         if (N == 0)
+        {
             return 1;
+        }
         int temp = N;
         int total = 0;
         while (temp > 0)
