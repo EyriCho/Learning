@@ -7,68 +7,62 @@
 // @lc code=start
 public class Solution {
     public IList<int> SurvivedRobotsHealths(int[] positions, int[] healths, string directions) {
-        (int, int, char, int)[] robots = new (int, int, char, int)[positions.Length];
+        (int index, int pos, int heal, char dir)[] array = new (int, int, int, char)[positions.Length];
         for (int i = 0; i < positions.Length; i++)
         {
-            robots[i] = (positions[i], healths[i], directions[i], i);
+            array[i] = (i, positions[i], healths[i], directions[i]);
         }
-        Array.Sort(robots, (a, b) => a.Item1 - b.Item1);
+        Array.Sort(array, (a, b) => a.pos.CompareTo(b.pos));
 
-        Stack<(char, int, int)> stack = new ();
-        for (int i = 0; i < robots.Length; i++)
+        Stack<int> stack = new ();
+        for (int i = 0; i < array.Length; i++)
         {
-            (int position, int health, char direction, int index) = robots[i];
-            if (direction == 'R')
+            if (array[i].dir == 'R')
             {
-                stack.Push((direction, health, index));
+                stack.Push(i);
+                continue;
             }
-            else
+
+            while (stack.Count > 0 && array[stack.Peek()].dir == 'R')
             {
-                while (stack.Count > 0 &&
-                    stack.Peek().Item1 == 'R' &&
-                    stack.Peek().Item2 < health)
+                if (array[i].heal == array[stack.Peek()].heal)
                 {
                     stack.Pop();
-                    health--;
+                    array[i].heal = 0;
+                    break;
                 }
-
-                if (stack.Count > 0 &&
-                    stack.Peek().Item1 == 'R' &&
-                    stack.Peek().Item2 == health)
+                else if (array[i].heal > array[stack.Peek()].heal)
                 {
+                    array[i].heal--;
                     stack.Pop();
                 }
                 else
                 {
-                    if (health > 0)
-                    {
-                        if (stack.Count > 0 &&
-                            stack.Peek().Item1 == 'R')
-                        {
-                            (char, int, int) last = stack.Pop();
-                            stack.Push((last.Item1, last.Item2 - 1, last.Item3));
-                        }
-                        else
-                        {
-                            stack.Push((direction, health, index));
-                        }
-                    }
+                    array[stack.Peek()].heal--;
+                    array[i].heal = 0;
+                    break;
                 }
+            }
+
+            if (array[i].heal > 0)
+            {
+                stack.Push(i);
             }
         }
 
-        (int, int)[] array = new (int, int)[stack.Count];
-        int j = 0;
-        while (stack.Count > 0)
+        (int index, int heal)[] remains = new (int, int)[stack.Count()];
+        int j = stack.Count - 1;
+        while (j >= 0)
         {
-            (char direction, int health, int index) = stack.Pop();
-            array[j++] = (index, health);
+            remains[j--] = (array[stack.Peek()].index, array[stack.Peek()].heal);
+            stack.Pop();
         }
-        Array.Sort(array, (a, b) => a.Item1 - b.Item1);
-        int[] result = new int[array.Length];
-        for (j = 0; j < array.Length; j++)
+        Array.Sort(remains, (a, b) => a.index.CompareTo(b.index));
+
+        int[] result = new int[remains.Length];
+        for (int i = 0; i < result.Length; i++)
         {
-            result[j] = array[j].Item2;
+            result[i] = remains[i].heal;
         }
         return result;
     }
