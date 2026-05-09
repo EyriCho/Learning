@@ -7,48 +7,29 @@
 // @lc code=start
 public class Solution {
     public char[][] RotateTheBox(char[][] box) {
-        char[][] result = new char[box[0].Length][];
-
-        for (int i = 0; i < box[0].Length; i++)
+        char[][] result = new char[boxGrid[0].Length][];
+        for (int i = 0; i < boxGrid[0].Length; i++)
         {
-            result[i] = new char[box.Length];
+            result[i] = new char[boxGrid.Length];
             Array.Fill(result[i], '.');
         }
 
-        int j = 0,
-            c = 0,
-            line = 0;
-
-        for (int i = 0; i < box.Length; i++)
+        int lastStone = 0;
+        for (int i = 0; i < boxGrid.Length; i++)
         {
-            line = box.Length - 1 - i;
-            j = 0;
-
-            while (j < box[0].Length)
+            lastStone = boxGrid[0].Length - 1;
+            for (int j = boxGrid[0].Length - 1; j >= 0; j--)
             {
-                c = 0;
-                while (j < box[0].Length &&
-                    box[i][j] != '*')
+                if (boxGrid[i][j] == '*')
                 {
-                    if (box[i][j] == '#')
-                    {
-                        c++;
-                    }
-                    j++;
+                    result[j][boxGrid.Length - 1 - i] = '*';
+                    lastStone = j - 1;
                 }
-
-                if (j < box[0].Length)
+                else if (boxGrid[i][j] == '#')
                 {
-                    result[j][line] = '*';
+                    result[lastStone][boxGrid.Length - 1 - i] = '#';
+                    lastStone--;
                 }
-
-                while (c > 0)
-                {
-                    result[j - c][line] = '#';
-                    c--;
-                }
-
-                j++;
             }
         }
 
