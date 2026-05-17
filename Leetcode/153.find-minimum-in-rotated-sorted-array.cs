@@ -1,7 +1,7 @@
 /*
- * @lc app=leetcode id=154 lang=csharp
+ * @lc app=leetcode id=153 lang=csharp
  *
- * [154] Find Minimum in Rotated Sorted Array II
+ * [153] Find Minimum in Rotated Sorted Array
  */
 
 // @lc code=start
@@ -14,12 +14,7 @@ public class Solution {
         while (l < r)
         {
             m = (l + r) >> 1;
-            
-            if (nums[m] == nums[r])
-            {
-                r--;
-            }
-            else if (nums[m] > nums[r])
+            if (nums[m] > nums[r])
             {
                 l = m + 1;
             }
@@ -28,7 +23,7 @@ public class Solution {
                 r = m;
             }
         }
-        
+
         return nums[r];
     }
 }

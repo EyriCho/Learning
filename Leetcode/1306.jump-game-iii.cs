@@ -7,30 +7,36 @@
 // @lc code=start
 public class Solution {
     public bool CanReach(int[] arr, int start) {
-        bool[] visit = new bool[arr.Length];
-        return CanReach(arr, visit, start);
-    }
-    
-    private bool CanReach(int[] arr, bool[] visit, int pos)
-    {
-        if (arr[pos] == 0)
-            return true;
-        
-        if (visit[pos])
-            return false;
-        
-        visit[pos] = true;
-        
-        int next = pos - arr[pos];
-        if (next >= 0 && CanReach(arr, visit, next))
-            return true;
-            
-        next = pos + arr[pos];
-        if (next < arr.Length && CanReach(arr, visit, next))
-            return true;
-        
-        visit[pos] = false;
-        
+        Queue<int> queue = new ();
+        bool[] visited = new bool[arr.Length];
+        queue.Enqueue(start);
+        visited[start] = true;
+
+        int current = 0,
+            next = 0;
+        while (queue.Count > 0)
+        {
+            current = queue.Dequeue();
+            if (arr[current] == 0)
+            {
+                return true;
+            }
+
+            next = current - arr[current];
+            if (next >= 0 && !visited[next])
+            {
+                queue.Enqueue(next);
+                visited[next] = true;
+            }
+
+            next = current + arr[current];
+            if (next < arr.Length && !visited[next])
+            {
+                queue.Enqueue(next);
+                visited[next] = true;
+            }
+        }
+
         return false;
     }
 }
