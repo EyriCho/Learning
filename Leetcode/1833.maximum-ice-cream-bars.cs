@@ -7,15 +7,35 @@
 // @lc code=start
 public class Solution {
     public int MaxIceCream(int[] costs, int coins) {
-        Array.Sort(costs);
-
-        var i = 0;
-        while (i < costs.Length && coins >= costs[i])
+        int[] counts = new int[100_001];
+        foreach (int cost in costs)
         {
-            coins -= costs[i++];
+            counts[cost]++;
         }
 
-        return i;
+        int t = 0,
+            result = 0;
+        for (int i = 1; i < counts.Length; i++)
+        {
+            if (counts[i] == 0)
+            {
+                continue;
+            }
+
+            t = coins / i;
+            if (t > counts[i])
+            {
+                result += counts[i];
+                coins -= counts[i] * i;
+            }
+            else
+            {
+                result += t;
+                break;
+            }
+        }
+
+        return result;
     }
 }
 // @lc code=end

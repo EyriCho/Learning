@@ -7,39 +7,48 @@
 // @lc code=start
 public class Solution {
     public int MinScore(int n, int[][] roads) {
-        var maps = new IList<(int, int)>[n + 1];
-        for (int i = 0; i <= n; i++)
+        int[] groups = new int[n + 1];
+        Dictionary<int, int> dict = new ();
+        for (int i = 1; i <= n; i++)
         {
-            maps[i] = new List<(int, int)>();
+            groups[i] = i;
         }
 
-        foreach (var road in roads)
+        int FindGroup(int city)
         {
-            maps[road[0]].Add((road[1], road[2]));
-            maps[road[1]].Add((road[0], road[2]));
+            return groups[city] = (city == groups[city] ? city : FindGroup(groups[city]));
         }
 
-        var result = int.MaxValue;
-        var queue = new Queue<int>();
-        queue.Enqueue(1);
-        var visited = new bool[n + 1];
-        visited[1] = true;
-        while (queue.Count > 0)
+        int groupA = 0, groupB = 0, group = 0,
+            distA = 0, distB = 0, dist = 0;
+        foreach (int[] road in roads)
         {
-            var node = queue.Dequeue();
+            groupA = FindGroup(road[0]);
+            groupB = FindGroup(road[1]);
+            distA = dict.ContainsKey(groupA) ? dict[groupA] : 10_000;
+            distB = dict.ContainsKey(groupB) ? dict[groupB] : 10_000;
 
-            foreach (var next in maps[node])
+            if (groupA < groupB)
             {
-                result = Math.Min(next.Item2, result);
-                if (!visited[next.Item1])
-                {
-                    visited[next.Item1] = true;
-                    queue.Enqueue(next.Item1);
-                }
+                group = groups[groupB] = groupA;
             }
+            else if (groupA > groupB)
+            {
+                group = groups[groupA] = groupB;
+            }
+            else
+            {
+                group = groupA;
+            }
+
+            dist = Math.Min(distA, distB);
+            dist = Math.Min(dist, road[2]);
+
+            dict[group] = dist;
         }
 
-        return result;
+        group = FindGroup(1);
+        return dict[group];
     }
 }
 // @lc code=end

@@ -7,15 +7,15 @@
 // @lc code=start
 public class Solution {
     public int MaxNumberOfBalloons(string text) {
-        var charCounts = new int[26];
+        int[] charCounts = new int[26];
         
         foreach (var c in text)
+        {
             charCounts[c - 'a']++;
+        }
         
-        var result = 10_000;
+        int result = Math.Min(charCounts[0], charCounts[1]); // 'a' and 'b'
         
-        result = Math.Min(result, charCounts[0]); // 'a'
-        result = Math.Min(result, charCounts[1]); // 'b'
         result = Math.Min(result, charCounts[11] / 2); // 'l'
         result = Math.Min(result, charCounts[13]); // 'n'
         result = Math.Min(result, charCounts[14] / 2); // 'o'

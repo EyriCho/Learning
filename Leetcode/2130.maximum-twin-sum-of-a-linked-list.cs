@@ -7,28 +7,26 @@
 // @lc code=start
 public class Solution {
     public int PairSum(ListNode head) {
-        ListNode node = head,
+        int result = 0;
+        ListNode half = head,
             fast = head,
-            reverse = new ListNode();
+            reverse = null,
+            next = null;
         
-        while (fast != null && fast.next != null)
+        while (fast != null)
         {
             fast = fast.next.next;
-            var curr = node;
-            node = node.next;
-            curr.next = reverse.next;
-            reverse.next = curr;
+            next = half.next;
+            half.next = reverse;
+            reverse = half;
+            half = next;
         }
-        
-        var result = 0;
-        ListNode left = reverse.next,
-            right = node;
 
-        while (left != null)
+        while (half != null)
         {
-            result = Math.Max(result, left.val + right.val);
-            left = left.next;
-            right = right.next;
+            result = Math.Max(result, half.val + reverse.val);
+            half = half.next;
+            reverse = reverse.next;
         }
 
         return result;

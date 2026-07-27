@@ -8,29 +8,20 @@
 public class Solution {
     public int NumberOfSubstrings(string s) {
         int[] counts = new int[3];
-        int result = 0,
-            three = 3,
-            abc = 0;
+        int result = 0;
+
         for (int l = 0, r = 0; r < s.Length; r++)
         {
-            abc = s[r] - 'a';
-            counts[abc]++;
-            if (counts[abc] == 1)
+            counts[s[r] - 'a']++;
+            while (counts[0] > 0 &&
+                counts[1] > 0 &&
+                counts[2] > 0)
             {
-                three--;
+                counts[s[l] - 'a']--;
+                l++;
             }
 
-            while (three == 0)
-            {
-                result += s.Length - r;
-
-                abc = s[l++] - 'a';
-                counts[abc]--;
-                if (counts[abc] == 0)
-                {
-                    three++;
-                }
-            }
+            result += l;
         }
 
         return result;

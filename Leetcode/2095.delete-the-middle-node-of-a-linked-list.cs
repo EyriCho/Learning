@@ -16,7 +16,7 @@ public class Solution {
             fast = head,
             prev = null;
         
-        while (fast != null && fast.next != null)
+        while (fast?.next != null)
         {
             prev = mid;
             mid = mid.next;

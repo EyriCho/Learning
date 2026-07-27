@@ -7,23 +7,27 @@
 // @lc code=start
 public class Solution {
     public int RemoveCoveredIntervals(int[][] intervals) {
-        Array.Sort(intervals, (a, b) => a[0] - b[0] == 0 ? a[1] - b[1] : a[0] - b[0]);
-        return Helper(intervals[0], 1, intervals, intervals.Length);
-    }
+        Array.Sort(intervals, (a, b) => a[0] == b[0] ? b[1].CompareTo(a[1]) :
+            a[0].CompareTo(b[0]));
+        
+        int i = 0, j = 0,
+            result = intervals.Length;
+        
+        while (i < intervals.Length)
+        {
+            j = i + 1;
 
-    private int Helper(int[] prev, int p, int[][] intervals, int count)
-    {
-        if (p == intervals.Length)
-            return count;
-        
-        if (intervals[p][0] == prev[0])
-            count = Helper(intervals[p], p + 1, intervals, count - 1);
-        else if (intervals[p][1] <= prev[1])
-            count = Helper(prev, p + 1, intervals, count - 1);
-        else
-            count = Helper(intervals[p], p + 1, intervals, count);
-        
-        return count;
+            while (j < intervals.Length &&
+                intervals[i][1] >= intervals[j][1])
+            {
+                result--;
+                j++;
+            }
+
+            i = j;
+        }
+
+        return result;
     }
 }
 // @lc code=end

@@ -7,69 +7,67 @@
 // @lc code=start
 public class Solution {
     public int MinJumps(int[] arr) {
-        if (arr.Length < 3)
-        {
-            return arr.Length - 1;
-        }
-        
-        var dict = new Dictionary<int, IList<int>>();
-        var visited = new int[arr.Length];
+        int[] visited = new int[arr.Length];
+        Dictionary<int, IList<int>> dict = new ();
         for (int i = 0; i < arr.Length; i++)
         {
             if (!dict.TryGetValue(arr[i], out IList<int> list))
             {
-                dict[arr[i]] = list = new List<int>();
+                dict[arr[i]] = list = new List<int> ();
             }
             list.Insert(0, i);
             visited[i] = int.MaxValue;
         }
         visited[0] = 0;
-        
 
-        var queue = new Queue<(int, int)>();
+        Queue<(int, int)> queue = new ();
         queue.Enqueue((0, 0));
+        int current = 0,
+            step = 0,
+            next = 0;
         while (queue.Count > 0)
         {
-            var (index, pace)= queue.Dequeue();
-            if (index == arr.Length - 1)
+            (current, step) = queue.Dequeue();
+            if (current == arr.Length - 1)
             {
-                return pace;
+                return step;
             }
 
-            var nextPace = pace + 1;
-
-            if (index > 0 && visited[index - 1] > nextPace)
+            step++;
+            next = current - 1;
+            if (next >= 0 &&
+                visited[next] > step)
             {
-                visited[index - 1] = nextPace;
-                queue.Enqueue((index - 1, nextPace));
+                queue.Enqueue((next, step));
+                visited[next] = step;
             }
 
-            if (index < arr.Length - 1 && visited[index + 1] > nextPace)
+            next = current + 1;
+            if (next < arr.Length &&
+                visited[next] > step)
             {
-                visited[index + 1] = nextPace;
-                queue.Enqueue((index + 1, nextPace));
+                queue.Enqueue((next, step));
+                visited[next] = step;
             }
 
-            foreach (var next in dict[arr[index]])
+            foreach (int n in dict[arr[current]])
             {
-                if (next == index)
+                if (n == current)
                 {
                     continue;
                 }
 
-                if (visited[next] >= nextPace)
-                {
-                    visited[next] = nextPace;
-                    queue.Enqueue((next, nextPace));
-                }
-                else
+                if (visited[n] < step)
                 {
                     break;
                 }
+
+                queue.Enqueue((n, step));
+                visited[n] = step;
             }
         }
-        
-        return 0;
+
+        return arr.Length - 1;
     }
 }
 // @lc code=end
