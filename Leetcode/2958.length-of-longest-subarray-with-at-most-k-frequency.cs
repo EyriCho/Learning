@@ -16,7 +16,7 @@ public class Solution {
         while (r < nums.Length)
         {
             frequency.TryGetValue(nums[r], out int c);
-            if (c + 1 > k)
+            if (c >= k)
             {
                 while (nums[l] != nums[r])
                 {
@@ -27,9 +27,8 @@ public class Solution {
             }
             else
             {
-                c++;
+                frequency[nums[r]] = c + 1;
             }
-            frequency[nums[r]] = c;
             
             result = Math.Max(r - l + 1, result);
             r++;

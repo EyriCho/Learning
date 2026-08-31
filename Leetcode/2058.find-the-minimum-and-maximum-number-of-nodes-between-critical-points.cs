@@ -18,47 +18,43 @@
  */
 public class Solution {
     public int[] NodesBetweenCriticalPoints(ListNode head) {
-        int[] result = new int[2] {
-            int.MaxValue,
-            0
-        };
-
-        bool? vector = head.val == head.next.val ? null : (head.val < head.next.val),
-            current = false;
-        int
-            firstPoint = -1,
-            lastPoint = int.MinValue,
-            prev = head.next.val;
-        ListNode node = head.next.next;
-        while (node != null)
+        ListNode prev = head,
+            node = head.next;
+        int firstPoint = -1,
+            lastPoint = -1,
+            currentPos = 0;
+        
+        int[] result = new int[2] { int.MaxValue, -1 };
+        
+        while (node.next != null)
         {
-            current = node.val == prev ? null : (node.val > prev);
-            if (vector != null && current != null &&
-                vector.Value ^ current.Value)
+            currentPos++;
+            if ((node.val > prev.val && node.val > node.next.val) ||
+                (node.val < prev.val && node.val < node.next.val))
             {
-                if (firstPoint > -1)
+                if (firstPoint == -1)
                 {
-                    result[0] = int.Min(result[0], lastPoint);
-                    result[1] = firstPoint;
+                    firstPoint = lastPoint = currentPos;
                 }
                 else
                 {
-                    firstPoint = 0;
+                    result[0] = Math.Min(result[0], currentPos - lastPoint);
+                    result[1] = currentPos - firstPoint;
+
+                    lastPoint = currentPos;
                 }
-                lastPoint = 0;
             }
 
-            if (firstPoint > -1)
-            {
-                lastPoint++;
-                firstPoint++;
-            }
-            vector = current;
-            prev = node.val;
+            prev = node;
             node = node.next;
         }
 
-        return result[1] == 0 ? new int[] { -1, -1 } : result;
+        if (result[1] == -1)
+        {
+            result[0] = -1;
+        }
+
+        return result;
     }
 }
 // @lc code=end

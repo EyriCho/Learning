@@ -12,7 +12,7 @@ public class Solution {
             return true;
         }
 
-        var dp = new int[nums.Length, nums.Length];
+        int[,] dp = new int[nums.Length, nums.Length];
         for (int i = 0; i < nums.Length; i++)
         {
             dp[i, i] = nums[i];
