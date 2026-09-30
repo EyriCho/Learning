@@ -7,36 +7,37 @@
 // @lc code=start
 public class Solution {
     public int LargestOverlap(int[][] img1, int[][] img2) {
-        var aNodes = new List<int>();
-        var bNodes = new List<int>();
-        var vectors = new int[img1.Length * 101 * 2];
-        
+        List<(int x, int y)> list1 = new (),
+            list2 = new ();
+
         for (int i = 0; i < img1.Length; i++)
         {
             for (int j = 0; j < img1.Length; j++)
             {
                 if (img1[i][j] == 1)
                 {
-                    aNodes.Add(i * 100 + j);
+                    list1.Add((i, j));
                 }
-                
                 if (img2[i][j] == 1)
                 {
-                    bNodes.Add(i * 100 + j);
+                    list2.Add((i, j));
                 }
             }
         }
-        
-        int result = 0;
-        foreach (var aNode in aNodes)
+
+        int[,] dCount = new int[img1.Length << 1, img1.Length << 1];
+        int dx = 0, dy = 0,
+            result = 0;
+        foreach ((int x1, int y1) in list1)
         {
-            foreach (var bNode in bNodes)
+            foreach ((int x2, int y2) in list2)
             {
-                var v = bNode - aNode + img1.Length * 101;
-                vectors[v]++;
-                result = Math.Max(vectors[v], result);
+                dx = x2 - x1 + img1.Length;
+                dy = y2 - y1 + img1.Length;
+                result = Math.Max(result, ++dCount[dx, dy]);
             }
         }
+
         return result;
     }
 }

@@ -16,8 +16,8 @@ public class Solution {
                 return (0, 0);
             }
 
-            var (leftSum, leftCount) = Average(node.left);
-            var (rightSum, rightCount) = Average(node.right);
+            (int leftSum, int leftCount) = Average(node.left);
+            (int rightSum, int rightCount) = Average(node.right);
 
             int sum = leftSum + rightSum + node.val,
                 count = leftCount + rightCount + 1;
